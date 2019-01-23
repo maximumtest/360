@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitThis": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es5",
     "types": [
       "webpack-env",
       "mocha",
@@ -24,6 +26,9 @@
       "dom",
       "dom.iterable",
       "scripthost"
+    ],
+    "plugins": [
+      { "name": "typescript-tslint-plugin" }
     ]
   },
   "include": [
