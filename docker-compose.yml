@@ -15,6 +15,31 @@ services:
       - external_network
       - default
 
+  r360-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env.dist
+    volumes:
+      - ./backend:/var/www
+      - ./backend/.docker/nginx/logs:/etc/logs/nginx
+      - ./backend/.docker/php/log:/var/log
+    ports:
+      - 8181:80
+    networks:
+      - external_network
+
+  r360-mongodb:
+    image: mongo:4.1.7
+    volumes:
+      - ./backend/.docker/mongodb/data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=r360
+    expose:
+      - 27017
+    networks:
+      - external_network
+
 networks:
   external_network:
-    external: true
