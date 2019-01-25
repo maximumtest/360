@@ -11,4 +11,12 @@ module.exports = {
   configureWebpack: {
     resolve,
   },
+
+  publicPath: undefined,
+  outputDir: 'resources/js',
+  assetsDir: undefined,
+  runtimeCompiler: undefined,
+  productionSourceMap: undefined,
+  parallel: undefined,
+  css: undefined
 };
