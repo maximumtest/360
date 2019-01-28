@@ -4,6 +4,11 @@ DOCKER_COMPOSE ?= "docker-compose"
 
 ROOT_PATH := "."
 APP_CONTAINER_BACKEND ?= "r360-backend"
+APP_CONTAINER_FRONTEND ?= "r360-frontend"
+
+build-frontend:
+	$(info [+] Building frontend bundles)
+	@${DOCKER_COMPOSE} exec -T ${APP_CONTAINER_FRONTEND} npm run build
 
 build:
 	$(info [+] Building docker images...)
