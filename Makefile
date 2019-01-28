@@ -40,7 +40,7 @@ start:
 
 stop:
 	$(info [+] Stopping dockerized application...)
-	@${DOCKER_COMPOSE} down
+	@${DOCKER_COMPOSE} down -v
 	$(info [+] Done!)
 
 tests: unit-tests api-tests
