@@ -11,9 +11,8 @@ module.exports = {
   configureWebpack: {
     resolve,
   },
-
   publicPath: undefined,
-  outputDir: 'resources/js',
+  outputDir: './public',
   assetsDir: undefined,
   runtimeCompiler: undefined,
   productionSourceMap: undefined,

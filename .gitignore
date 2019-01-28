@@ -1,9 +1,5 @@
 /node_modules
-/public/hot
-/public/storage
-/public/js
-/public/css
-!/public/*/.gitkeep
+/public
 /storage/*.key
 /vendor
 .env
@@ -11,7 +7,6 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
-yarn-error.log
 
 .DS_Store
 /dist
@@ -22,8 +17,6 @@ yarn-error.log
 
 # Log files
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Editor directories and files
 .idea
