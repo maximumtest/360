@@ -1,5 +1,10 @@
 <?php
 
+namespace Tests;
+
+use Codeception\Scenario;
+use Illuminate\Support\Facades\Auth;
+use _generated\ApiTesterActions;
 
 /**
  * Inherited Methods
@@ -18,9 +23,25 @@
 */
 class ApiTester extends \Codeception\Actor
 {
-    use _generated\ApiTesterActions;
+    use ApiTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    public function __construct(Scenario $scenario)
+    {
+        parent::__construct($scenario);
+
+        $this->haveHttpHeader('Accept', 'application/json');
+        $this->haveHttpHeader('Content-Type', 'application/json');
+        $this->haveHttpHeader('X-Requested-With', 'XMLHttpRequest');
+    }
+
+    public function getToken($email, $password)
+    {
+        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
+            throw new \Exception('Wrong credentials');
+        }
+
+        $user = Auth::user();
+
+        return $user->createToken(env('APP_NAME'))->accessToken;
+    }
 }
