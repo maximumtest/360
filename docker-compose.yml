@@ -1,19 +1,38 @@
 version: '3.5'
+
 services:
   r360-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    command: bash -c "npm install && npm run dev"
-    env_file:
-      - ./frontend/.env
+    image: node:10-alpine
     volumes:
-      - ./frontend:/app
+      - ./:/var/www
     ports:
-      - "3000:3000"
+      - 8282:8080
     networks:
       - external_network
-      - default
+    command: sh -c "npm install && npm run build && npm run serve"
+    working_dir: /var/www/frontend
+
+  r360-backend:
+    build: .
+    volumes:
+      - ./:/var/www
+      - .docker/nginx/logs:/etc/logs/nginx
+      - .docker/php/log:/var/log
+    ports:
+      - 8181:80
+    networks:
+      - external_network
+
+  r360-mongodb:
+    image: mongo:4.1.7
+    volumes:
+      - .docker/mongodb/data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=r360
+    expose:
+      - 27017
+    networks:
+      - external_network
 
   r360-backend:
     build:
