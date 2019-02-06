@@ -3,9 +3,8 @@ modules:
   enabled:
     - REST:
         url: http://localhost:8802/
-        depends: Laravel5
-    - Laravel5:
+        depends: \Tests\Helper\Api
+    - \Tests\Helper\Api:
         environment_file: .env.testing
         part: ORM
         cleanup: true
-    - \Tests\Helper\Api
