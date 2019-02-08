@@ -1,17 +1,17 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld :msg="title"/>
+    <RoundTable :msg="title"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import RoundTable from '@/components/RoundTable.vue'; // @ is an alias to /src
 
 @Component({
   components: {
-    HelloWorld,
+    RoundTable,
   },
 })
 export default class Home extends Vue {
