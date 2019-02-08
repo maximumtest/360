@@ -44,3 +44,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 make bootstrap
 ```
 
+Go to http://localhost:8282/#/
