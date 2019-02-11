@@ -4,61 +4,35 @@ services:
   r360-frontend:
     image: node:10-alpine
     volumes:
-      - ./:/var/www
+        - ./:/var/www
     ports:
-      - 8282:8080
+        - 8282:8080
     networks:
-      - external_network
+        - external_network
     command: sh -c "npm install && npm run build && npm run serve"
     working_dir: /var/www/frontend
 
   r360-backend:
     build: .
     volumes:
-      - ./:/var/www
-      - .docker/nginx/logs:/etc/logs/nginx
-      - .docker/php/log:/var/log
+        - ./:/var/www
+        - .docker/nginx/logs:/etc/logs/nginx
+        - .docker/php/log:/var/log
     ports:
-      - 8181:80
+        - 8181:80
     networks:
-      - external_network
+        - external_network
 
   r360-mongodb:
     image: mongo:4.1.7
     volumes:
-      - .docker/mongodb/data:/data/db
+        - .docker/mongodb/data:/data/db
     environment:
-      - MONGO_INITDB_DATABASE=r360
+        - MONGO_INITDB_DATABASE=r360
     expose:
-      - 27017
+        - 27017
     networks:
-      - external_network
-
-  r360-backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    env_file:
-      - ./backend/.env.dist
-    volumes:
-      - ./backend:/var/www
-      - ./backend/.docker/nginx/logs:/etc/logs/nginx
-      - ./backend/.docker/php/log:/var/log
-    ports:
-      - 8181:80
-    networks:
-      - external_network
-
-  r360-mongodb:
-    image: mongo:4.1.7
-    volumes:
-      - ./backend/.docker/mongodb/data:/data/db
-    environment:
-      - MONGO_INITDB_DATABASE=r360
-    expose:
-      - 27017
-    networks:
-      - external_network
+        - external_network
 
 networks:
   external_network:
