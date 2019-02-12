@@ -10,8 +10,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected $table = 'user';
-
+    protected $collection = 'users';
+    
     protected $fillable = [
         'name',
         'email',
@@ -23,8 +23,24 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
+    
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+    
+    public function codes()
+    {
+        return $this->hasMany(UserCode::class);
+    }
+    
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
     }
 }

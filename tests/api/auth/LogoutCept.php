@@ -10,7 +10,7 @@ $password = '123456Secure';
 $user = factory(User::class)->create([
     'email' => $email,
     'password' => Hash::make($password),
-    ]);
+]);
 
 $token = $I->getToken($email, $password);
 $I->amBearerAuthenticated($token);

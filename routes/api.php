@@ -21,8 +21,10 @@ Route::group([
 ], function (){
     Route::post('login', 'AuthController@login')
         ->name('auth.login');
-    Route::post('email/verification/{user_id}', 'AuthController@verifyEmail')
+    Route::post('email/verification', 'AuthController@verifyEmail')
         ->name('auth.email.verification');
+    Route::post('password/reset', 'AuthController@resetPassword')
+        ->name('auth.password.reset');
     
     Route::group([
         'middleware' => 'jwt.auth',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\User;
+use App\UserCode;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\V1\User\UpdateUserRequest;
 use App\Http\Requests\V1\User\CreateUserRequest;
@@ -21,6 +22,11 @@ class UserController extends Controller
     {
         $user = User::create($request->validated());
     
+        $code = new UserCode();
+        $code->type = UserCode::EMAIL_VERIFICATION;
+        $code->generateCode();
+        $user->codes()->save($code);
+        
         return response()->json($user, 201);
     }
     

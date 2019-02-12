@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\V1\Auth\LoginRequest;
+use App\Http\Requests\V1\Auth\ResetPasswordRequest;
 use App\Http\Requests\V1\Auth\VerifyEmailRequest;
 use App\User;
+use App\UserCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -28,14 +30,26 @@ class AuthController extends Controller
         return response()->json($this->getResponseWithToken($token), 200);
     }
     
-    public function verifyEmail(VerifyEmailRequest $request, string $id): JsonResponse
+    public function verifyEmail(VerifyEmailRequest $request): JsonResponse
     {
-        $user = User::find($id);
+        $user = UserCode::where('code', $request->get('code'))
+            ->firstOrFail()
+            ->user()
+            ->first();
+    
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        
+        $code = UserCode::where('code', $request->get('code'))->firstOrFail();
+        
         $user->email_verified_at = now();
         $user->password = Hash::make($request->get('password'));
         $user->save();
         
-        $token = JWTAuth::attempt(['email' => $user->email, 'password' => $user->password]);
+        $code->delete();
+        
+        $token = JWTAuth::attempt(['email' => $user->email, 'password' => Hash::make($user->password)]);
         
         return response()->json($this->getResponseWithToken($token), 200);
     }
@@ -50,6 +64,23 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
         return response()->json(JWTAuth::parseToken()->authenticate(), 200);
+    }
+    
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        $user = UserCode::where('code', $request->get('code'))
+            ->firstOrFail()
+            ->user()
+            ->first();
+        
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+        
+        return response()->json(['message' => 'Password successfully changed'], 200);
     }
     
     protected function getResponseWithToken($token): array

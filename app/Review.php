@@ -9,8 +9,6 @@ class Review extends Model
 {
     use SetUserBeforeCreateEntryTrait;
 
-    protected $table = 'review';
-
     protected $fillable = [
         'author_id',
         'template_id',

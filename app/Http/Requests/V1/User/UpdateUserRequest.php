@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -14,8 +15,8 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'sometimes|required|string|email|unique:user|max:255',
-            'password' => 'sometimes|required|string|min:6|max:255'
+            'email' => 'sometimes|required|string|email|max:255|unique:user,email' . Auth::user()->getId(),
+            'password' => 'sometimes|required|string|min:6|max:200'
         ];
     }
 }
