@@ -8,7 +8,7 @@ class UserCode extends Model
 {
     public $fillable = [
         'type',
-        'code'
+        'code',
     ];
     
     CONST EMAIL_VERIFICATION = 'email_verification';
@@ -20,9 +20,8 @@ class UserCode extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function generateCode()
+    public static function generateCode()
     {
-        $this->code = bin2hex(openssl_random_pseudo_bytes(6));
-        return $this;
+        return bin2hex(openssl_random_pseudo_bytes(6));
     }
 }

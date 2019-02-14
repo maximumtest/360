@@ -2,6 +2,7 @@
 
 use Codeception\Util\HttpCode;
 use App\User;
+use Tests\ApiTester;
 
 $I = new ApiTester($scenario);
 

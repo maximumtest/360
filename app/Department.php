@@ -7,10 +7,10 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Department extends Model
 {
     protected $fillable = [
-        'title'
+        'title',
     ];
     
-    public function users() 
+    public function users()
     {
         return $this->hasMany(User::class);
     }

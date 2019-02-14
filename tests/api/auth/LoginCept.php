@@ -3,6 +3,7 @@
 use Codeception\Util\HttpCode;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Tests\ApiTester;
 
 $I = new ApiTester($scenario);
 

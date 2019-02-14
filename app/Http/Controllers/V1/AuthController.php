@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\ResetPasswordRequest;
 use App\Http\Requests\V1\Auth\VerifyEmailRequest;
-use App\User;
 use App\UserCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +37,7 @@ class AuthController extends Controller
             ->first();
     
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['message' => 'User or code not found'], 404);
         }
         
         $code = UserCode::where('code', $request->get('code'))->firstOrFail();

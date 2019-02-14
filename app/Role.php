@@ -7,7 +7,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Role extends Model
 {
     public $fillable = [
-      'name'
+      'name',
     ];
     
     CONST ROLE_EMPLOYEE = 'employee';

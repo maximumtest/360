@@ -15,7 +15,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'email' => 'required|string|email|max:255',
-            'role' => 'string'
+            'role' => 'string',
         ];
     }
 }

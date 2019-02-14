@@ -24,7 +24,7 @@ class UserController extends Controller
     
         $code = new UserCode();
         $code->type = UserCode::EMAIL_VERIFICATION;
-        $code->generateCode();
+        $code->code = UserCode::generateCode();
         $user->codes()->save($code);
         
         return response()->json($user, 201);
