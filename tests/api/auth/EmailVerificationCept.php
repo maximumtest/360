@@ -24,12 +24,15 @@ $invalidParamsFirst = [
     'code' => 123,
 ];
 
-$I->sendPOST(route('auth.email.verification', $invalidParamsFirst));
+$I->sendPOST(route('v1.auth.email.verification'), $invalidParamsFirst);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseMatchesJsonType([
-    'email' => 'Array',
-    'password' => 'Array',
-    'code' => 'Array',
+    'message' => 'string',
+    'errors' => [
+        'email' => 'Array',
+        'password' => 'Array',
+        'code' => 'Array',
+    ],
 ]);
 
 $invalidParamsSecond = [
@@ -38,8 +41,8 @@ $invalidParamsSecond = [
     'code' => '123',
 ];
 
-$I->sendPOST('auth.email.verification', $invalidParamsSecond);
-$I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+$I->sendPOST(route('v1.auth.email.verification'), $invalidParamsSecond);
+$I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseIsJson();
 
 $validParams = [
@@ -47,7 +50,7 @@ $validParams = [
     'password' => '123456',
     'code' => $userCode->code,
 ];
-$I->sendPOST(route('auth.email.verification', $validParams));
+$I->sendPOST(route('v1.auth.email.verification'), $validParams);
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseMatchesJsonType([
     'access_token' => 'String',

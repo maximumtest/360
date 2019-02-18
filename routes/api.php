@@ -29,7 +29,7 @@ Route::group([
     Route::group([
         'middleware' => 'jwt.auth',
     ], function () {
-        Route::get('logout', 'LoginController@logout')
+        Route::get('logout', 'AuthController@logout')
             ->name('auth.logout');
     });
 });

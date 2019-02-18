@@ -16,12 +16,12 @@ $user = factory(User::class)->create([
 $token = $I->getToken($email, $password);
 $I->amBearerAuthenticated($token);
 
-$I->sendGET(route('auth.logout'));
+$I->sendGET(route('v1.auth.logout'));
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseIsJson();
 
 $token = 'wrongToken';
 $I->amBearerAuthenticated($token);
-$I->sendGET(route('auth.logout'));
+$I->sendGET(route('v1.auth.logout'));
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
 $I->seeResponseIsJson();

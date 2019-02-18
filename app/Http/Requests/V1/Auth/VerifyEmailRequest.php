@@ -14,9 +14,9 @@ class VerifyEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string',
+            'email' => 'required|string|exists:users,email',
             'password' => 'required|string|min:6|max:200',
-            'code' => 'required|string',
+            'code' => 'required|string|exists:user_operations,code',
         ];
     }
 }

@@ -15,14 +15,14 @@ $user = factory(User::class)->create([
     'email_verified_at' => now(),
 ]);
 
-$I->sendPOST(route('auth.login'), [
+$I->sendPOST(route('v1.auth.login'), [
     'email' => $email,
     'password' => 'wrongPassword',
 ]);
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
 $I->seeResponseIsJson();
 
-$I->sendPOST(route('auth.login'), [
+$I->sendPOST(route('v1.auth.login'), [
     'email' => false,
     'password' => 1,
 ]);
@@ -34,7 +34,7 @@ $I->canSeeResponseMatchesJsonType([
 ]);
 
 
-$I->sendPOST(route('auth.login'), [
+$I->sendPOST(route('v1.auth.login'), [
     'email' => $email,
     'password' => $password,
 ]);

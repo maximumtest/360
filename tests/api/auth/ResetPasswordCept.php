@@ -24,12 +24,15 @@ $invalidParamsFirst = [
     'email' => null,
 ];
 
-$I->sendPOST('auth.password.reset', $invalidParamsFirst);
+$I->sendPOST(route('v1.auth.password.reset'), $invalidParamsFirst);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseMatchesJsonType([
-    'password' => 'Array',
-    'code' => 'Array',
-    'email' => 'Array',
+    'message' => 'string',
+    'errors' => [
+        'email' => 'Array',
+        'password' => 'Array',
+        'code' => 'Array',
+    ],
 ]);
 
 $newPassword = 'newPassword123';
@@ -38,22 +41,22 @@ $invalidParamsSecond = [
     'code' => '123',
     'email' => $email,
 ];
-$I->sendPOST('auth.password.reset', $invalidParamsSecond);
-$I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+$I->sendPOST(route('v1.auth.password.reset'), $invalidParamsSecond);
+$I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 
 $validParams = [
     'password' => 'newPassword123',
     'code' => $userCode->code,
     'email' => $email,
 ];
-$I->sendPOST('auth.password.reset', $validParams);
+$I->sendPOST(route('v1.auth.password.reset'), $validParams);
 $I->seeResponseCodeIs(HttpCode::OK);
 
 $validLogin = [
     'email' => $email,
     'password' => $newPassword,
 ];
-$I->sendPOST('auth.login', $validLogin);
+$I->sendPOST(route('v1.auth.login'), $validLogin);
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseMatchesJsonType([
     'access_token' => 'String',
@@ -65,5 +68,5 @@ $invalidLogin = [
     'email' => $email,
     'password' => $oldPassword,
 ];
-$I->sendPOST('auth.login', $invalidLogin);
+$I->sendPOST(route('v1.auth.login'), $invalidLogin);
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
