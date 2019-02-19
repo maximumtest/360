@@ -8,4 +8,4 @@ modules:
         environment_file: .env.testing
         part: ORM
         cleanup: true
-    - \Tests\Helper\Api
+    - \Helper\Api
