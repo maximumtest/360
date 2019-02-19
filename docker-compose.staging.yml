@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
   360-backend:
+    image: ${APP_IMAGE}
     ports:
       - 8080:80
     env_file: /etc/lab-360/.env

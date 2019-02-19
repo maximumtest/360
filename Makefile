@@ -13,7 +13,7 @@ set-permissions:
 	$(info [+] Fixing permissions...)
 	@${DOCKER_COMPOSE} run ${APP_CONTAINER} chmod -R 777 ${ROOT_PATH}/storage ${ROOT_PATH}/bootstrap/cache
 
-set-config: set-permissions
+set-config:
 	$(info [+] Verifying that .env file exists...)
 	@([ -f ${ROOT_PATH}/.env ] || (echo [?] Using default .env file... && cp ${ROOT_PATH}/.env.dist ${ROOT_PATH}/.env))
 
