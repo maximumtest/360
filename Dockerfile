@@ -46,6 +46,8 @@ COPY . ./
 RUN chmod 777 -R bootstrap/ storage/
 
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
+RUN npm install
+RUN npm run build
 
 # remove not necessary files
 RUN apk del --purge autoconf g++ make
