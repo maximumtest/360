@@ -1,9 +1,5 @@
 node_modules
-/public/hot
-/public/storage
-/public/js
-/public/css
-/public/img
+/public/static
 !/public/*/.gitkeep
 /storage/*.key
 /vendor
@@ -14,10 +10,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
-resources/views/*.php
-
 .DS_Store
-/dist
 
 # local env files
 .env.local

@@ -17,7 +17,7 @@
       "chai"
     ],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["resources/assets/js/*"]
     },
     "lib": [
       "esnext",
@@ -27,13 +27,15 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "resources/assets/js/**/*.ts",
+    "resources/assets/js/**/*.tsx",
+    "resources/assets/js/**/*.vue",
+    "tests/frontend/**/*.ts",
+    "tests/frontend/**/*.tsx"
   ],
   "exclude": [
+    "resources/views",
+    "public/**",
     "node_modules"
   ]
 }

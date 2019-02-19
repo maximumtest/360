@@ -2,7 +2,7 @@ const path = require('path');
 
 const resolve = {
   alias: {
-    '@': path.resolve('src'),
+    '@': path.resolve('resources/assets/js'),
   },
   extensions: ['.ts', '.vue', '.json'],
 };
@@ -11,8 +11,5 @@ module.exports = {
   configureWebpack: {
     resolve,
   },
-  outputDir: '../public',
-  indexPath: process.env.NODE_ENV === 'production'
-    ? '../resources/views/index.blade.php'
-    : 'index.html'
+  outputDir: 'public/static'
 };
