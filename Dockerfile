@@ -24,7 +24,7 @@ RUN apk --update upgrade \
 
 # Install nginx
 
-ENV NGINX_VERSION 1.13.11
+ENV NGINX_VERSION 1.15.8
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
@@ -82,7 +82,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		zlib-dev \
 		linux-headers \
 		curl \
-		gnupg \
+		gnupg1 \
 		libxslt-dev \
 		gd-dev \
 		geoip-dev \
@@ -158,13 +158,17 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY .docker/nginx/config/nginx.conf /etc/nginx/nginx.conf
-COPY .docker/nginx/config/site.conf /etc/nginx/conf.d/default.conf
+COPY .docker/nginx/config/production.conf /etc/nginx/conf.d/default.conf
+
+# Install NodeJS
+
+RUN apk add --no-cache nodejs nodejs-npm
 
 # Install supervisord
 
 RUN apk add --no-cache --update supervisor
 
-COPY .docker/supervisord/supervisord.conf /etc/supervisord.conf
+COPY .docker/supervisord/production.conf /etc/supervisord.conf
 
 # Setup application
 

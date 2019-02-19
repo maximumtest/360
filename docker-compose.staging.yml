@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  360-backend:
+    ports:
+      - 8080:80
+    env_file: /etc/lab-360/.env
+    restart: always
+
+  360-mongodb:
+    volumes:
+      - /var/lab-mongodb/data:/data/db
+    restart: always
