@@ -27,7 +27,6 @@ $invalidParamsFirst = [
 $I->sendPOST(route('v1.auth.password.reset'), $invalidParamsFirst);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseMatchesJsonType([
-    'message' => 'string',
     'errors' => [
         'email' => 'Array',
         'password' => 'Array',

@@ -6,6 +6,7 @@ Route::group([
     'prefix' => 'v1',
     'namespace' => 'V1',
     'as' => 'v1.',
+    'middleware' => 'role:admin'
 ], function () {
     Route::apiResources([
         'reviews' => 'ReviewController',

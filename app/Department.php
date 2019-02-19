@@ -7,7 +7,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class Department extends Model
 {
     protected $fillable = [
-        'title',
+        'name',
     ];
     
     public function users()

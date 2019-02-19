@@ -19,9 +19,9 @@ class AuthController extends Controller
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ];
-    
+
         $token = JWTAuth::attempt($credentials);
-    
+
         if (!$token) {
             return response()->json(['message' => 'Wrong credentials'], 401);
         }
@@ -48,7 +48,7 @@ class AuthController extends Controller
         
         $code->delete();
         
-        $token = JWTAuth::attempt(['email' => $user->email, 'password' => Hash::make($user->password)]);
+        $token = JWTAuth::attempt(['email' => $user->email, 'password' => $request->password,]);
         
         return response()->json($this->getResponseWithToken($token), 200);
     }

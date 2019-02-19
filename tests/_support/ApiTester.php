@@ -3,8 +3,8 @@
 namespace Tests;
 
 use Codeception\Scenario;
-use Illuminate\Support\Facades\Auth;
 use _generated\ApiTesterActions;
+use JWTAuth;
 
 /**
  * Inherited Methods
@@ -33,15 +33,9 @@ class ApiTester extends \Codeception\Actor
         $this->haveHttpHeader('Content-Type', 'application/json');
         $this->haveHttpHeader('X-Requested-With', 'XMLHttpRequest');
     }
-
+    
     public function getToken($email, $password)
     {
-        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
-            throw new \Exception('Wrong credentials');
-        }
-
-        $user = Auth::user();
-
-        return $user->createToken(env('APP_NAME'))->accessToken;
+        return JWTAuth::attempt(['login' => $email, 'password' => $password]);
     }
 }

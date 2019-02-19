@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Role extends Model
+class Role extends Eloquent
 {
     public $fillable = [
       'name',

@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\V1\User;
 
+use App\Http\Requests\Traits\FailedValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUserRequest extends FormRequest
 {
+    use FailedValidationTrait;
+    
     public function authorize(): bool
     {
         return true;
@@ -14,8 +17,10 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|max:255|unique:email',
-            'role' => 'string|exists:roles,name',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'string|min:6|max:255',
+            'role' => 'required|string|exists:roles,name',
+            'department' => 'string|exists:departments,name',
         ];
     }
 }

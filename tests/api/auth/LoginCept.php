@@ -29,8 +29,10 @@ $I->sendPOST(route('v1.auth.login'), [
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseIsJson();
 $I->canSeeResponseMatchesJsonType([
-    "email" => "Array",
-    "password" => "Array",
+    "errors" => [
+        "email" => "Array",
+        "password" => "Array",
+    ],
 ]);
 
 
@@ -43,5 +45,5 @@ $I->seeResponseIsJson();
 $I->seeResponseMatchesJsonType([
     'access_token' => 'string',
     'token_type' => 'string',
-    'expires_in' => 'string',
+    'expires_in' => 'integer',
 ]);
