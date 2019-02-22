@@ -13,7 +13,7 @@ trait FailedValidationTrait
     {
         $errors = (new ValidationException($validator))->errors();
         throw new HttpResponseException(response()->json([
-            'errors' => $errors
+            'errors' => $errors,
         ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

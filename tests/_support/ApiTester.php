@@ -36,6 +36,6 @@ class ApiTester extends \Codeception\Actor
     
     public function getToken($email, $password)
     {
-        return JWTAuth::attempt(['login' => $email, 'password' => $password]);
+        return JWTAuth::attempt(['email' => $email, 'password' => $password]);
     }
 }

@@ -20,8 +20,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'email' => 'sometimes|required|string|email|max:255|unique:users' . Auth::user()->getId(),
             'password' => 'sometimes|required|string|min:6|max:200',
-            'role' => 'sometimes|required|string|exists:roles,name',
-            'department' => 'sometimes|required|string|exists:departments,name',
+            'role_id' => 'sometimes|required|string|exists:roles,_id',
+            'department_id' => 'sometimes|required|string|exists:departments,_id',
         ];
     }
 }

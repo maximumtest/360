@@ -19,6 +19,11 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
     ];
     
+    protected $hidden = [
+        'remember_token',
+        'password',
+    ];
+    
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -63,10 +68,21 @@ class User extends Authenticatable implements JWTSubject
     
     public function hasRole($role)
     {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        
-        return false;
+        return $this->roles()->where('name', $role)->exists();
+    }
+    
+    public function assignRole($roleId)
+    {
+        $this->roles()->attach($roleId);
+    }
+    
+    public function attachUserToDepartment($departmentId)
+    {
+        $this->departments()->attach($departmentId);
+    }
+    
+    public function getId()
+    {
+        return $this->id;
     }
 }

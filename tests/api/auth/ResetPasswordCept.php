@@ -4,6 +4,7 @@ use Codeception\Util\HttpCode;
 use App\User;
 use App\UserCode;
 use Tests\ApiTester;
+use Illuminate\Support\Facades\Hash;
 
 $I = new ApiTester($scenario);
 
@@ -15,9 +16,10 @@ $user = factory(User::class)->create([
     'email_verified_at' => now(),
 ]);
 $userCode = factory(UserCode::class)->create([
-    'user_id' => $user->id,
     'type' => UserCode::PASSWORD_RECOVERY,
 ]);
+$user->codes()->save($userCode);
+
 $invalidParamsFirst = [
     'password' => '123',
     'code' => 123,
@@ -60,7 +62,7 @@ $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseMatchesJsonType([
     'access_token' => 'String',
     'token_type' => 'String',
-    'expires_in' => 'String',
+    'expires_in' => 'Integer',
 ]);
 
 $invalidLogin = [

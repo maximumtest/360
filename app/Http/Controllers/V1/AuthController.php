@@ -32,24 +32,29 @@ class AuthController extends Controller
     public function verifyEmail(VerifyEmailRequest $request): JsonResponse
     {
         $user = UserCode::where('code', $request->get('code'))
-            ->firstOrFail()
+            ->first()
             ->user()
             ->first();
-    
+
         if (!$user) {
             return response()->json(['message' => 'User or code not found'], 404);
         }
         
         $code = UserCode::where('code', $request->get('code'))->firstOrFail();
-        
+
         $user->email_verified_at = now();
         $user->password = Hash::make($request->get('password'));
         $user->save();
         
         $code->delete();
-        
-        $token = JWTAuth::attempt(['email' => $user->email, 'password' => $request->password,]);
-        
+
+        $credentials = [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+        ];
+
+        $token = JWTAuth::attempt($credentials);
+
         return response()->json($this->getResponseWithToken($token), 200);
     }
     
@@ -68,12 +73,12 @@ class AuthController extends Controller
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $user = UserCode::where('code', $request->get('code'))
-            ->firstOrFail()
+            ->first()
             ->user()
             ->first();
         
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['message' => 'User or code not found'], 404);
         }
         
         $user->password = Hash::make($request->get('password'));

@@ -2,23 +2,19 @@
 
 use Tests\ApiTester;
 use \Codeception\Util\HttpCode;
-use Faker\Factory;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Hash;
 
 $I = new ApiTester($scenario);
-$faker = Factory::create();
 
-// Проверяем, что не можем создать темплейт без токена
-$I->sendPOST(route('v1.templates.store', [
-    'title' => 'someTitle',
-]));
+// Проверяем, что не можем получить пользователя без токена
+$I->sendGET(route('v1.users.show', ['id' => 'notExistingId']));
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
 $I->seeResponseIsJson();
 
-// Создаем юзера с ролью employee и проверяем, что он не может создать темплейт
-$email = 'test12345@email.ru';
+// Создаем юзера с ролью employee и проверяем, что он не может получить пользователя
+$email = 'testtest@email.ru';
 $password = '123456Secure';
 $notAdmin = factory(User::class)->create([
     'email' => $email,
@@ -29,13 +25,7 @@ $notAdmin->assignRole($employeeRole->id);
 
 $token = $I->getToken($email, $password);
 $I->amBearerAuthenticated($token);
-
-$title = $faker->text(20);
-
-$I->sendPOST(route('v1.templates.store', [
-    'title' => $title,
-]));
-
+$I->sendGET(route('v1.users.show', ['id' => 'notExistingId']));
 $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
 $I->seeResponseIsJson();
 
@@ -52,11 +42,22 @@ $admin->assignRole($adminRole->id);
 
 $token = $I->getToken($adminEmail, $password);
 $I->amBearerAuthenticated($token);
-$I->sendPOST(route('v1.templates.store', [
-    'title' => $title,
-]));
-$I->seeResponseCodeIs(HttpCode::CREATED);
+
+$I->sendGET(route('v1.users.show', ['id' => 'notExistingId']));
+$I->seeResponseCodeIs(HttpCode::NOT_FOUND);
 $I->seeResponseIsJson();
-$I->canSeeResponseContainsJson([
-    'title' => $title,
+
+$I->sendGET(route('v1.users.show', ['id' => $notAdmin->id]));
+$I->seeResponseCodeIs(HttpCode::OK);
+$I->seeResponseIsJson();
+$I->seeResponseContainsJson([
+    'email' => $notAdmin->email,
+    'updated_at' => $notAdmin->updated_at->format('Y-m-d H:i:s'),
+    'created_at' => $notAdmin->updated_at->format('Y-m-d H:i:s'),
+    '_id' => $notAdmin->id,
+    'role_ids' => $notAdmin->role_ids
 ]);
+
+$I->sendGET(route('v1.users.index'));
+$I->seeResponseCodeIs(HttpCode::OK);
+$I->seeResponseIsJson();

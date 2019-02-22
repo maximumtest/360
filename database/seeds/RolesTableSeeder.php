@@ -12,8 +12,10 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::collection('roles')->insert(['name' => Role::ROLE_EMPLOYEE]);
-        DB::collection('roles')->insert(['name' => Role::ROLE_MANAGER]);
-        DB::collection('roles')->insert(['name' => Role::ROLE_ADMIN]);
+        DB::collection('roles')->insert([
+            ['name' => Role::ROLE_EMPLOYEE],
+            ['name' => Role::ROLE_MANAGER],
+            ['name' => Role::ROLE_ADMIN],
+        ]);
     }
 }

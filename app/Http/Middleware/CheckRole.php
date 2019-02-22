@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class CheckRole
@@ -16,10 +17,10 @@ class CheckRole
      * @throws \Exception
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $role): JsonResponse
     {
         if (Auth::guest()) {
-            throw new \Exception('Unauthorized', 401);
+            return response()->json('Unauthorized', 401);
         }
     
         $roles = is_array($role)
@@ -27,7 +28,7 @@ class CheckRole
             : explode('|', $role);
     
         if (!Auth::user()->hasAnyRole($roles)) {
-            throw new \Exception('Forbidden', 403);
+            return response()->json('Forbidden', 403);
         }
         
         return $next($request);

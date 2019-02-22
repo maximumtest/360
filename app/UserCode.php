@@ -24,4 +24,13 @@ class UserCode extends Model
     {
         return bin2hex(openssl_random_pseudo_bytes(6));
     }
+    
+    public static function generateEmailVerificationCode(User $user)
+    {
+        $code = new UserCode();
+        $code->type = self::EMAIL_VERIFICATION;
+        $code->code = self::generateCode();
+        $code->save();
+        $user->codes()->save($code);
+    }
 }

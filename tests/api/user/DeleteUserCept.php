@@ -2,23 +2,19 @@
 
 use Tests\ApiTester;
 use \Codeception\Util\HttpCode;
-use Faker\Factory;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Hash;
 
 $I = new ApiTester($scenario);
-$faker = Factory::create();
 
-// Проверяем, что не можем создать темплейт без токена
-$I->sendPOST(route('v1.templates.store', [
-    'title' => 'someTitle',
-]));
+// Проверяем, что не можем удалить пользователя без токена
+$I->sendDELETE(route('v1.users.destroy', ['id' => 'notExistingId']));
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
 $I->seeResponseIsJson();
 
-// Создаем юзера с ролью employee и проверяем, что он не может создать темплейт
-$email = 'test12345@email.ru';
+// Создаем юзера с ролью employee и проверяем, что он не может удалить пользователя
+$email = 'test1234@email.ru';
 $password = '123456Secure';
 $notAdmin = factory(User::class)->create([
     'email' => $email,
@@ -29,13 +25,7 @@ $notAdmin->assignRole($employeeRole->id);
 
 $token = $I->getToken($email, $password);
 $I->amBearerAuthenticated($token);
-
-$title = $faker->text(20);
-
-$I->sendPOST(route('v1.templates.store', [
-    'title' => $title,
-]));
-
+$I->sendDELETE(route('v1.users.destroy', ['id' => 'notExistingId']));
 $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
 $I->seeResponseIsJson();
 
@@ -52,11 +42,10 @@ $admin->assignRole($adminRole->id);
 
 $token = $I->getToken($adminEmail, $password);
 $I->amBearerAuthenticated($token);
-$I->sendPOST(route('v1.templates.store', [
-    'title' => $title,
-]));
-$I->seeResponseCodeIs(HttpCode::CREATED);
+$I->sendDELETE(route('v1.users.destroy', ['id' => 'notExistingId']));
+$I->seeResponseCodeIs(HttpCode::NOT_FOUND);
 $I->seeResponseIsJson();
-$I->canSeeResponseContainsJson([
-    'title' => $title,
-]);
+
+// Отправляем валидный запрос пользователем с ролью админ
+$I->sendDELETE(route('v1.users.destroy', ['id' => $notAdmin->id]));
+$I->seeResponseCodeIs(HttpCode::NO_CONTENT);

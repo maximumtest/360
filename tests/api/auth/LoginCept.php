@@ -35,7 +35,6 @@ $I->canSeeResponseMatchesJsonType([
     ],
 ]);
 
-
 $I->sendPOST(route('v1.auth.login'), [
     'email' => $email,
     'password' => $password,
