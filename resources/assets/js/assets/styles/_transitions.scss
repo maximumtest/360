@@ -1,0 +1,13 @@
+.router-anim {
+  &-enter-active, &-leave-active {
+    transition: .3s ease;
+  }
+  &-enter, &-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  &-leave, &-enter-to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
