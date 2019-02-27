@@ -49,30 +49,24 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component({
-})
+@Component
 export default class App extends Vue {
-  navItems: array;
-
-  constructor() {
-    super();
-    this.navItems = [
-      {
-        icon: 'home',
-        text: 'Главная',
-        path: {
-          name: 'home',
-        },
+  navItems: any[] = [
+    {
+      icon: 'home',
+      text: 'Главная',
+      path: {
+        name: 'home',
       },
-      {
-        icon: 'list',
-        text: 'Ревью',
-        path: {
-          name: 'reviews',
-        },
+    },
+    {
+      icon: 'list',
+      text: 'Ревью',
+      path: {
+        name: 'reviews',
       },
-    ];
-  }
+    },
+  ];
 
   get pageTitle() {
     return this.$route.meta.title ? `- ${this.$route.meta.title}` : '';
