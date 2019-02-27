@@ -1,10 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <md-avatar class="md-avatar-icon md-accent">
-      <md-icon>favorite</md-icon>
-    </md-avatar>
-    <RoundTable :msg="title"/>
+    <h1>Главная</h1>
   </div>
 </template>
 
