@@ -1,107 +1,25 @@
 <template>
-  <md-app
-    md-mode="fixed"
-    md-waterfall
-    class="app"
-  >
-    <!-- Шапка -->
-    <md-app-toolbar class="md-primary app__header">
-      <router-link
-        to="/"
-        class="md-title app__logo"
-      >
-        360 MAXIMUM {{ pageTitle }}
-      </router-link>
-    </md-app-toolbar>
-
-    <!-- Сайдбар -->
-    <md-app-drawer
-      md-permanent="full"
-      class="sidebar"
-    >
-      <md-list class="sidebar__nav">
-        <md-list-item
-          v-for="(navItem, index) in navItems"
-          :key="`nav-item-${index}`"
-        >
-          <router-link
-            :to="navItem.path"
-            class="sidebar__link"
-          >
-            <md-icon class="sidebar__link-icon">{{ navItem.icon }}</md-icon>
-            <span class="md-list-item-text">{{ navItem.text }}</span>
-          </router-link>
-        </md-list-item>
-      </md-list>
-    </md-app-drawer>
-
-    <md-app-content class="app__content">
-      <transition
-        name="router-anim"
-        mode="out-in"
-      >
-        <router-view/>
-      </transition>
-    </md-app-content>
-  </md-app>
+  <component :is="currentLayout"/>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-@Component
-export default class App extends Vue {
-  navItems: any[] = [
-    {
-      icon: 'home',
-      text: 'Главная',
-      path: {
-        name: 'home',
-      },
-    },
-    {
-      icon: 'list',
-      text: 'Ревью',
-      path: {
-        name: 'reviews',
-      },
-    },
-  ];
+import DefaultLayout from './layouts/Default';
+import AuthLayout from './layouts/Auth';
 
-  get pageTitle() {
-    return this.$route.meta.title ? `- ${this.$route.meta.title}` : '';
+@Component({
+  components: {
+    default: DefaultLayout,
+    auth: AuthLayout,
+  },
+})
+export default class App extends Vue {
+  get currentLayout() {
+    return this.$route.meta.layout || 'default';
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.app {
-  min-height: 100vh;
-
-  &__logo {
-    text-decoration: none;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  &__content {
-    padding: 0;
-  }
-}
-
-.sidebar {
-  &__link {
-    align-items: center;
-    color: inherit !important;
-    display: flex;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  &__link-icon {
-    margin-right: 12px;
-  }
-}
 </style>
