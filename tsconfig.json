@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env",
+      "mocha",
+      "chai"
+    ],
+    "paths": {
+      "@/*": ["resources/assets/js/*"]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "resources/assets/js/**/*.ts",
+    "resources/assets/js/**/*.tsx",
+    "resources/assets/js/**/*.vue",
+    "tests/frontend/**/*.ts",
+    "tests/frontend/**/*.tsx"
+  ],
+  "exclude": [
+    "resources/views",
+    "public/**",
+    "node_modules"
+  ]
+}

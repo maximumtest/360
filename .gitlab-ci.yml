@@ -1,0 +1,42 @@
+variables:
+    REGISTRY: registry.maximumtest.ru
+    APP_FILE: Dockerfile
+    APP_IMAGE: $REGISTRY/$CI_PROJECT_PATH:$CI_BUILD_REF_NAME
+
+stages:
+ - build
+ - test
+ - deploy
+
+build:
+  stage: build
+  script:
+    - sudo -E docker login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY
+    - sudo -E docker build -t $APP_IMAGE -f $APP_FILE .
+    - sudo -E docker push $APP_IMAGE
+  tags:
+   - build-server
+
+test:
+    stage: test
+    script:
+        - echo 'Will run tests here'
+    tags:
+        - build-server
+
+deploy_staging:
+  stage: deploy
+  script:
+    - export APP_IMAGE=$APP_IMAGE
+    - sudo -E docker login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY
+    - sudo -E docker pull $APP_IMAGE
+    - sudo -E docker-compose -f docker-compose.yml -f docker-compose.staging.yml up --force-recreate -d
+    - sudo -E make set-config
+    - sudo -E make apply-migrations
+  environment:
+    name: staging
+    url: http://360.maximumtest.ru
+  only:
+    - master
+  tags:
+    - dev-center
