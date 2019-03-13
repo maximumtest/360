@@ -1,11 +1,10 @@
 actor: ApiTester
 modules:
-  enabled:
+    enabled:
     - REST:
-        url: http://localhost:8802/
+        url: http://localhost:8181/
         depends: Laravel5
     - Laravel5:
         environment_file: .env.testing
         part: ORM
-        cleanup: true
-    - \Helper\Api
+        cleanup: false

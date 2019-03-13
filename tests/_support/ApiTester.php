@@ -1,5 +1,10 @@
 <?php
 
+namespace Tests;
+
+use Codeception\Scenario;
+use _generated\ApiTesterActions;
+use JWTAuth;
 
 /**
  * Inherited Methods
@@ -18,9 +23,19 @@
 */
 class ApiTester extends \Codeception\Actor
 {
-    use _generated\ApiTesterActions;
+    use ApiTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    public function __construct(Scenario $scenario)
+    {
+        parent::__construct($scenario);
+
+        $this->haveHttpHeader('Accept', 'application/json');
+        $this->haveHttpHeader('Content-Type', 'application/json');
+        $this->haveHttpHeader('X-Requested-With', 'XMLHttpRequest');
+    }
+    
+    public function getToken($email, $password)
+    {
+        return JWTAuth::attempt(['email' => $email, 'password' => $password]);
+    }
 }
