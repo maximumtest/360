@@ -31,7 +31,7 @@ COPY .docker/nginx/config/production.conf /etc/nginx/conf.d/default.conf
 
 # Install NodeJS
 
-RUN apk add --no-cache nodejs nodejs-npm
+RUN apk add --no-cache nodejs-current nodejs-current-npm
 
 # Install supervisord
 
@@ -46,6 +46,7 @@ COPY . ./
 RUN chmod 777 -R bootstrap/ storage/
 
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
+RUN npm set progress=false
 RUN npm install
 RUN npm run build
 
