@@ -4,7 +4,6 @@ services:
   360-backend:
     environment:
       - COMPOSER_ALLOW_SUPERUSER=1
-
   360-mongodb:
     image: mongo:4.1.7
     environment:

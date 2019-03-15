@@ -1,2 +1,3 @@
 .docker/mongodb/data
 node_modules
+npm-debug.log
