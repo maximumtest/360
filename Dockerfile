@@ -48,6 +48,7 @@ RUN chmod 777 -R bootstrap/ storage/
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 RUN npm set progress=false
 RUN npm install
+RUN npm rebuild node-sass
 RUN npm run build
 
 # remove not necessary files
