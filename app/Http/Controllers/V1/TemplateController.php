@@ -48,7 +48,7 @@ class TemplateController extends Controller
             $template->questions()->sync($request->input('questions'));
         }
 
-        return response()->json($template, 204);
+        return response()->json($template, 200);
     }
 
     public function destroy(string $id): JsonResponse

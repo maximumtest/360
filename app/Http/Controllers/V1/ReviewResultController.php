@@ -42,7 +42,7 @@ class ReviewResultController extends Controller
 
         $reviewResult->update($request->validated());
 
-        return response()->json(null, 204);
+        return response()->json(null, 200);
     }
 
     public function destroy(string $reviewResultId): JsonResponse

@@ -38,6 +38,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
         '401':
           description: Unauthorized
         '403':
@@ -87,8 +91,12 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/UpdateReviewRequest'
       responses:
-        '204':
-          description: No Content
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
         '401':
           description: Unauthorized
         '403':
@@ -154,6 +162,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
         '401':
           description: Unauthorized
         '403':
@@ -203,8 +215,12 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/UpdateTemplateRequest'
       responses:
-        '204':
-          description: No Content
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
         '401':
           description: Unauthorized
         '403':
@@ -270,6 +286,10 @@ paths:
       responses:
         '201':
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
         '401':
           description: Unauthorized
         '403':
@@ -319,8 +339,12 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/UpdateQuestionRequest'
       responses:
-        '204':
-          description: No Content
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
         '401':
           description: Unauthorized
         '403':

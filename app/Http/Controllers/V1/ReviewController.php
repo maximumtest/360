@@ -54,7 +54,7 @@ class ReviewController extends Controller
             $review->users()->sync($request->input('users'));
         }
 
-        return response()->json($review, 204);
+        return response()->json($review, 200);
     }
 
     public function destroy(string $id): JsonResponse

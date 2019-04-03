@@ -33,4 +33,4 @@ $I->sendPATCH(route('v1.templates.update', ['template' => $template->_id]), [
     'name' => $newTemplateName,
     'questions' => [$questionId1, $questionId2],
 ]);
-$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+$I->seeResponseCodeIs(HttpCode::OK);

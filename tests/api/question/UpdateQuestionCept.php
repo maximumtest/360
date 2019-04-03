@@ -44,4 +44,4 @@ $I->sendPATCH(route('v1.questions.update', ['question' => $question->_id]), [
     'text' => $newQuestionText,
     'answers' => [$answer1, $answer2],
 ]);
-$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+$I->seeResponseCodeIs(HttpCode::OK);

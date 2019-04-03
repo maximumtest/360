@@ -39,4 +39,4 @@ $I->sendPATCH(route('v1.reviews.update', ['review' => $review->_id]), [
     'review_status_id' => $newReviewStatusId,
     'users' => $newUserIds,
 ]);
-$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+$I->seeResponseCodeIs(HttpCode::OK);
