@@ -17,6 +17,6 @@ class ReviewStatusController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($reviewStatuses);
+        return response()->json($reviewStatuses, 200);
     }
 }

@@ -20,7 +20,7 @@ class ReviewController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($reviews);
+        return response()->json($reviews, 200);
     }
 
     public function store(CreateReviewRequest $request): JsonResponse
@@ -34,14 +34,14 @@ class ReviewController extends Controller
 
         $review->users()->sync($request->input('users'));
 
-        return response()->json(null, 201);
+        return response()->json($review, 201);
     }
 
     public function show(string $id): JsonResponse
     {
         $review = Review::findOrFail($id);
 
-        return response()->json($review);
+        return response()->json($review, 200);
     }
 
     public function update(UpdateReviewRequest $request, string $id): JsonResponse
@@ -54,7 +54,7 @@ class ReviewController extends Controller
             $review->users()->sync($request->input('users'));
         }
 
-        return response()->json(null, 204);
+        return response()->json($review, 204);
     }
 
     public function destroy(string $id): JsonResponse

@@ -18,6 +18,6 @@ $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
 
 $template = factory(Template::class)->create();
 
-$I->sendGET(route('v1.templates.show', ['templates' => $template->_id]));
+$I->sendGET(route('v1.templates.show', ['template' => $template->_id]));
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseContainsJson($template->toArray());

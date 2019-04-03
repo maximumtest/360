@@ -19,7 +19,7 @@ class TemplateController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($templates);
+        return response()->json($templates, 200);
     }
 
     public function store(CreateTemplateRequest $request): JsonResponse
@@ -28,14 +28,14 @@ class TemplateController extends Controller
 
         $template->questions()->sync($request->input('questions'));
 
-        return response()->json(null, 201);
+        return response()->json($template, 201);
     }
 
     public function show(string $id): JsonResponse
     {
         $template = Template::findOrFail($id);
 
-        return response()->json($template);
+        return response()->json($template, 200);
     }
 
     public function update(UpdateTemplateRequest $request, string $id): JsonResponse
@@ -48,7 +48,7 @@ class TemplateController extends Controller
             $template->questions()->sync($request->input('questions'));
         }
 
-        return response()->json(null, 204);
+        return response()->json($template, 204);
     }
 
     public function destroy(string $id): JsonResponse

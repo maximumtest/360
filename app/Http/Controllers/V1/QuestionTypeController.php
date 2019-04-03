@@ -17,6 +17,6 @@ class QuestionTypeController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($questionTypes);
+        return response()->json($questionTypes, 200);
     }
 }

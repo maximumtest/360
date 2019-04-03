@@ -19,26 +19,28 @@ class ReviewResultController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($reviewResults);
+        return response()->json($reviewResults, 200);
     }
 
     public function show(string $reviewResultId): JsonResponse
     {
         $reviewResult = ReviewResult::findOrFail($reviewResultId);
 
-        return response()->json($reviewResult);
+        return response()->json($reviewResult, 200);
     }
 
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
-        ReviewResult::create($request->validated());
+        $reviewResult = ReviewResult::create($request->validated());
 
-        return response()->json(null, 201);
+        return response()->json($reviewResult, 201);
     }
 
     public function update(UpdateReviewResultRequest $request, string $reviewResultId): JsonResponse
     {
-        ReviewResult::findOrFail($reviewResultId)->update($request->validated());
+        $reviewResult = ReviewResult::findOrFail($reviewResultId);
+
+        $reviewResult->update($request->validated());
 
         return response()->json(null, 204);
     }

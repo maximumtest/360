@@ -20,26 +20,28 @@ class QuestionController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($questions);
+        return response()->json($questions, 200);
     }
 
     public function show(string $questionId): JsonResponse
     {
         $question = Question::findOrFail($questionId);
 
-        return response()->json($question);
+        return response()->json($question, 200);
     }
 
     public function store(CreateQuestionRequest $request): JsonResponse
     {
-        Question::create($request->validated());
+        $question = Question::create($request->validated());
 
-        return response()->json(null, 201);
+        return response()->json($question, 201);
     }
 
     public function update(UpdateQuestionRequest $request, string $questionId): JsonResponse
     {
-        Question::findOrFail($questionId)->update($request->validated());
+        $question = Question::findOrFail($questionId);
+
+        $question->update($request->validated());
 
         return response()->json(null, 204);
     }
@@ -61,6 +63,6 @@ class QuestionController extends Controller
             throw new NotFoundHttpException();
         }
 
-        return response()->json($questions);
+        return response()->json($questions, 200);
     }
 }
