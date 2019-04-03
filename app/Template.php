@@ -10,12 +10,17 @@ class Template extends Model
     use SetUserBeforeCreateEntryTrait;
 
     protected $fillable = [
-        'title',
+        'name',
         'author_id',
     ];
 
     public function reviews()
     {
         return $this->belongsToMany(Review::class);
+    }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class);
     }
 }

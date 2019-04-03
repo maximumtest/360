@@ -10,7 +10,6 @@ services:
       - /node_modules/
     ports:
       - 8080:80
-    env_file: .env
 
   360-mongodb:
     volumes:

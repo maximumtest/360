@@ -3,8 +3,8 @@ modules:
     enabled:
     - REST:
         url: http://localhost:8181/
-        depends: Laravel5
-    - Laravel5:
+        depends: \Helper\Mongo
+    - \Helper\Mongo:
         environment_file: .env.testing
         part: ORM
-        cleanup: false
+        cleanup: true

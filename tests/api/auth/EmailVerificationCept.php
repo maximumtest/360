@@ -50,5 +50,5 @@ $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseMatchesJsonType([
     'access_token' => 'String',
     'token_type' => 'String',
-    'expires_in' => 'Integer',
+    'expires_in' => 'Integer|String',
 ]);

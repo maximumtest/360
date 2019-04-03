@@ -44,5 +44,5 @@ $I->seeResponseIsJson();
 $I->seeResponseMatchesJsonType([
     'access_token' => 'string',
     'token_type' => 'string',
-    'expires_in' => 'integer',
+    'expires_in' => 'integer|string',
 ]);

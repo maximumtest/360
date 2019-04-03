@@ -14,7 +14,9 @@ class UpdateTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|sometimes',
+            'name' => 'required|string|sometimes',
+            'questions' => 'required|array|min:1|sometimes',
+            'questions.*' => 'string|distinct|exists:questions,_id',
         ];
     }
 }

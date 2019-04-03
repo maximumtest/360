@@ -14,8 +14,10 @@ class CreateReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'template_id' => 'required|string',
+            'template_id' => 'required|string|exists:templates,_id',
             'title' => 'required|string',
+            'users' => 'required|array|min:1',
+            'users.*' => 'string|distinct|exists:users,_id',
         ];
     }
 }

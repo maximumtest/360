@@ -1,0 +1,939 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 360 Review Client
+
+
+
+paths:
+  '/api/v1/reviews':
+    get:
+      tags:
+        - Reviews
+      summary: Получение списка всех ревью
+      operationId: getReviews
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Reviews
+      summary: Создание ревью
+      operationId: createReview
+      requestBody:
+        $ref: '#/components/requestBodies/CreateReviewRequest'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/reviews/{id}':
+    get:
+      tags:
+        - Reviews
+      summary: Получение информации о ревью
+      operationId: getReview
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: review id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Reviews
+      summary: Обновление ревью
+      operationId: updateReview
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: review id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateReviewRequest'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Reviews
+      summary: Удаление ревью
+      operationId: deleteReview
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: review id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+
+
+
+  '/api/v1/templates':
+    get:
+      tags:
+        - Templates
+      summary: Получение списка всех шаблонов
+      operationId: getTemplates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Template'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Templates
+      summary: Создание шаблона
+      operationId: createTemplate
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTemplateRequest'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/templates/{id}':
+    get:
+      tags:
+        - Templates
+      summary: Получение информации о шаблоне
+      operationId: getTemplate
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: template id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Templates
+      summary: Обновление шаблона
+      operationId: updateTemplate
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: template id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateTemplateRequest'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Templates
+      summary: Удаление шаблона
+      operationId: deleteTemplate
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: template id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+
+
+  '/api/v1/questions':
+    get:
+      tags:
+        - Questions
+      summary: Получение списка вопросов
+      operationId: getQuestions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Questions
+      summary: Создание вопроса
+      operationId: createQuestion
+      requestBody:
+        $ref: '#/components/requestBodies/CreateQuestionRequest'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/questions/{id}':
+    get:
+      tags:
+        - Questions
+      summary: Получение информации о вопросе
+      operationId: getQuestion
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: question id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Questions
+      summary: Обновление вопрос
+      operationId: updateQuestion
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: question id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateQuestionRequest'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Questions
+      summary: Удаление вопроса
+      operationId: deleteQuestion
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: question id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+
+  '/api/v1/questions/filter':
+    get:
+      tags:
+        - Questions
+      summary: Получение отфильтрованного списка вопросов
+      operationId: getFilteredQuestions
+      parameters:
+        - name: text
+          in: query
+          schema:
+            type: string
+          required: true
+          description: match string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+
+
+  '/api/v1/question-types':
+    get:
+      tags:
+        - Question Types
+      summary: Получение списка типов вопроса
+      operationId: getQuestionTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+
+
+  '/api/v1/review-statuses':
+    get:
+      tags:
+        - Review Statuses
+      summary: Получение списка возможных статусов ревью
+      operationId: getReviewStatuses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+
+
+  '/api/v1/users':
+    get:
+      tags:
+        - Users
+      summary: Получение списка всех пользователей
+      operationId: getUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+    post:
+      tags:
+        - Users
+      summary: Создание пользователя
+      operationId: createUser
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUserRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+
+
+  '/api/v1/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: Получение информации о пользователе
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: user id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Users
+      summary: Обновление пользователя
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: user id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Users
+      summary: Удаление пользователя
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: user id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+
+
+  '/api/v1/auth/login':
+    post:
+      tags:
+        - Auth
+      summary: Вход
+      operationId: login
+      requestBody:
+        $ref: '#/components/requestBodies/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseToken'
+        '401':
+          description: Wrong credentials
+        '422':
+          description: Validation Error
+
+  '/api/v1/auth/email/verification':
+    post:
+      tags:
+        - Auth
+      summary: Подтверждение email'а
+      operationId: verifyEmail
+      requestBody:
+        $ref: '#/components/requestBodies/VerifyEmailRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseToken'
+        '404':
+          description: User or code not found
+        '422':
+          description: Validation Error
+
+  '/api/v1/auth/password/reset':
+    post:
+      tags:
+        - Auth
+      summary: Сброс пароля
+      operationId: resetPassword
+      requestBody:
+        $ref: '#/components/requestBodies/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password successfully changed
+        '404':
+          description: User or code not found
+        '422':
+          description: Validation Error
+
+  '/api/v1/auth/logout':
+    get:
+      tags:
+        - Auth
+      summary: Выход
+      operationId: logout
+      responses:
+        '200':
+          description: Successfully logged out
+        '401':
+          description: Unauthorized
+
+  '/api/v1/auth/me':
+    get:
+      tags:
+        - Auth
+      summary: Информация о текущем пользователе
+      operationId: me
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
+
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+
+  schemas:
+    Review:
+      type: object
+      properties:
+        _id:
+          type: string
+        template_id:
+          type: string
+        title:
+          type: string
+        manager_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        user_ids:
+          type: array
+          items:
+            type: string
+
+    ReviewRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        template_id:
+          type: string
+        users:
+          type: array
+          items:
+            type: string
+          description: массив ID пользователей
+
+    Template:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        author_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        question_ids:
+          type: array
+          items:
+            type: string
+
+    TemplateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        questions:
+          type: array
+          items:
+            type: string
+          description: массив ID вопросов
+
+    Question:
+      type: object
+      properties:
+        _id:
+          type: string
+        question_type_id:
+          type: string
+        text:
+          type: string
+        author_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        template_ids:
+          type: array
+          items:
+            type: string
+
+    QuestionRequest:
+      type: object
+      properties:
+        question_type_id:
+          type: string
+        text:
+          type: string
+        answers:
+          type: array
+          items:
+            type: string
+          description: используется с типами вопросов, которые предполагают наличие ответов
+
+    QuestionType:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+
+    ReviewStatus:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+
+
+
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        email_verified_at:
+          type: string
+        department_id:
+          type: integer
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+    UserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        role_id:
+          type: integer
+        department_id:
+          type: integer
+
+    ResponseToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+
+
+
+  requestBodies:
+    CreateReviewRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ReviewRequest'
+            required:
+              - title
+              - template_id
+              - users
+
+    UpdateReviewRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ReviewRequest'
+
+    CreateTemplateRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/TemplateRequest'
+            required:
+              - name
+              - questions
+
+    UpdateTemplateRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/TemplateRequest'
+
+    CreateQuestionRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/QuestionRequest'
+            required:
+              - question_type_id
+              - text
+
+    UpdateQuestionRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/QuestionRequest'
+
+    CreateUserRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/UserRequest'
+            required:
+              - email
+              - password
+              - role_id
+
+    UpdateUserRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/UserRequest'
+
+    LoginRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            required:
+              - email
+              - password
+
+    VerifyEmailRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              code:
+                type: string
+            required:
+              - email
+              - password
+              - code
+
+    ResetPasswordRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              code:
+                type: string
+            required:
+              - email
+              - password
+              - code
+
+
+
+security:
+  - ApiKeyAuth: []
