@@ -14,8 +14,11 @@ class UpdateReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'template_id' => 'required|string|sometimes',
+            'template_id' => 'required|string|exists:templates,_id|sometimes',
             'title' => 'required|string|sometimes',
+            'users' => 'required|array|min:1|sometimes',
+            'users.*' => 'string|distinct|exists:users,_id',
+            'review_status_id' => 'string|exists:review_statuses,_id|nullable',
         ];
     }
 }

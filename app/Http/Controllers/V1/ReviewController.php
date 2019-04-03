@@ -4,9 +4,11 @@ namespace App\Http\Controllers\V1;
 
 use App\Review;
 use App\Http\Controllers\Controller;
+use App\ReviewStatus;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\V1\Review\CreateReviewRequest;
 use App\Http\Requests\V1\Review\UpdateReviewRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReviewController extends Controller
 {
@@ -14,12 +16,23 @@ class ReviewController extends Controller
     {
         $reviews = Review::all();
 
-        return response()->json($reviews);
+        if ($reviews->count() === 0) {
+            throw new NotFoundHttpException();
+        }
+
+        return response()->json($reviews, 200);
     }
 
     public function store(CreateReviewRequest $request): JsonResponse
     {
-        $review = Review::create($request->validated());
+        $params = array_merge(
+            $request->validated(),
+            ['review_status_id' => ReviewStatus::STATUS_DRAFT]
+        );
+
+        $review = Review::create($params);
+
+        $review->users()->sync($request->input('users'));
 
         return response()->json($review, 201);
     }
@@ -28,17 +41,20 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
 
-        return response()->json($review);
+        return response()->json($review, 200);
     }
 
     public function update(UpdateReviewRequest $request, string $id): JsonResponse
     {
         $review = Review::findOrFail($id);
 
-        $review->fill($request->validated());
-        $review->save();
+        $review->update($request->validated());
 
-        return response()->json($review);
+        if ($request->has('users')) {
+            $review->users()->sync($request->input('users'));
+        }
+
+        return response()->json($review, 200);
     }
 
     public function destroy(string $id): JsonResponse

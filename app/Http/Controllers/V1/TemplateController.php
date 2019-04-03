@@ -7,38 +7,48 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\V1\Template\CreateTemplateRequest;
 use App\Http\Requests\V1\Template\UpdateTemplateRequest;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TemplateController extends Controller
 {
     public function index(): JsonResponse
     {
-        $reviews = Template::all();
+        $templates = Template::all();
 
-        return response()->json($reviews);
+        if ($templates->count() === 0) {
+            throw new NotFoundHttpException();
+        }
+
+        return response()->json($templates, 200);
     }
 
     public function store(CreateTemplateRequest $request): JsonResponse
     {
-        $review = Template::create($request->validated());
+        $template = Template::create($request->validated());
 
-        return response()->json($review, 201);
+        $template->questions()->sync($request->input('questions'));
+
+        return response()->json($template, 201);
     }
 
     public function show(string $id): JsonResponse
     {
-        $review = Template::findOrFail($id);
+        $template = Template::findOrFail($id);
 
-        return response()->json($review);
+        return response()->json($template, 200);
     }
 
     public function update(UpdateTemplateRequest $request, string $id): JsonResponse
     {
-        $review = Template::findOrFail($id);
+        $template = Template::findOrFail($id);
 
-        $review->fill($request->validated());
-        $review->save();
+        $template->update($request->validated());
 
-        return response()->json($review);
+        if ($request->has('questions')) {
+            $template->questions()->sync($request->input('questions'));
+        }
+
+        return response()->json($template, 200);
     }
 
     public function destroy(string $id): JsonResponse

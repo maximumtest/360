@@ -9,14 +9,22 @@ class Review extends Model
 {
     use SetUserBeforeCreateEntryTrait;
 
+    protected $userIdField = 'manager_id';
+
     protected $fillable = [
-        'author_id',
+        'manager_id',
         'template_id',
         'title',
+        'review_status_id',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 
     public function template()
     {
-        return $this->hasOne(Template::class);
+        return $this->belongsTo(Template::class);
     }
 }

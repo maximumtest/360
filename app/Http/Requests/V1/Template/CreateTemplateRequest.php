@@ -14,7 +14,9 @@ class CreateTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'name' => 'required|string',
+            'questions' => 'required|array|min:1',
+            'questions.*' => 'string|distinct|exists:questions,_id',
         ];
     }
 }
