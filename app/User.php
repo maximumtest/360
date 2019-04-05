@@ -17,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'email_verified_at',
+        'role_ids',
     ];
     
     protected $hidden = [
@@ -58,9 +59,7 @@ class User extends Authenticatable implements JWTSubject
                 }
             }
         } else {
-            if ($this->hasRole($roles)) {
-                return true;
-            }
+            return $this->hasRole($roles);
         }
         
         return false;
@@ -71,9 +70,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->roles()->where('name', $role)->exists();
     }
     
-    public function assignRole($roleId)
+    public function assignRole(Role $role)
     {
-        $this->roles()->attach($roleId);
+        $this->roles()->attach($role->id);
     }
     
     public function attachUserToDepartment($departmentId)
@@ -84,5 +83,15 @@ class User extends Authenticatable implements JWTSubject
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function isAdmin()
+    {
+        return $this->hasRole(Role::ROLE_ADMIN);
+    }
+    
+    public function isManager(Review $review)
+    {
+        return $this->getId() == $review->manager_id;
     }
 }

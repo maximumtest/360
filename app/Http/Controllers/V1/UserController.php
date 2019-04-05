@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Role;
 use App\User;
 use App\UserCode;
 use Illuminate\Http\JsonResponse;
@@ -21,9 +22,9 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): JsonResponse
     {
         $params = $request->validated();
-
+        
         $user = User::create($params);
-        $user->assignRole($request->get('role_id'));
+        $user->assignRole(Role::findOrFail($request->get('role_id')));
         
         UserCode::generateEmailVerificationCode($user);
         

@@ -27,4 +27,9 @@ class Review extends Model
     {
         return $this->belongsTo(Template::class);
     }
+    
+    public function reviewResults()
+    {
+        return $this->hasMany(ReviewResult::class);
+    }
 }

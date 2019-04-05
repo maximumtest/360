@@ -16,7 +16,7 @@ class CreateSuperUser extends Migration
     {
         $adminRole = Role::where([
             'name' => Role::ROLE_ADMIN,
-        ])->get();
+        ])->first();
 
         $superUser = User::create([
             'name' => 'admin',
@@ -25,7 +25,7 @@ class CreateSuperUser extends Migration
             'email_verified_at' => now(),
         ]);
 
-        $superUser->assignRole($adminRole->id);
+        $superUser->assignRole($adminRole);
     }
 
     /**
