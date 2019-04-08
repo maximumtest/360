@@ -36,6 +36,7 @@ Route::group([
     });
 
     Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
+    Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
 
     Route::apiResources([
         'reviews' => 'ReviewController',
@@ -43,6 +44,7 @@ Route::group([
         'questions' => 'QuestionController',
         'review-results' => 'ReviewResultController',
         'kudos-categories' => 'KudosCategoryController',
+        'kudos-tags' => 'KudosTagController',
     ]);
 
     Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
