@@ -42,6 +42,7 @@ Route::group([
         'templates' => 'TemplateController',
         'questions' => 'QuestionController',
         'review-results' => 'ReviewResultController',
+        'kudos-categories' => 'KudosCategoryController',
     ]);
 
     Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
