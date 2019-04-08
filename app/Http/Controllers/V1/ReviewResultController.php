@@ -14,8 +14,6 @@ class ReviewResultController extends Controller
 {
     public function index(): JsonResponse
     {
-        $this->authorize('view');
-        
         $reviewResults = ReviewResult::all();
 
         if ($reviewResults->count() === 0) {
@@ -27,18 +25,18 @@ class ReviewResultController extends Controller
 
     public function show(string $reviewResultId): JsonResponse
     {
-        $this->authorize('view');
-        
         $reviewResult = ReviewResult::findOrFail($reviewResultId);
-
+        
+        $this->authorize('view', $reviewResult);
+        
         return response()->json($reviewResult, 200);
     }
 
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
-        $this->authorize('create');
-        
         $params = $request->validated();
+        
+        $this->authorize('create', $params['review_id']);
         
         $interviewer_id = isset($params['interviewer_id']) ? $params['interviewer_id'] : Auth::user()->getAuthIdentifier();
         $params['interviewer_id'] = $interviewer_id;
@@ -50,10 +48,10 @@ class ReviewResultController extends Controller
 
     public function update(UpdateReviewResultRequest $request, string $reviewResultId): JsonResponse
     {
-        $this->authorize('update');
-        
         $reviewResult = ReviewResult::findOrFail($reviewResultId);
-
+        
+        $this->authorize('update', $reviewResult);
+        
         $reviewResult->update($request->validated());
 
         return response()->json(null, 200);
@@ -61,9 +59,11 @@ class ReviewResultController extends Controller
 
     public function destroy(string $reviewResultId): JsonResponse
     {
-        $this->authorize('delete');
+        $reviewResult = ReviewResult::findOrFail($reviewResultId);
         
-        ReviewResult::findOrFail($reviewResultId)->delete();
+        $this->authorize('delete', $reviewResult);
+    
+        $reviewResult->delete();
 
         return response()->json(null, 204);
     }

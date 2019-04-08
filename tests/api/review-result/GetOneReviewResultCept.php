@@ -61,9 +61,7 @@ $reviewResult2 = factory(ReviewResult::class)->create([
 $I->sendGET(route('v1.review-results.show', ['id' => $reviewResult1->id]));
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseIsJson();
-$I->seeResponseContainsJson([
-    $reviewResult1->toArray(),
-]);
+$I->seeResponseContainsJson($reviewResult1->toArray());
 $I->dontSeeResponseContainsJson($reviewResult2->toArray());
 
 // Check that another user cannot see review result
@@ -74,9 +72,10 @@ $I->sendGET(route('v1.review-results.show', ['id' => $reviewResult1->id]));
 $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
 $I->seeResponseIsJson();
 
-//Check that manager see all review results from review but don't see review results from other reviews
+//Check that manager don't see review result from other reviews
 $manager = factory(User::class)->create();
-$manager->assignRole(Role::where('name', Role::ROLE_MANAGER));
+$managerRole = Role::create(['name' => Role::ROLE_MANAGER]);
+$manager->assignRole($managerRole);
 $token = $I->getToken($manager->email, 123);
 $I->amBearerAuthenticated($token);
 
@@ -86,7 +85,8 @@ $I->seeResponseIsJson();
 
 // Check that admin can see review results
 $admin = factory(User::class)->create();
-$admin->assignRole(Role::where('name', Role::ROLE_ADMIN));
+$adminRole = Role::create(['name' => Role::ROLE_ADMIN]);
+$admin->assignRole($adminRole);
 $token = $I->getToken($admin->email, 123);
 $I->amBearerAuthenticated($token);
 

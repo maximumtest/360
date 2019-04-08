@@ -11,12 +11,10 @@ class ReviewResultPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, $reviewResultId)
+    public function before(User $user, $ability, $reviewResult)
     {
-        if ($reviewResultId) {
-            $reviewResult = ReviewResult::findOrFail($reviewResultId);
-            
-            if ($user->isManager($reviewResult->review())) {
+        if ($reviewResult) {
+            if ($user->isManager($reviewResult->review()->first())) {
                 return true;
             }
         }
@@ -46,14 +44,9 @@ class ReviewResultPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, $reviewId)
     {
-        $questionIds = Review::findOrFail(request('review_id'))->template()->questions()->pluck('id');
-        
-        return (
-            ($user->getId() != request('respondent_id'))) ||
-            (in_array(request('answers.question_id'), $questionIds)
-            );
+        return $this->isAccess($user, Review::findOrFail($reviewId));
     }
 
     /**
@@ -65,12 +58,7 @@ class ReviewResultPolicy
      */
     public function update(User $user, ReviewResult $reviewResult)
     {
-        $questionIds = Review::findOrFail(request('review_id'))->template()->questions()->pluck('id');
-    
-        return (
-            ($user->getId() != request('respondent_id'))) ||
-            (in_array($reviewResult->answers->pluck('question_id'), $questionIds)
-            );
+        return $this->isAccess($user, $reviewResult->review()->first());
     }
 
     /**
@@ -83,5 +71,21 @@ class ReviewResultPolicy
     public function delete(User $user, ReviewResult $reviewResult)
     {
         return $user->getId() == $reviewResult->interviewer_id;
+    }
+    
+    private function isAccess(User $user, Review $review)
+    {
+        $questionIds = Review::findOrFail(request('review_id'))->template()->questions()->pluck('id');
+    
+        $requestQuestions = array_filter(request('answers'), function ($value, $key) {
+            return $key == 'question_id';
+        }, ARRAY_FILTER_USE_BOTH);
+    
+        $reviewUsers = $review->users()->pluck('id');
+        return (
+            ($user->getId() != request('respondent_id'))) &&
+            (in_array(request('respondent_id'), $reviewUsers->toArray())) &&
+            (in_array($requestQuestions, $questionIds)
+            );
     }
 }
