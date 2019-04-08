@@ -23,7 +23,7 @@ $review->users()->sync([$user1->id, $interviewer->id, $respondent->id]);
 $question1 = factory(Question::class)->create();
 $question2 = factory(Question::class)->create();
 $template = Template::findOrFail($review->template_id);
-$template->questions()->sync($question1->id, $question2->id);
+$template->questions()->sync([$question1->id, $question2->id]);
 
 $reviewResult = factory(ReviewResult::class)->create([
     'interviewer_id' => $user1->id,

@@ -37,7 +37,7 @@ $question1 = factory(Question::class)->create();
 $question2 = factory(Question::class)->create();
 $question3 = factory(Question::class)->create();
 
-$template->questions()->sync($question1->id, $question2->id, $question3->id);
+$template->questions()->sync([$question1->id, $question2->id, $question3->id]);
 
 $reviewResult = [
     'review_id' => $review->id,
