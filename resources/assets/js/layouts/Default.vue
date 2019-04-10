@@ -12,6 +12,10 @@
       >
         360 MAXIMUM {{ pageTitle }}
       </router-link>
+      <span
+        v-if="user"
+        v-text="user.email"
+      />
     </md-app-toolbar>
 
     <!-- Сайдбар -->
@@ -48,9 +52,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { name as authStoreName } from '@/store/auth';
+
+const Auth = namespace(authStoreName);
 
 @Component
 export default class DefaultLayout extends Vue {
+  @Auth.State user;
+
   navItems: any[] = [
     {
       icon: 'home',
@@ -80,6 +90,7 @@ export default class DefaultLayout extends Vue {
 
   &__logo {
     text-decoration: none;
+    flex: 1;
     &:hover {
       text-decoration: none;
     }
@@ -103,6 +114,10 @@ export default class DefaultLayout extends Vue {
   &__link-icon {
     margin-right: 12px;
   }
+}
+
+.user-icon {
+  padding-right: 10px;
 }
 </style>
 

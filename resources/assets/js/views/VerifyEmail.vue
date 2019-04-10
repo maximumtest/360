@@ -1,14 +1,14 @@
 <template>
-  <div class="auth-page">
+  <div class="verify-email-page">
     <form
-      class="md-layout auth-page__form"
+      class="md-layout verify-email-page__form"
       @submit.prevent="submitForm"
     >
       <md-card class="md-layout-item md-size-100 md-small-size-100">
         <md-card-header>
           <div
             class="md-title"
-            v-text="'Вход'"
+            v-text="'Завершение регистрации'"
           />
           <p
             v-if="error"
@@ -16,21 +16,6 @@
             class="error"
           />
         </md-card-header>
-        <md-card-content>
-          <md-field class="auth-page__form-field">
-            <label
-              for="email"
-              v-text="'Email'"
-            />
-            <md-input
-              v-model="formData.email"
-              type="email"
-              name="email"
-              id="email"
-              autocomplete="email"
-            />
-          </md-field>
-        </md-card-content>
         <md-card-content>
           <md-field class="auth-page__form-field">
             <label
@@ -45,13 +30,26 @@
               autocomplete="password"
             />
           </md-field>
+
+          <md-field class="auth-page__form-field">
+            <label
+              for="password_confirmation"
+              v-text="'Password Confirmation'"
+            />
+            <md-input
+              v-model="formData.passwordConfirmation"
+              type="password"
+              name="password_confirmation"
+              id="password_confirmation"
+              autocomplete="off"
+            />
+          </md-field>
         </md-card-content>
         <md-card-actions>
-          <md-checkbox v-model="formData.remember" class="md-primary">Запомнить меня</md-checkbox>
           <md-button
             type="submit"
             class="md-raised md-primary"
-            v-text="'Войти'"
+            v-text="'Complete'"
           />
         </md-card-actions>
       </md-card>
@@ -63,38 +61,37 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { name as authStoreName } from '@/store/auth';
-import { LoginRequest } from '@/store/auth/types';
+import { VerifyEmailRequest } from '@/store/auth/types';
 
 const Auth = namespace(authStoreName);
 
-interface User {
-  email: string,
-  password: string,
-  remember: boolean,
+interface PasswordConfirmation {
+  password: string;
+  passwordConfirmation: string;
 }
 
 @Component
-export default class AuthPage extends Vue {
-  @Auth.Action login;
+export default class VerifyEmail extends Vue {
+  @Auth.Action verifyEmail;
 
-  formData: User = {
-    email: '',
+  formData: PasswordConfirmation = {
     password: '',
-    remember: false,
+    passwordConfirmation: '',
   };
 
   error: string | null = null;
 
   private async submitForm() {
-    const loginRequest: LoginRequest = {
-      email: this.formData.email,
+    const verifyEmailRequest: VerifyEmailRequest = {
       password: this.formData.password,
+      password_confirmation: this.formData.passwordConfirmation,
+      code: this.$route.params.code,
     };
 
-    const result = await this.login(loginRequest);
+    const result = await this.verifyEmail(verifyEmailRequest);
 
     if (!result) {
-      this.error = 'Ошибка входа';
+      this.error = 'Ошибка';
 
       return;
     }
@@ -105,17 +102,14 @@ export default class AuthPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .auth-page {
+  .verify-email-page {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+
     &__form {
       width: 500px;
     }
-  }
-
-  .error {
-    color: #ff5252;
   }
 </style>
