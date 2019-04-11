@@ -31,13 +31,19 @@ class UserCode extends Model
 
     public static function generateEmailVerificationCode(User $user)
     {
-        $code = new UserCode();
-        $code->type = self::EMAIL_VERIFICATION;
-        $code->code = self::generateCode();
-        $code->save();
-        $user->codes()->save($code);
+        $userCode = UserCode::firstOrNew([
+            'type' => self::EMAIL_VERIFICATION,
+            'user_id' => $user->_id,
+        ]);
 
-        return $code;
+        if (!$userCode->exists) {
+            $userCode->code = self::generateCode();
+            $userCode->save();
+
+            $user->codes()->save($userCode);
+        }
+
+        return $userCode;
     }
 
     public static function redeem(string $code, string $type = self::EMAIL_VERIFICATION): string
