@@ -22,7 +22,11 @@ class UserCode extends Model
 
     public static function generateCode()
     {
-        return bin2hex(openssl_random_pseudo_bytes(6));
+        do {
+            $code = bin2hex(openssl_random_pseudo_bytes(6));
+        } while (static::where('code', $code)->count() > 0);
+
+        return $code;
     }
 
     public static function generateEmailVerificationCode(User $user)
@@ -34,5 +38,18 @@ class UserCode extends Model
         $user->codes()->save($code);
 
         return $code;
+    }
+
+    public static function redeem(string $code, string $type = self::EMAIL_VERIFICATION): string
+    {
+        $userCode = static::where('code', $code)
+            ->where('type', $type)
+            ->firstOrFail();
+
+        $ownerUserId = $userCode->user_id;
+
+        $userCode->delete();
+
+        return $ownerUserId;
     }
 }

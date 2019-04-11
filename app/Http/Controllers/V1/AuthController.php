@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\ResetPasswordRequest;
 use App\Http\Requests\V1\Auth\VerifyEmailRequest;
+use App\User;
 use App\UserCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -31,22 +32,13 @@ class AuthController extends Controller
 
     public function verifyEmail(VerifyEmailRequest $request): JsonResponse
     {
-        $user = UserCode::where('code', $request->get('code'))
-            ->first()
-            ->user()
-            ->first();
+        $userId = UserCode::redeem($request->get('code'));
 
-        if (!$user) {
-            return response()->json(['message' => 'User or code not found'], 404);
-        }
-
-        $code = UserCode::where('code', $request->get('code'))->firstOrFail();
-
-        $user->email_verified_at = now();
-        $user->password = Hash::make($request->get('password'));
-        $user->save();
-
-        $code->delete();
+        $user = User::findOrFail($userId);
+        $user->update([
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->get('password')),
+        ]);
 
         $credentials = [
             'email' => $user->email,
@@ -72,17 +64,12 @@ class AuthController extends Controller
 
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
-        $user = UserCode::where('code', $request->get('code'))
-            ->first()
-            ->user()
-            ->first();
+        $userId = UserCode::redeem($request->get('code'), UserCode::PASSWORD_RECOVERY);
 
-        if (!$user) {
-            return response()->json(['message' => 'User or code not found'], 404);
-        }
-
-        $user->password = Hash::make($request->get('password'));
-        $user->save();
+        $user = User::findOrFail($userId);
+        $user->update([
+            'password' => Hash::make($request->get('password')),
+        ]);
 
         return response()->json(['message' => 'Password successfully changed'], 200);
     }

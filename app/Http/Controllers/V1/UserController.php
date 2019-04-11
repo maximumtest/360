@@ -22,9 +22,7 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request): JsonResponse
     {
-        $params = $request->validated();
-
-        $user = User::create($params);
+        $user = User::create($request->validated());
         $user->assignRole($request->get('role_id'));
 
         $userCode = UserCode::generateEmailVerificationCode($user);
@@ -33,7 +31,7 @@ class UserController extends Controller
             $user->attachUserToDepartment($request->get('department_id'));
         }
 
-        Mail::to($user->email)->queue(new Registration($userCode));
+        Mail::to($user->email)->send(new Registration($userCode));
 
         return response()->json($user, 201);
     }

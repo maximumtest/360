@@ -13,6 +13,7 @@ class Registration extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $userCode;
+    public $tries = 3;
 
     /**
      * Create a new message instance.
