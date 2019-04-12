@@ -24,7 +24,7 @@ class UserCode extends Model
     {
         do {
             $code = bin2hex(openssl_random_pseudo_bytes(6));
-        } while (static::where('code', $code)->count() > 0);
+        } while (static::where('code', $code)->exists());
 
         return $code;
     }
@@ -36,12 +36,9 @@ class UserCode extends Model
             'user_id' => $user->_id,
         ]);
 
-        if (!$userCode->exists) {
-            $userCode->code = self::generateCode();
-            $userCode->save();
+        $userCode->code = self::generateCode();
 
-            $user->codes()->save($userCode);
-        }
+        $user->codes()->save($userCode);
 
         return $userCode;
     }
