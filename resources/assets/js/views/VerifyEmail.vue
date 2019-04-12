@@ -72,7 +72,7 @@ interface PasswordConfirmation {
 
 @Component
 export default class VerifyEmail extends Vue {
-  @Auth.Action verifyEmail;
+  @Auth.Action verifyEmail: any;
 
   formData: PasswordConfirmation = {
     password: '',

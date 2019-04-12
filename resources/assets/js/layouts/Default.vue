@@ -59,7 +59,7 @@ const Auth = namespace(authStoreName);
 
 @Component
 export default class DefaultLayout extends Vue {
-  @Auth.State user;
+  @Auth.State user: any;
 
   navItems: any[] = [
     {

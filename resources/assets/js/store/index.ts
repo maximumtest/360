@@ -5,8 +5,6 @@ import * as auth from './auth';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
   mutations: {
     setItem(state: any, { item, value }) {
       state[item] = value;
