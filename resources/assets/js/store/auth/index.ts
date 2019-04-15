@@ -50,13 +50,7 @@ export const actions: ActionTree<AuthState, RootState> = {
     commit('setJwtToken', access_token);
     commit('setExpiresIn', expires_in);
 
-    axios.defaults.headers.common = {
-      Authorization: `Bearer ${state.jwtToken}`,
-    };
-
     const userData = await dispatch('getUserInfo');
-
-    window.localStorage.setItem('jwtToken', state.jwtToken || 'null');
 
     commit('setUser', userData);
   },

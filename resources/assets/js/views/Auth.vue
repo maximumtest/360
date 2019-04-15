@@ -75,7 +75,7 @@ interface User {
 
 @Component
 export default class AuthPage extends Vue {
-  @Auth.Action login: any;
+  @Auth.Action login!: Function;
 
   formData: User = {
     email: '',

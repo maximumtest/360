@@ -49,3 +49,6 @@ Route::group([
     Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
 });
 
+Route::get('test', function () {
+
+});

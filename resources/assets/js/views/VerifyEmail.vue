@@ -33,14 +33,14 @@
 
           <md-field class="auth-page__form-field">
             <label
-              for="password_confirmation"
+              for="passwordConfirmation"
               v-text="'Password Confirmation'"
             />
             <md-input
               v-model="formData.passwordConfirmation"
               type="password"
-              name="password_confirmation"
-              id="password_confirmation"
+              name="passwordConfirmation"
+              id="passwordConfirmation"
               autocomplete="off"
             />
           </md-field>
@@ -72,7 +72,7 @@ interface PasswordConfirmation {
 
 @Component
 export default class VerifyEmail extends Vue {
-  @Auth.Action verifyEmail: any;
+  @Auth.Action verifyEmail!: Function;
 
   formData: PasswordConfirmation = {
     password: '',

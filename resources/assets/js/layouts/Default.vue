@@ -54,12 +54,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { name as authStoreName } from '@/store/auth';
+import { User } from '@/store/auth/types';
 
 const Auth = namespace(authStoreName);
 
 @Component
 export default class DefaultLayout extends Vue {
-  @Auth.State user: any;
+  @Auth.State user!: User;
 
   navItems: any[] = [
     {

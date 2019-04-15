@@ -21,9 +21,9 @@ class RolesTableMigration extends Migration
         });
 
         DB::table(self::TABLE_NAME)->insert([
-            ['role' => Role::ROLE_EMPLOYEE],
-            ['role' => Role::ROLE_MANAGER],
-            ['role' => Role::ROLE_ADMIN],
+            ['name' => Role::ROLE_EMPLOYEE],
+            ['name' => Role::ROLE_MANAGER],
+            ['name' => Role::ROLE_ADMIN],
         ]);
     }
 

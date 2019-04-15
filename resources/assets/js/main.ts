@@ -4,6 +4,8 @@ import 'vue-material/dist/theme/default-dark.css';
 
 import './assets/styles/base.scss';
 
+import axios from 'axios';
+
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -13,10 +15,21 @@ Vue.use(VueMaterial);
 
 Vue.config.productionTip = false;
 
-const userToken = window.localStorage.getItem('jwtToken');
+const userToken = store.state.auth && store.state.auth.jwtToken;
 if (userToken) {
   store.dispatch('auth/setTokenAndUser', { access_token: userToken });
 }
+
+axios.interceptors.request.use(
+  (config) => {
+    if (store.state.auth && store.state.auth.jwtToken) {
+      config.headers.authorization = `Bearer ${store.state.auth.jwtToken}`;
+    }
+
+    return config;
+  },
+  error => Promise.reject(error),
+);
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
