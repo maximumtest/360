@@ -26,7 +26,7 @@ Route::group([
                 ->name('auth.me');
         });
     });
-    
+
     Route::group([
         'middleware' => 'jwt.auth',
     ], function () {
@@ -39,12 +39,15 @@ Route::group([
         });
     
         Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
-    
+        Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
+        
         Route::apiResources([
             'reviews' => 'ReviewController',
             'templates' => 'TemplateController',
             'questions' => 'QuestionController',
             'review-results' => 'ReviewResultController',
+            'kudos-categories' => 'KudosCategoryController',
+            'kudos-tags' => 'KudosTagController',
         ]);
     
         Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
