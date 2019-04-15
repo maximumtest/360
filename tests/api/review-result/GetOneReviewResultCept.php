@@ -90,9 +90,8 @@ $admin->assignRole($adminRole);
 $token = $I->getToken($admin->email, 123);
 $I->amBearerAuthenticated($token);
 
+$I->sendGET(route('v1.review-results.show', ['id' => $reviewResult1->id]));
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseIsJson();
-$I->seeResponseContainsJson([
-    $reviewResult1->toArray(),
-]);
+$I->seeResponseContainsJson($reviewResult1->toArray());
 $I->dontSeeResponseContainsJson($reviewResult2->toArray());

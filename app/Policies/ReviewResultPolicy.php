@@ -23,6 +23,7 @@ class ReviewResultPolicy
             return true;
         }
     }
+    
     /**
      * Determine whether the user can view the review result.
      *
@@ -42,11 +43,12 @@ class ReviewResultPolicy
      * Determine whether the user can create review results.
      *
      * @param  \App\User  $user
+     * @param ReviewResult $reviewResult
      * @return mixed
      */
-    public function create(User $user, $reviewId)
+    public function create(User $user, ReviewResult $reviewResult)
     {
-        return $this->isAccess($user, Review::findOrFail($reviewId));
+        return $this->isValidReviewResult(Review::findOrFail($reviewResult->review_id));
     }
 
     /**
@@ -58,7 +60,7 @@ class ReviewResultPolicy
      */
     public function update(User $user, ReviewResult $reviewResult)
     {
-        return $this->isAccess($user, $reviewResult->review()->first());
+        return $this->isValidReviewResult($reviewResult->review()->getModel());
     }
 
     /**
@@ -73,19 +75,20 @@ class ReviewResultPolicy
         return $user->getId() == $reviewResult->interviewer_id;
     }
     
-    private function isAccess(User $user, Review $review)
+    private function isValidReviewResult(Review $review): bool
     {
-        $questionIds = Review::findOrFail(request('review_id'))->template()->questions()->pluck('id');
-    
-        $requestQuestions = array_filter(request('answers'), function ($value, $key) {
-            return $key == 'question_id';
-        }, ARRAY_FILTER_USE_BOTH);
-    
-        $reviewUsers = $review->users()->pluck('id');
+        $questionIds = $review->getQuestionsAttribute()->pluck('_id')->toArray();
+
+        $requestQuestions = array_map(function ($item) {
+            return  $item['question_id'];
+        }, request('answers'));
+
+        $reviewUsers = $review->users()->pluck('_id');
+        
         return (
-            ($user->getId() != request('respondent_id'))) &&
             (in_array(request('respondent_id'), $reviewUsers->toArray())) &&
-            (in_array($requestQuestions, $questionIds)
-            );
+            (in_array(request('interviewer_id'), $reviewUsers->toArray())) &&
+            (empty(array_diff($requestQuestions, $questionIds)))
+        );
     }
 }

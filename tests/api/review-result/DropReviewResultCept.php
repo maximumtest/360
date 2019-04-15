@@ -11,14 +11,20 @@ use App\ReviewResult;
 $I = new ApiTester($scenario);
 
 // Check that we cannot drop review of other person
-$interviewer = factory(User::class)->create();
-$token = $I->getToken($interviewer->email, 123);
+$manager = factory(User::class)->create();
+$managerRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_MANAGER]);
+$manager->assignRole($managerRole);
+
+$token = $I->getToken($manager->email, 123);
 $I->amBearerAuthenticated($token);
 
-$review = factory(Review::class)->create();
 $user1 = factory(User::class)->create();
-$respondent = factory(User::class)->create();
-$review->users()->sync([$user1->id, $interviewer->id, $respondent->id]);
+$user2 = factory(User::class)->create();
+$employeeRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_EMPLOYEE]);
+$user1->assignRole($employeeRole);
+
+$review = factory(Review::class)->create();
+$review->users()->sync([$user1->id, $user2->id]);
 
 $question1 = factory(Question::class)->create();
 $question2 = factory(Question::class)->create();
@@ -26,55 +32,35 @@ $template = Template::findOrFail($review->template_id);
 $template->questions()->sync([$question1->id, $question2->id]);
 
 $reviewResult = factory(ReviewResult::class)->create([
-    'interviewer_id' => $user1->id,
-    'respondent_id' => $interviewer->id,
-]);
-
-$I->sendDELETE(route('v1.review-results.destroy', ['review_result' => $reviewResult->id]));
-$I->seeResponseIsJson();
-$I->seeResponseCodeIs(HttpCode::FORBIDDEN);
-
-// Check that we can drop valid review
-$reviewResult = factory(ReviewResult::class)->create([
     'review_id' => $review->id,
-    'respondent_id' => $respondent->id,
-    'interviewer_id' => $interviewer->id,
-    'answers' => [
-        [
-            'question_id' => $question1->id,
-            'answer' => 'some answer',
-        ],
-        [
-            'question_id' => $question2->id,
-            'answer' => 'some answer',
-        ],
-    ],
+    'interviewer_id' => $user1->id,
+    'respondent_id' => $user2->id,
 ]);
+
+$token = $I->getToken($user2->email, 123);
+$I->amBearerAuthenticated($token);
+
+// Check that we cannot drop review result of other person
 $I->sendDELETE(route('v1.review-results.destroy', ['review_result' => $reviewResult->id]));
+$I->seeResponseCodeIs(HttpCode::FORBIDDEN);
 $I->seeResponseIsJson();
+
+// Check that we can drop own review-result
+$token = $I->getToken($user1->email, 123);
+$I->amBearerAuthenticated($token);
+
+$I->sendDELETE(route('v1.review-results.destroy', ['review_result' => $reviewResult->id]));
 $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 
 // Check that manager can drop review
-$manager = User::findOrFail($review->manager_id);
 $token = $I->getToken($manager->email, 123);
 $I->amBearerAuthenticated($token);
 
 $reviewResult = factory(ReviewResult::class)->create([
     'review_id' => $review->id,
-    'respondent_id' => $respondent->id,
-    'interviewer_id' => $interviewer->id,
-    'answers' => [
-        [
-            'question_id' => $question1->id,
-            'answer' => 'some answer',
-        ],
-        [
-            'question_id' => $question1->id,
-            'answer' => 'some answer',
-        ],
-    ],
+    'respondent_id' => $user2->id,
+    'interviewer_id' => $user1->id,
 ]);
 
 $I->sendDELETE(route('v1.review-results.destroy', ['review_result' => $reviewResult->id]));
-$I->seeResponseIsJson();
 $I->seeResponseCodeIs(HttpCode::NO_CONTENT);

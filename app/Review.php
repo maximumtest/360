@@ -32,4 +32,11 @@ class Review extends Model
     {
         return $this->hasMany(ReviewResult::class);
     }
+    
+    public function getQuestionsAttribute()
+    {
+        $template = $this->template()->has('questions')->with('questions')->get();
+        
+        return collect($template->pluck('questions')->collapse()->unique());
+    }
 }

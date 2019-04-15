@@ -19,4 +19,9 @@ class Role extends Eloquent
     {
         return $this->belongsToMany(User::class);
     }
+    
+    public static function findByName(string $name)
+    {
+        return Role::where('name', $name)->firstOrFail();
+    }
 }

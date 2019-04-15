@@ -18,4 +18,9 @@ class Question extends Model
     ];
 
     public $timestamps = true;
+    
+    public function templates()
+    {
+        return $this->belongsToMany(Template::class);
+    }
 }

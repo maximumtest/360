@@ -35,13 +35,14 @@ class ReviewResultController extends Controller
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
         $params = $request->validated();
-        
-        $this->authorize('create', $params['review_id']);
-        
         $interviewer_id = isset($params['interviewer_id']) ? $params['interviewer_id'] : Auth::user()->getAuthIdentifier();
         $params['interviewer_id'] = $interviewer_id;
         
-        $reviewResult = ReviewResult::create($params);
+        $reviewResult = new ReviewResult($params);
+        
+        $this->authorize('create', $reviewResult);
+        
+        $reviewResult->save();
 
         return response()->json($reviewResult, 201);
     }
