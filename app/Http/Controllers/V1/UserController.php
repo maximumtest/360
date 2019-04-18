@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Mail\Registration;
+use App\Role;
 use App\User;
 use App\UserCode;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +24,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): JsonResponse
     {
         $user = User::create($request->validated());
-        $user->assignRole($request->get('role_id'));
+        $user->assignRole(Role::findOrFail($request->get('role_id')));
 
         $userCode = UserCode::generateEmailVerificationCode($user);
 
@@ -50,7 +51,7 @@ class UserController extends Controller
         $user->save();
 
         if ($request->has('role_id')) {
-            $user->assignRole($request->get('role_id'));
+            $user->assignRole(Role::findOrFail($request->get('role_id')));
         }
 
         if ($request->has('department')) {
