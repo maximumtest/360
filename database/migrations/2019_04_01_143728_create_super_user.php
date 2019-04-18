@@ -16,7 +16,7 @@ class CreateSuperUser extends Migration
     {
         $adminRole = Role::where([
             'name' => Role::ROLE_ADMIN,
-        ])->get();
+        ])->first();
 
         $superUser = User::firstOrCreate([
             'name' => 'admin',

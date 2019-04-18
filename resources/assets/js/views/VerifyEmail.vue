@@ -88,9 +88,9 @@ export default class VerifyEmail extends Vue {
       code: this.$route.params.code,
     };
 
-    const result = await this.verifyEmail(verifyEmailRequest);
+    const response = await this.verifyEmail(verifyEmailRequest);
 
-    if (!result) {
+    if (response.status > 400) {
       this.error = 'Ошибка';
 
       return;

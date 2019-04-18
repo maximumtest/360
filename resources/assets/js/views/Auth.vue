@@ -91,9 +91,9 @@ export default class AuthPage extends Vue {
       password: this.formData.password,
     };
 
-    const result = await this.login(loginRequest);
+    const response = await this.login(loginRequest);
 
-    if (!result) {
+    if (response.status > 400) {
       this.error = 'Ошибка входа';
 
       return;

@@ -24,25 +24,25 @@ export const mutations: MutationTree<AuthState> = {
 export const actions: ActionTree<AuthState, RootState> = {
   async login({ dispatch }, payload: LoginRequest) {
     try {
-      const { data } = await axios.post('/api/v1/auth/login', payload);
+      const response = await axios.post('/api/v1/auth/login', payload);
 
-      await dispatch('setTokenAndUser', data);
+      await dispatch('setTokenAndUser', response.data);
 
-      return true;
-    } catch (e) {
-      return false;
+      return response;
+    } catch (error) {
+      return error.response;
     }
   },
 
   async verifyEmail({ dispatch }, payload: VerifyEmailRequest) {
     try {
-      const { data } = await axios.post('/api/v1/auth/email/verification', payload);
+      const response = await axios.post('/api/v1/auth/email/verification', payload);
 
-      await dispatch('setTokenAndUser', data);
+      await dispatch('setTokenAndUser', response.data);
 
-      return true;
-    } catch (e) {
-      return false;
+      return response;
+    } catch (error) {
+      return error.response;
     }
   },
 
