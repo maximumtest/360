@@ -58,6 +58,8 @@ $reviewResult2 = factory(ReviewResult::class)->create([
 ]);
 
 $validRequest = [
+    'respondent_id' => $respondent->id,
+    'interviewer_id' => $interviewer->id,
     'answers' => [
         [
             'question_id' => $question1->id,
@@ -98,6 +100,7 @@ $I->seeResponseMatchesJsonType([
 $token = $I->getToken($user1->email, 123);
 $I->amBearerAuthenticated($token);
 
+$validRequest['interviewer_id'] = 1;
 $I->sendPATCH(route('v1.review-results.update', ['id' => $reviewResult1->id]), $validRequest);
 $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
 $I->seeResponseIsJson();

@@ -13,4 +13,9 @@ class KudosTag extends Model
         'author_id',
         'name',
     ];
+
+    public function kudos()
+    {
+        $this->belongsToMany(Kudos::class);
+    }
 }

@@ -664,7 +664,7 @@ paths:
   '/api/v1/auth/password/link':
     post:
       tags:
-      - Auth
+        - Auth
       summary: Отправить ссылку для сброса пароля
       operationId: generatePasswordLink
       requestBody:
@@ -674,6 +674,412 @@ paths:
           description: Mail sent
         '422':
           description: Validation Error
+
+
+
+  '/api/v1/kudos-categories':
+    get:
+      tags:
+        - Kudos Categories
+      summary: Получение списка категорий kudos
+      operationId: getKudosCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KudosCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Kudos Categories
+      summary: Создание категории kudos
+      operationId: createKudosCategory
+      requestBody:
+        $ref: '#/components/requestBodies/CreateKudosCategoryRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/kudos-categories/{id}':
+    get:
+      tags:
+        - Kudos Categories
+      summary: Получение информации о категории kudos
+      operationId: getKudosCategory
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos category id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Kudos Categories
+      summary: Обновление категории kudos
+      operationId: updateKudosCategory
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos category id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKudosCategoryRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Kudos Categories
+      summary: Удаление категории kudos
+      operationId: deleteKudosCategory
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos category id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+
+
+
+  '/api/v1/kudos-tags':
+    get:
+      tags:
+        - Kudos Tags
+      summary: Получение списка тегов kudos
+      operationId: getKudosTags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KudosTag'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Kudos Tags
+      summary: Создание тега kudos
+      operationId: createKudosTag
+      requestBody:
+        $ref: '#/components/requestBodies/CreateKudosTagRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosTag'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/kudos-tags/{id}':
+    get:
+      tags:
+        - Kudos Tags
+      summary: Получение информации о теге kudos
+      operationId: getKudosTag
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos tag id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosTag'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Kudos Tags
+      summary: Обновление тега kudos
+      operationId: updateKudosTag
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos tag id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKudosTagRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KudosTag'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Kudos Tags
+      summary: Удаление тега kudos
+      operationId: deleteKudosTag
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos tag id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+
+
+
+  '/api/v1/users/{user_to_id}/kudos':
+    get:
+      tags:
+        - Kudos
+      summary: Получение списка kudos пользователя
+      operationId: getUserKudos
+      parameters:
+        - name: user_to_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: destination user id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Kudos'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    post:
+      tags:
+        - Kudos
+      summary: Создание kudos
+      operationId: createKudos
+      parameters:
+        - name: user_to_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: destination user id
+      requestBody:
+        $ref: '#/components/requestBodies/CreateKudosRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kudos'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '422':
+          description: Validation Error
+
+  '/api/v1/users/{user_to_id}/kudos-tags/{id}':
+    get:
+      tags:
+        - Kudos
+      summary: Получение информации о kudos
+      operationId: getOneKudos
+      parameters:
+        - name: user_to_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: destination user id
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kudos'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+
+    patch:
+      tags:
+        - Kudos
+      summary: Обновление kudos
+      operationId: updateKudos
+      parameters:
+        - name: user_to_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: destination user id
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos id
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKudosRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kudos'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+
+    delete:
+      tags:
+        - Kudos
+      summary: Удаление kudos
+      operationId: deleteKudos
+      parameters:
+        - name: user_to_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: destination user id
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: kudos id
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not found
+
+
 
 components:
   securitySchemes:
@@ -794,9 +1200,6 @@ components:
         name:
           type: string
 
-
-
-
     User:
       type: object
       properties:
@@ -836,6 +1239,78 @@ components:
           type: string
         expires_in:
           type: integer
+
+    KudosCategory:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+    KudosCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+    KudosTag:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        author_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+    KudosTagRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Kudos:
+      type: object
+      properties:
+        _id:
+          type: string
+        text:
+          type: string
+        kudos_category_id:
+          type: string
+        user_from_id:
+          type: string
+        user_to_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        kudos_tag_ids:
+          type: array
+          items:
+            type: string
+
+    KudosRequest:
+      type: object
+      properties:
+        text:
+          type: string
+        kudos_category_id:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
 
 
 
@@ -979,7 +1454,62 @@ components:
               email:
                 type: string
             required:
-            - email
+              - email
+
+    CreateKudosCategoryRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosCategoryRequest'
+            required:
+              - name
+
+    UpdateKudosCategoryRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosCategoryRequest'
+
+    CreateKudosTagRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosTagRequest'
+            required:
+              - name
+
+    UpdateKudosTagRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosTagRequest'
+
+    CreateKudosRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosRequest'
+            required:
+              - text
+              - kudos_category_id
+
+    UpdateKudosRequest:
+      required: false
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/KudosRequest'
 
 security:
   - ApiKeyAuth: []
