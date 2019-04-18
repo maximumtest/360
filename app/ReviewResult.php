@@ -20,11 +20,11 @@ class ReviewResult extends Model
     
     public function respondent()
     {
-        return $this->belongsTo(ReviewResult::class, 'respondent_id');
+        return $this->belongsTo(User::class, 'respondent_id');
     }
     
     public function interviewer()
     {
-        return $this->belongsTo(ReviewResult::class,'interviewer_id');
+        return $this->belongsTo(User::class,'interviewer_id');
     }
 }
