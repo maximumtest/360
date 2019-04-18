@@ -35,8 +35,7 @@ class ReviewResultController extends Controller
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
         $params = $request->validated();
-        $interviewer_id = isset($params['interviewer_id']) ? $params['interviewer_id'] : Auth::user()->getAuthIdentifier();
-        $params['interviewer_id'] = $interviewer_id;
+        $params['interviewer_id'] = $params['interviewer_id'] ?? Auth::user()->getAuthIdentifier();
         
         $reviewResult = new ReviewResult($params);
         
@@ -55,7 +54,7 @@ class ReviewResultController extends Controller
         
         $reviewResult->update($request->validated());
 
-        return response()->json(null, 200);
+        return response()->json($reviewResult, 200);
     }
 
     public function destroy(string $reviewResultId): JsonResponse

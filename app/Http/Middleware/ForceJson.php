@@ -15,7 +15,7 @@ class ForceJson
      */
     public function handle($request, Closure $next)
     {
-        $request->headers->set("Accept", "application/json");
+        $request->headers->set('Accept', 'application/json');
         
         return $next($request);
     }

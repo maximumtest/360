@@ -33,10 +33,7 @@ class ReviewResultPolicy
      */
     public function view(User $user, ReviewResult $reviewResult)
     {
-        return (
-            ($user->getId() == $reviewResult->interviewer_id)) ||
-            ($user->getId() == $reviewResult->respondent_id)
-            ;
+        return $user->getId() == $reviewResult->interviewer_id || $user->getId() == $reviewResult->respondent_id;
     }
 
     /**
@@ -83,12 +80,10 @@ class ReviewResultPolicy
             return  $item['question_id'];
         }, request('answers'));
 
-        $reviewUsers = $review->users()->pluck('_id');
+        $reviewUsers = $review->users()->pluck('_id')->toArray();
         
-        return (
-            (in_array(request('respondent_id'), $reviewUsers->toArray())) &&
-            (in_array(request('interviewer_id'), $reviewUsers->toArray())) &&
-            (empty(array_diff($requestQuestions, $questionIds)))
-        );
+        return in_array(request('respondent_id'), $reviewUsers)
+            && in_array(request('interviewer_id'), $reviewUsers)
+            && empty(array_diff($requestQuestions, $questionIds));
     }
 }

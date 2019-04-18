@@ -73,6 +73,7 @@ $validRequest = [
 $I->sendPATCH(route('v1.review-results.update', ['id' => $reviewResult1->id]), $validRequest);
 $I->seeResponseCodeIs(HttpCode::OK);
 $I->seeResponseIsJson();
+$I->seeResponseContainsJson($validRequest);
 
 // Check that we cannot update review result without necessary fields
 $invalidRequest = [

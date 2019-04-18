@@ -27,6 +27,6 @@ class Template extends Model
     
     public function getQuestionIdsAttribute()
     {
-        return $this->questions->pluck('question_id');
+        return $this->questions->pluck('question_ids');
     }
 }
