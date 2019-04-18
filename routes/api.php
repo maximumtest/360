@@ -50,4 +50,3 @@ Route::group([
     Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
     Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
 });
-

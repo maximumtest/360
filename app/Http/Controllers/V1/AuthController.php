@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\ResetPasswordRequest;
 use App\Http\Requests\V1\Auth\VerifyEmailRequest;
+use App\User;
 use App\UserCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -25,31 +26,22 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json(['message' => 'Wrong credentials'], 401);
         }
-    
+
         return response()->json($this->getResponseWithToken($token), 200);
     }
-    
+
     public function verifyEmail(VerifyEmailRequest $request): JsonResponse
     {
-        $user = UserCode::where('code', $request->get('code'))
-            ->first()
-            ->user()
-            ->first();
+        $userId = UserCode::redeem($request->get('code'));
 
-        if (!$user) {
-            return response()->json(['message' => 'User or code not found'], 404);
-        }
-        
-        $code = UserCode::where('code', $request->get('code'))->firstOrFail();
-
-        $user->email_verified_at = now();
-        $user->password = Hash::make($request->get('password'));
-        $user->save();
-        
-        $code->delete();
+        $user = User::findOrFail($userId);
+        $user->update([
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->get('password')),
+        ]);
 
         $credentials = [
-            'email' => $request->get('email'),
+            'email' => $user->email,
             'password' => $request->get('password'),
         ];
 
@@ -57,36 +49,31 @@ class AuthController extends Controller
 
         return response()->json($this->getResponseWithToken($token), 200);
     }
-    
+
     public function logout(): JsonResponse
     {
         JWTAuth::invalidate(JWTAuth::getToken());
-    
+
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
-    
+
     public function me(): JsonResponse
     {
-        return response()->json(JWTAuth::parseToken()->authenticate(), 200);
+        return response()->json(JWTAuth::parseToken()->authenticate()->only(['_id', 'name', 'email']), 200);
     }
-    
+
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
-        $user = UserCode::where('code', $request->get('code'))
-            ->first()
-            ->user()
-            ->first();
-        
-        if (!$user) {
-            return response()->json(['message' => 'User or code not found'], 404);
-        }
-        
-        $user->password = Hash::make($request->get('password'));
-        $user->save();
-        
+        $userId = UserCode::redeem($request->get('code'), UserCode::PASSWORD_RECOVERY);
+
+        $user = User::findOrFail($userId);
+        $user->update([
+            'password' => Hash::make($request->get('password')),
+        ]);
+
         return response()->json(['message' => 'Password successfully changed'], 200);
     }
-    
+
     protected function getResponseWithToken($token): array
     {
         return [
