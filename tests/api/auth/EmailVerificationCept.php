@@ -17,7 +17,6 @@ $userCode = factory(UserCode::class)->create([
 $user->codes()->save($userCode);
 
 $invalidParamsFirst = [
-    'email' => 'not@existing.com',
     'password' => '123',
     'code' => 123,
 ];
@@ -25,7 +24,6 @@ $I->sendPOST(route('v1.auth.email.verification'), $invalidParamsFirst);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseMatchesJsonType([
     'errors' => [
-        'email' => 'Array',
         'password' => 'Array',
         'code' => 'Array',
     ],
@@ -43,6 +41,7 @@ $I->seeResponseIsJson();
 $validParams = [
     'email' => $user->email,
     'password' => '123456',
+    'password_confirmation' => '123456',
     'code' => $userCode->code,
 ];
 $I->sendPOST(route('v1.auth.email.verification'), $validParams);

@@ -18,9 +18,13 @@ class CreateSuperUser extends Migration
             'name' => Role::ROLE_ADMIN,
         ])->first();
 
-        $superUser = User::create([
+        $superUser = User::firstOrCreate([
             'name' => 'admin',
             'email' => 'admin',
+
+        ]);
+
+        $superUser->update([
             'password' => Hash::make('admin'),
             'email_verified_at' => now(),
         ]);

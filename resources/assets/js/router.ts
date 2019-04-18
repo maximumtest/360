@@ -21,6 +21,14 @@ export default new Router({
       },
     },
     {
+      path: '/verify-email/:code',
+      name: 'verify-email',
+      component: () => import(/* webpackChunkName: "verifyEmail" */ './views/VerifyEmail.vue'),
+      meta: {
+        layout: 'auth',
+      },
+    },
+    {
       path: '/reviews',
       component: () => import(/* webpackChunkName: "reviews" */ './views/Reviews.vue'),
       children: [

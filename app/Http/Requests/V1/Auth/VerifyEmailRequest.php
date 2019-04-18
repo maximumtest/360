@@ -8,17 +8,17 @@ use Illuminate\Foundation\Http\FormRequest;
 class VerifyEmailRequest extends FormRequest
 {
     use FailedValidationTrait;
-    
+
     public function authorize(): bool
     {
         return true;
     }
-    
+
     public function rules(): array
     {
         return [
-            'email' => 'required|string|exists:users,email',
-            'password' => 'required|string|min:6|max:200',
+            'password' => 'required|string|min:6|max:200|confirmed',
+            'password_confirmation' => 'required|string',
             'code' => 'required|string|exists:user_codes,code',
         ];
     }
