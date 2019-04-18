@@ -18,8 +18,13 @@ class ReviewResult extends Model
         return $this->belongsTo(Review::class);
     }
     
-    public function user()
+    public function respondent()
     {
-        return $this->hasOne(User::class, 'interviewer_id');
+        return $this->belongsTo(ReviewResult::class, 'respondent_id');
+    }
+    
+    public function interviewer()
+    {
+        return $this->belongsTo(ReviewResult::class,'interviewer_id');
     }
 }

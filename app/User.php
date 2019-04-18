@@ -94,4 +94,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getId() == $review->manager_id;
     }
+    
+    public function reviewResults()
+    {
+        return $this->hasMany(ReviewResult::class,'interviewer_id');
+    }
 }
