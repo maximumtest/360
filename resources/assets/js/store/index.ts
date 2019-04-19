@@ -3,10 +3,14 @@ import Vuex from 'vuex';
 import * as auth from './auth';
 import createPersistedState from 'vuex-persistedstate';
 
+const presistedState = createPersistedState({
+  key: 'store360',
+});
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+  plugins: [presistedState],
   mutations: {
     setItem(state: any, { item, value }) {
       state[item] = value;

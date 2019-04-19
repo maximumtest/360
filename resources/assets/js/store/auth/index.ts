@@ -1,5 +1,5 @@
 import { MutationTree, ActionTree } from 'vuex';
-import { AuthState, LoginRequest, VerifyEmailRequest, TokenResponse } from './types';
+import { AuthState, LoginRequest, ForgotPasswordRequest, UpdatePasswordRequest, TokenResponse } from './types';
 import { RootState } from '@/store/types';
 import axios from 'axios';
 
@@ -34,11 +34,33 @@ export const actions: ActionTree<AuthState, RootState> = {
     }
   },
 
-  async verifyEmail({ dispatch }, payload: VerifyEmailRequest) {
+  async forgotPassword({ dispatch }, payload: ForgotPasswordRequest) {
+    try {
+      const response = await axios.post('/api/v1/auth/password/link', payload);
+
+      console.log(response);
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  async verifyEmail({ dispatch }, payload: UpdatePasswordRequest) {
     try {
       const response = await axios.post('/api/v1/auth/email/verification', payload);
 
       await dispatch('setTokenAndUser', response.data);
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  async resetPassword({ dispatch }, payload: UpdatePasswordRequest) {
+    try {
+      const response = await axios.post('/api/v1/auth/password/reset', payload);
 
       return response;
     } catch (error) {

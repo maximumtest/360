@@ -15,11 +15,6 @@ Vue.use(VueMaterial);
 
 Vue.config.productionTip = false;
 
-const userToken = store.state.auth && store.state.auth.jwtToken;
-if (userToken) {
-  store.dispatch('auth/setTokenAndUser', { access_token: userToken });
-}
-
 axios.interceptors.request.use(
   (config) => {
     if (store.state.auth && store.state.auth.jwtToken) {
@@ -30,6 +25,11 @@ axios.interceptors.request.use(
   },
   error => Promise.reject(error),
 );
+
+const userToken = store.state.auth && store.state.auth.jwtToken;
+if (userToken) {
+  store.dispatch('auth/setTokenAndUser', { access_token: userToken });
+}
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

@@ -15,7 +15,11 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface VerifyEmailRequest {
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface UpdatePasswordRequest {
   password: string;
   password_confirmation: string;
   code: string;
