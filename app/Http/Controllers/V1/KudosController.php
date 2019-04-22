@@ -40,7 +40,7 @@ class KudosController extends Controller
 
         $kudos->syncTags($request->input('tags', []));
 
-        return response()->json($kudos->refresh(), 201);
+        return response()->json($kudos, 201);
     }
 
     public function update(UpdateKudosRequest $request, User $userTo, string $kudosId): JsonResponse
