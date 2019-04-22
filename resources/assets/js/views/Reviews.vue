@@ -35,10 +35,7 @@ const Reviews = namespace(reviewsStoreName);
 @Component
 export default class ReviewsPage extends Vue {
   @Reviews.Action loadReviews!: Function;
-
-  get reviews() {
-      return this.$store.state.reviews
-  }
+  @Reviews.State reviews!: Array;
 
   public created() {
     this.loadReviews();
