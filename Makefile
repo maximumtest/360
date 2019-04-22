@@ -1,4 +1,4 @@
-.PHONY: build set-config set-permissions set-xdebug tests unit-tests apply-migrations install-deps bootstrap start stop clear teardown
+.PHONY: build set-config set-permissions set-xdebug tests unit-tests apply-migrations install-deps bootstrap start stop clear teardown apply-seeds
 
 DOCKER_COMPOSE ?= "docker-compose"
 
@@ -50,6 +50,11 @@ api-tests:
 apply-migrations:
 	$(info [+] Applying migrations...)
 	@${DOCKER_COMPOSE} exec -T ${APP_CONTAINER} php artisan migrate --force
+
+apply-seeds:
+	$(info [+] Applying seeds...)
+	@${DOCKER_COMPOSE} run ${APP_CONTAINER} composer dump-autoload
+	@${DOCKER_COMPOSE} exec -T ${APP_CONTAINER} php artisan db:seed
 
 clear: set-permissions
 	@${DOCKER_COMPOSE} run ${APP_CONTAINER} composer dump-autoload

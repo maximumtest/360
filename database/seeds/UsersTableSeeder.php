@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Role;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,15 +14,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = DB::collection('users')->create([
+        $adminRole = Role::firstOrCreate(['name' => Role::ROLE_ADMIN]);
+
+        $adminUser = User::firstOrCreate([
             'name' => 'admin',
             'email' => 'admin@360.ru',
-            'password' => Hash::make('Hu75puNgA9GLVqz7aFAbAY5NfJmZhn'),
+            'password' => Hash::make('admin'),
             'email_verified_at' => now(),
         ]);
-        
-        $role = Role::where('name', Role::ROLE_ADMIN)->first();
 
-        $user->assignRole($role);
+        $adminUser->assignRole($adminRole);
     }
 }

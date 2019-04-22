@@ -12,10 +12,8 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::collection('roles')->insert([
-            ['name' => Role::ROLE_EMPLOYEE],
-            ['name' => Role::ROLE_MANAGER],
-            ['name' => Role::ROLE_ADMIN],
-        ]);
+        Role::firstOrCreate(['name' => Role::ROLE_EMPLOYEE]);
+        Role::firstOrCreate(['name' => Role::ROLE_MANAGER]);
+        Role::firstOrCreate(['name' => Role::ROLE_ADMIN]);
     }
 }
