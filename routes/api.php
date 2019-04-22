@@ -28,25 +28,29 @@ Route::group([
     });
 
     Route::group([
-        'middleware' => 'role:admin',
+        'middleware' => 'jwt.auth',
     ], function () {
+        Route::group([
+            'middleware' => 'role:admin',
+        ], function () {
+            Route::apiResources([
+                'users' => 'UserController',
+            ]);
+        });
+    
+        Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
+        Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
+        
         Route::apiResources([
-            'users' => 'UserController',
+            'reviews' => 'ReviewController',
+            'templates' => 'TemplateController',
+            'questions' => 'QuestionController',
+            'review-results' => 'ReviewResultController',
+            'kudos-categories' => 'KudosCategoryController',
+            'kudos-tags' => 'KudosTagController',
         ]);
+    
+        Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
+        Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
     });
-
-    Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
-    Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
-
-    Route::apiResources([
-        'reviews' => 'ReviewController',
-        'templates' => 'TemplateController',
-        'questions' => 'QuestionController',
-        'review-results' => 'ReviewResultController',
-        'kudos-categories' => 'KudosCategoryController',
-        'kudos-tags' => 'KudosTagController',
-    ]);
-
-    Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
-    Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
 });

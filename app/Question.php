@@ -14,7 +14,13 @@ class Question extends Model
         'text',
         'answers',
         'author_id',
+        'template_ids',
     ];
 
     public $timestamps = true;
+    
+    public function templates()
+    {
+        return $this->belongsToMany(Template::class);
+    }
 }

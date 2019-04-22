@@ -21,6 +21,6 @@ class UsersTableSeeder extends Seeder
         
         $role = Role::where('name', Role::ROLE_ADMIN)->first();
 
-        $user->assignRole($role->_id);
+        $user->assignRole($role);
     }
 }

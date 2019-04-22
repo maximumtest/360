@@ -12,6 +12,7 @@ class Template extends Model
     protected $fillable = [
         'name',
         'author_id',
+        'question_ids',
     ];
 
     public function reviews()
@@ -22,5 +23,10 @@ class Template extends Model
     public function questions()
     {
         return $this->belongsToMany(Question::class);
+    }
+    
+    public function getQuestionIdsAttribute()
+    {
+        return $this->questions->pluck('question_ids');
     }
 }

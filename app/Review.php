@@ -27,4 +27,16 @@ class Review extends Model
     {
         return $this->belongsTo(Template::class);
     }
+    
+    public function reviewResults()
+    {
+        return $this->hasMany(ReviewResult::class);
+    }
+    
+    public function getQuestionsAttribute()
+    {
+        $template = $this->template()->has('questions')->with('questions')->get();
+        
+        return collect($template->pluck('questions')->collapse()->unique());
+    }
 }

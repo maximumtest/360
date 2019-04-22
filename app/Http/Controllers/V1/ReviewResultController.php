@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\V1\ReviewResult\CreateReviewResultRequest;
 use App\Http\Requests\V1\ReviewResult\UpdateReviewResultRequest;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReviewResultController extends Controller
@@ -25,13 +26,22 @@ class ReviewResultController extends Controller
     public function show(string $reviewResultId): JsonResponse
     {
         $reviewResult = ReviewResult::findOrFail($reviewResultId);
-
+        
+        $this->authorize('view', $reviewResult);
+        
         return response()->json($reviewResult, 200);
     }
 
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
-        $reviewResult = ReviewResult::create($request->validated());
+        $params = $request->validated();
+        $params['interviewer_id'] = $params['interviewer_id'] ?? Auth::user()->getAuthIdentifier();
+        
+        $reviewResult = new ReviewResult($params);
+        
+        $this->authorize('create', $reviewResult);
+        
+        $reviewResult->save();
 
         return response()->json($reviewResult, 201);
     }
@@ -39,15 +49,21 @@ class ReviewResultController extends Controller
     public function update(UpdateReviewResultRequest $request, string $reviewResultId): JsonResponse
     {
         $reviewResult = ReviewResult::findOrFail($reviewResultId);
-
+        
+        $this->authorize('update', $reviewResult);
+        
         $reviewResult->update($request->validated());
 
-        return response()->json(null, 200);
+        return response()->json($reviewResult, 200);
     }
 
     public function destroy(string $reviewResultId): JsonResponse
     {
-        ReviewResult::findOrFail($reviewResultId)->delete();
+        $reviewResult = ReviewResult::findOrFail($reviewResultId);
+        
+        $this->authorize('delete', $reviewResult);
+    
+        $reviewResult->delete();
 
         return response()->json(null, 204);
     }

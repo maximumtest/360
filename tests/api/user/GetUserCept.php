@@ -21,7 +21,7 @@ $notAdmin = factory(User::class)->create([
     'password' => Hash::make($password),
 ]);
 $employeeRole = factory(Role::class)->create();
-$notAdmin->assignRole($employeeRole->id);
+$notAdmin->assignRole($employeeRole);
 
 $token = $I->getToken($email, $password);
 $I->amBearerAuthenticated($token);
@@ -38,7 +38,7 @@ $admin = factory(User::class)->create([
 $adminRole = factory(Role::class)->create([
     'name' => Role::ROLE_ADMIN
 ]);
-$admin->assignRole($adminRole->id);
+$admin->assignRole($adminRole);
 
 $token = $I->getToken($adminEmail, $password);
 $I->amBearerAuthenticated($token);

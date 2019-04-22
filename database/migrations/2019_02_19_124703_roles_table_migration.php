@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
+use Jenssegers\Mongodb\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use App\Role;
 
@@ -16,8 +17,9 @@ class RolesTableMigration extends Migration
      */
     public function up()
     {
-        Schema::create(self::TABLE_NAME, function ($collection) {
-           $collection->unique('name');
+        Schema::create(self::TABLE_NAME, function (Blueprint $collection) {
+            $collection->increments('id');
+            $collection->unique('name');
         });
 
         DB::table(self::TABLE_NAME)->insert([

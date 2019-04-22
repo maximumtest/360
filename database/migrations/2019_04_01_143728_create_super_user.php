@@ -29,7 +29,7 @@ class CreateSuperUser extends Migration
             'email_verified_at' => now(),
         ]);
 
-        $superUser->assignRole($adminRole->id);
+        $superUser->assignRole($adminRole);
     }
 
     /**

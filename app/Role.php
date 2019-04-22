@@ -7,7 +7,8 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 class Role extends Eloquent
 {
     public $fillable = [
-      'name',
+        'name',
+        'user_ids',
     ];
     
     CONST ROLE_EMPLOYEE = 'employee';
@@ -17,5 +18,10 @@ class Role extends Eloquent
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+    
+    public static function findByName(string $name)
+    {
+        return Role::where('name', $name)->firstOrFail();
     }
 }
