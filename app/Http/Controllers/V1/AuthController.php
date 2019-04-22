@@ -80,7 +80,7 @@ class AuthController extends Controller
     public function generateResetLink(ResetLinkRequest $request)
     {
         $user = User::where('email', $request->get('email'))->firstOrFail();
-        $userCode = UserCode::create($user, UserCode::PASSWORD_RECOVERY);
+        $userCode = UserCode::generate($user, UserCode::PASSWORD_RECOVERY);
     
         Mail::to($user->email)->send(new PasswordReset($userCode));
     

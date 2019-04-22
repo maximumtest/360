@@ -29,7 +29,7 @@ class UserCode extends Model
         return $code;
     }
 
-    public static function create(User $user, string $type)
+    public static function generate(User $user, string $type)
     {
         $userCode = UserCode::firstOrNew([
             'type' => $type,
