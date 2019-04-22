@@ -23,7 +23,9 @@ $user2 = factory(User::class)->create();
 $employeeRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_EMPLOYEE]);
 $user1->assignRole($employeeRole);
 
-$review = factory(Review::class)->create();
+$review = factory(Review::class)->create([
+    'manager_id' => $manager->id,
+]);
 $review->users()->sync([$user1->id, $user2->id]);
 
 $question1 = factory(Question::class)->create();

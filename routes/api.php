@@ -39,10 +39,10 @@ Route::group([
                 'users' => 'UserController',
             ]);
         });
-    
+
         Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
         Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
-        
+
         Route::apiResources([
             'reviews' => 'ReviewController',
             'templates' => 'TemplateController',
@@ -50,8 +50,9 @@ Route::group([
             'review-results' => 'ReviewResultController',
             'kudos-categories' => 'KudosCategoryController',
             'kudos-tags' => 'KudosTagController',
+            'users/{user_to}/kudos' => 'KudosController',
         ]);
-    
+
         Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
         Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
     });

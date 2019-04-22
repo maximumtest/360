@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Kudos;
+use App\Policies\KudosPolicy;
 use App\Policies\ReviewResultPolicy;
 use App\ReviewResult;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
         ReviewResult::class => ReviewResultPolicy::class,
+        Kudos::class => KudosPolicy::class,
     ];
 
     /**

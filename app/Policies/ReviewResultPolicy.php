@@ -18,12 +18,12 @@ class ReviewResultPolicy
                 return true;
             }
         }
-        
+
         if ($user->isAdmin()) {
             return true;
         }
     }
-    
+
     /**
      * Determine whether the user can view the review result.
      *
@@ -57,7 +57,7 @@ class ReviewResultPolicy
      */
     public function update(User $user, ReviewResult $reviewResult)
     {
-        return $this->isValidReviewResult($reviewResult->review()->getModel());
+        return $this->isValidReviewResult($reviewResult->review);
     }
 
     /**
@@ -71,7 +71,7 @@ class ReviewResultPolicy
     {
         return $user->getId() == $reviewResult->interviewer_id;
     }
-    
+
     private function isValidReviewResult(Review $review): bool
     {
         $questionIds = $review->getQuestionsAttribute()->pluck('_id')->toArray();
@@ -81,7 +81,7 @@ class ReviewResultPolicy
         }, request('answers'));
 
         $reviewUsers = $review->users()->pluck('_id')->toArray();
-        
+
         return in_array(request('respondent_id'), $reviewUsers)
             && in_array(request('interviewer_id'), $reviewUsers)
             && empty(array_diff($requestQuestions, $questionIds));
