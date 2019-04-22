@@ -23,7 +23,7 @@ test:
       - export DOCKER_COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.testing.yml"
       - export APP_IMAGE=$APP_IMAGE
       - sudo -E make start
-      - sudo -E make initialize
+      - sudo -E make install-deps
       - sudo -E make apply-migrations
       - sudo -E make tests
     after_script:
