@@ -14,6 +14,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesTableSeeder::class,
             UsersTableSeeder::class,
+            KudosCategorySeeder::class,
+            KudosTagSeeder::class,
+            QuestionTypeSeeder::class,
+            QuestionSeeder::class,
+            ReviewStatusSeeder::class,
+            ReviewSeeder::class,
+            ReviewResultSeeder::class,
+            TemplateSeeder::class,
         ]);
     }
 }
