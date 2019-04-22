@@ -39,14 +39,12 @@ class Kudos extends Model
     }
 
     public function syncTags(array $tags) {
-        if (count($tags) > 0) {
-            $tagsIds = [];
+        $tagsIds = [];
 
-            foreach ($tags as $tag) {
-                $tagsIds[] = KudosTag::firstOrCreate(['name' => $tag])->id;
-            }
-
-            $this->kudosTags()->sync($tagsIds);
+        foreach ($tags as $tag) {
+            $tagsIds[] = KudosTag::firstOrCreate(['name' => $tag])->id;
         }
+
+        $this->kudosTags()->sync($tagsIds);
     }
 }
