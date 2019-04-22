@@ -26,7 +26,7 @@ class UserController extends Controller
         $user = User::create($request->validated());
         $user->assignRole(Role::findOrFail($request->get('role_id')));
 
-        $userCode = UserCode::generateEmailVerificationCode($user);
+        $userCode = UserCode::generate($user, UserCode::EMAIL_VERIFICATION);
 
         if ($request->has('department_id')) {
             $user->attachUserToDepartment($request->get('department_id'));

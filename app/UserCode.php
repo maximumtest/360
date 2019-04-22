@@ -29,10 +29,10 @@ class UserCode extends Model
         return $code;
     }
 
-    public static function generateEmailVerificationCode(User $user)
+    public static function generate(User $user, string $type)
     {
         $userCode = UserCode::firstOrNew([
-            'type' => self::EMAIL_VERIFICATION,
+            'type' => $type,
             'user_id' => $user->_id,
         ]);
 
