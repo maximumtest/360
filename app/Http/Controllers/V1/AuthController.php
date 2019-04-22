@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use JWTAuth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordReset;
+use App\Http\Requests\V1\Auth\ResetLinkRequest;
 
 class AuthController extends Controller
 {
@@ -72,6 +75,16 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'Password successfully changed'], 200);
+    }
+    
+    public function generateResetLink(ResetLinkRequest $request)
+    {
+        $user = User::where('email', $request->get('email'))->firstOrFail();
+        $userCode = UserCode::create($user, UserCode::PASSWORD_RECOVERY);
+    
+        Mail::to($user->email)->send(new PasswordReset($userCode));
+    
+        return response()->json(['data' => 'Mail sent'], 200);
     }
 
     protected function getResponseWithToken($token): array

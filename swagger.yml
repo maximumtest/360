@@ -661,7 +661,19 @@ paths:
         '401':
           description: Unauthorized
 
-
+  '/api/v1/auth/password/link':
+    post:
+      tags:
+      - Auth
+      summary: Отправить ссылку для сброса пароля
+      operationId: generatePasswordLink
+      requestBody:
+        $ref: '#/components/requestBodies/ResetLinkRequest'
+      responses:
+        '200':
+          description: Mail sent
+        '422':
+          description: Validation Error
 
 components:
   securitySchemes:
@@ -957,7 +969,17 @@ components:
               - password
               - code
 
-
+    ResetLinkRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+            required:
+            - email
 
 security:
   - ApiKeyAuth: []

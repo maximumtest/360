@@ -14,6 +14,8 @@ Route::group([
             ->name('auth.login');
         Route::post('email/verification', 'AuthController@verifyEmail')
             ->name('auth.email.verification');
+        Route::post('password/link', 'AuthController@generateResetLink')
+            ->name('auth.password.link');
         Route::post('password/reset', 'AuthController@resetPassword')
             ->name('auth.password.reset');
 
