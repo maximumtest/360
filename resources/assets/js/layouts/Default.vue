@@ -77,6 +77,13 @@ export default class DefaultLayout extends Vue {
         name: 'reviews',
       },
     },
+    {
+      icon: 'person',
+      text: 'Пользователи',
+      path: {
+        name: 'users',
+      },
+    },
   ];
 
   get pageTitle() {

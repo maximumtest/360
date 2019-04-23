@@ -11,6 +11,8 @@ use App\Http\Requests\V1\User\UpdateUserRequest;
 use App\Http\Requests\V1\User\CreateUserRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -66,5 +68,18 @@ class UserController extends Controller
         User::findOrFail($id)->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function filter(Request $request): JsonResponse
+    {
+        $searchTerm = $request->input('searchTerm');
+
+        $users = User::where('name', 'like', "%{$searchTerm}%")->orWhere('email', 'like', "%{$searchTerm}%")->get();
+
+        if ($users->count() === 0) {
+            throw new NotFoundHttpException();
+        }
+
+        return response()->json($users, 200);
     }
 }
