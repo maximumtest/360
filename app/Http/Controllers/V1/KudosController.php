@@ -14,7 +14,7 @@ class KudosController extends Controller
 {
     public function index(User $userTo): JsonResponse
     {
-        $kudos = Kudos::where('user_to_id', $userTo->id)->orderBy('created_at', 'desc')->get();
+        $kudos = Kudos::where('user_to_id', $userTo->id)->latest()->get();
 
         if ($kudos->count() === 0) {
             throw new NotFoundHttpException();
