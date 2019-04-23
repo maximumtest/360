@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  360-backend:
+    image: ${APP_IMAGE}
+    depends_on:
+      - 360-mongodb
+    env_file:
+      - .env.testing
+
+  360-mongodb:
+    image: mongo:4.1.7
+    ports:
+      - "27017"
+    environment:
+      - MONGO_INITDB_DATABASE=r360_test
