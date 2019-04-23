@@ -23,14 +23,12 @@ $user->codes()->save($userCode);
 $invalidParamsFirst = [
     'password' => '123',
     'code' => 123,
-    'email' => null,
 ];
 
 $I->sendPOST(route('v1.auth.password.reset'), $invalidParamsFirst);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
 $I->seeResponseMatchesJsonType([
     'errors' => [
-        'email' => 'Array',
         'password' => 'Array',
         'code' => 'Array',
     ],
@@ -40,15 +38,20 @@ $newPassword = 'newPassword123';
 $invalidParamsSecond = [
     'password' => $newPassword,
     'code' => '123',
-    'email' => $email,
 ];
 $I->sendPOST(route('v1.auth.password.reset'), $invalidParamsSecond);
 $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
+$I->seeResponseMatchesJsonType([
+    'errors' => [
+        'password' => 'Array',
+        'code' => 'Array',
+    ],
+]);
 
 $validParams = [
-    'password' => 'newPassword123',
+    'password' => $newPassword,
+    'password_confirmation' => $newPassword,
     'code' => $userCode->code,
-    'email' => $email,
 ];
 $I->sendPOST(route('v1.auth.password.reset'), $validParams);
 $I->seeResponseCodeIs(HttpCode::OK);
