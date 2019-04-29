@@ -6,10 +6,10 @@
     >
       <md-list-item
         v-for="review in reviews"
-        :key="`review-${review.id}`"
+        :key="`review-${review._id}`"
       >
         <router-link
-          :to="{ name: 'reviews-id', params: { id: review.id } }"
+          :to="{ name: 'reviews-id', params: { id: review._id } }"
           class="reviews-page__link"
         >
           <span class="md-list-item-text">{{ review.title }}</span>
