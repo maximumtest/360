@@ -3,7 +3,7 @@ import { ReviewState } from './types';
 import { RootState } from '@/store/types';
 import axios from 'axios';
 
-export const name: string = 'auth';
+export const name: string = 'reviews';
 
 export const namespaced: boolean = true;
 
