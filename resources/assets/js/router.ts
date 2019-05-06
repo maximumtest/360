@@ -49,7 +49,7 @@ export default new Router({
       name: 'user-add-kudos',
       component: () => import(/* webpackChunkName: "auth" */ './views/users/kudos/Add.vue'),
       meta: {
-        title: 'Профиль',
+        title: 'Добавить kudos',
       },
     },
     {

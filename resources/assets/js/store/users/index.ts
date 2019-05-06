@@ -20,7 +20,11 @@ export const mutations: MutationTree<UsersState> = {
 export const actions: ActionTree<UsersState, RootState> = {
   async getUsers({ commit }, searchTerm: string) {
     try {
-      const response = await axios.get(`/api/v1/users/filter?searchTerm=${searchTerm}`);
+      const response = await axios.get('/api/v1/users/filter', {
+        params: {
+          searchTerm,
+        },
+      });
 
       commit('setUsers', response.data);
 

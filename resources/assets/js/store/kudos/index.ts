@@ -35,12 +35,18 @@ export const actions: ActionTree<KudosState, RootState> = {
   },
 
   async getKudosTags({ commit }, tagName?: string) {
-    const url = `/api/v1/kudos-tags/${tagName ? `filter?name=${tagName}` : ''}`;
+    const url = `/api/v1/kudos-tags/${tagName ? 'filter' : ''}`;
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        params: {
+          name: tagName,
+        },
+      });
 
       commit('setKudosTags', response.data);
+
+      return response;
     } catch (error) {
       return error.response;
     }
