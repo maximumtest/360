@@ -14,7 +14,7 @@ class ReviewController extends Controller
 {
     public function index(): JsonResponse
     {
-        $reviews = Review::all();
+        $reviews = Review::with('users')->get();
 
         if ($reviews->count() === 0) {
             throw new NotFoundHttpException();

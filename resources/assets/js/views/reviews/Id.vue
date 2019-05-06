@@ -5,20 +5,20 @@
       class="review-page__nav"
     >
       <md-list-item
-        v-for="user in users"
-        :key="`user-${user.id}`"
+        v-for="user in review.users"
+        :key="`user-${user._id}`"
       >
         <router-link
           :to="{
             name: 'reviews-id-users-userId',
             params: {
               id: $route.params.id,
-              userId: user.id,
+              userId: user._id,
             },
           }"
           class="review-page__link"
         >
-          <span class="md-list-item-text">{{ user.fullName }}</span>
+          <span class="md-list-item-text">{{ user.name || user.email }}</span>
         </router-link>
       </md-list-item>
     </md-list>
@@ -33,27 +33,28 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { name as reviewsStoreName } from '@/store/reviews';
+import { ReviewItem } from '@/store/reviews/types';
 
-declare interface User {
-  id: string,
-  fullName: string,
-}
+const Reviews = namespace(reviewsStoreName);
 
 @Component
 export default class ReviewPage extends Vue {
-  users: User[] = [
-    {
-      id: '1',
-      fullName: 'Тимоха Жиганов',
-    },
-    {
-      id: '2',
-      fullName: 'Жендос Колдин',
-    },
-  ];
+  @Reviews.Getter currentReview!: (reviewId: string) => ReviewItem | null | undefined;
+
+  review: ReviewItem | null | undefined = null;
 
   get navMode() {
     return this.$route.name === 'reviews-id' ? 'full' : 'short';
+  }
+
+  created() {
+    this.review = this.currentReview(this.$route.params.id);
+  }
+
+  updated() {
+    this.review = this.currentReview(this.$route.params.id);
   }
 };
 </script>

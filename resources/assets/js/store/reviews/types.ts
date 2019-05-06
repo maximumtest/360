@@ -1,3 +1,5 @@
+import { User } from '@/store/auth/types';
+
 export interface ReviewItem {
   _id: string;
   created_at: string;
@@ -6,8 +8,9 @@ export interface ReviewItem {
   template_id: string;
   title: string;
   updated_at: string;
+  users?: User[];
 }
 
 export interface ReviewState {
-  reviews: ReviewItem;
+  reviews: ReviewItem[] | null;
 }
