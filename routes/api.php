@@ -32,6 +32,10 @@ Route::group([
     Route::group([
         'middleware' => 'jwt.auth',
     ], function () {
+        Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
+        Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
+        Route::get('users/filter', 'UserController@filter')->name('users.filter');
+
         Route::group([
             'middleware' => 'role:admin',
         ], function () {
@@ -39,9 +43,6 @@ Route::group([
                 'users' => 'UserController',
             ]);
         });
-
-        Route::get('questions/filter', 'QuestionController@filter')->name('questions.filter');
-        Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
 
         Route::apiResources([
             'reviews' => 'ReviewController',

@@ -55,6 +55,30 @@ export default new Router({
       ],
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import(/* webpackChunkName: "auth" */ './views/Users.vue'),
+      meta: {
+        title: 'Пользователи',
+      },
+    },
+    {
+      path: '/users/:id',
+      name: 'users-profile',
+      component: () => import(/* webpackChunkName: "auth" */ './views/users/Profile.vue'),
+      meta: {
+        title: 'Профиль',
+      },
+    },
+    {
+      path: '/users/:id/kudos/add',
+      name: 'user-add-kudos',
+      component: () => import(/* webpackChunkName: "auth" */ './views/users/kudos/Add.vue'),
+      meta: {
+        title: 'Добавить kudos',
+      },
+    },
+    {
       path: '/reviews',
       component: () => import(/* webpackChunkName: "reviews" */ './views/Reviews.vue'),
       children: [
