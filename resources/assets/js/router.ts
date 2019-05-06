@@ -19,14 +19,40 @@ export default new Router({
       meta: {
         layout: 'auth',
       },
-    },
-    {
-      path: '/verify-email/:code',
-      name: 'verify-email',
-      component: () => import(/* webpackChunkName: "verifyEmail" */ './views/VerifyEmail.vue'),
-      meta: {
-        layout: 'auth',
-      },
+      children: [
+        {
+          path: 'sign-in',
+          name: 'signIn',
+          component: () => import(/* webpackChunkName: "signIn" */ './views/auth/SignIn.vue'),
+          meta: {
+            layout: 'auth',
+          },
+        },
+        {
+          path: 'verify-email/:code',
+          name: 'verify-email',
+          component: () => import(/* webpackChunkName: "verifyEmail" */ './views/auth/VerifyEmail.vue'),
+          meta: {
+            layout: 'auth',
+          },
+        },
+        {
+          path: 'forgot-password',
+          name: 'forgotPassword',
+          component: () => import(/* webpackChunkName: "resetPassword" */ './views/auth/ForgotPassword.vue'),
+          meta: {
+            layout: 'auth',
+          },
+        },
+        {
+          path: 'password-reset/:code',
+          name: 'passwordReset',
+          component: () => import(/* webpackChunkName: "passwordReset" */ './views/auth/PasswordReset.vue'),
+          meta: {
+            layout: 'auth',
+          },
+        },
+      ],
     },
     {
       path: '/reviews',

@@ -11,3 +11,15 @@
     opacity: 1;
   }
 }
+
+.fade-anim {
+  &-enter-active, &-leave-active {
+    transition: .3s ease;
+  }
+  &-enter, &-leave-to {
+    opacity: 0;
+  }
+  &-leave, &-enter-to {
+    opacity: 1;
+  }
+}

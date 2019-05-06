@@ -2,4 +2,9 @@
 $material-design-icons-font-path: '~material-design-icons-iconfont/dist/fonts/';
 @import '~material-design-icons-iconfont/src/material-design-icons';
 
+@import 'reset';
 @import 'transitions';
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
