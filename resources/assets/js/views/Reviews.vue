@@ -6,10 +6,10 @@
     >
       <md-list-item
         v-for="review in reviews"
-        :key="`review-${review.id}`"
+        :key="`review-${review._id}`"
       >
         <router-link
-          :to="{ name: 'reviews-id', params: { id: review.id } }"
+          :to="{ name: 'reviews-id', params: { id: review._id } }"
           class="reviews-page__link"
         >
           <span class="md-list-item-text">{{ review.title }}</span>
@@ -27,24 +27,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { name as reviewsStoreName } from '@/store/reviews';
 
-declare interface Review {
-  id: string,
-  title: string,
-}
+const Reviews = namespace(reviewsStoreName);
 
 @Component
-export default class Reviews extends Vue {
-  reviews: Review[] = [
-    {
-      id: '1',
-      title: '2019-Q1',
-    },
-    {
-      id: '2',
-      title: '2019-Q2',
-    },
-  ];
+export default class ReviewsPage extends Vue {
+  @Reviews.Action loadReviews!: Function;
+  @Reviews.State reviews!: Array;
+
+  public created() {
+    this.loadReviews();
+  }
 
   get navMode() {
     return this.$route.name === 'reviews' ? 'full' : 'short';
