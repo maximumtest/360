@@ -1,5 +1,5 @@
-import { MutationTree, ActionTree } from 'vuex';
-import { ReviewState } from './types';
+import { MutationTree, ActionTree, GetterTree } from 'vuex';
+import { ReviewState, ReviewItem } from './types';
 import { RootState } from '@/store/types';
 import axios from 'axios';
 
@@ -8,7 +8,7 @@ export const name: string = 'reviews';
 export const namespaced: boolean = true;
 
 export const state: ReviewState = {
-  reviews: [],
+  reviews: null,
 };
 
 const setItem = (key: string) => (currentState: any, value: any) => currentState[key] = value;
@@ -28,5 +28,15 @@ export const actions: ActionTree<ReviewState, RootState> = {
     } catch (error) {
       return error.response;
     }
+  },
+};
+
+export const getters: GetterTree<ReviewState, RootState> = {
+  currentReview(state): (reviewId: string) => ReviewItem | null | undefined {
+    return (reviewId: string) => {
+      return state.reviews
+        ? state.reviews.find(review => review._id === reviewId)
+        : null;
+    };
   },
 };

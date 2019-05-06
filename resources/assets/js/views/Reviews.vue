@@ -29,13 +29,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { name as reviewsStoreName } from '@/store/reviews';
+import { ReviewItem } from '@/store/reviews/types';
 
 const Reviews = namespace(reviewsStoreName);
 
 @Component
 export default class ReviewsPage extends Vue {
   @Reviews.Action loadReviews!: Function;
-  @Reviews.State reviews!: Array;
+  @Reviews.State reviews!: ReviewItem[];
 
   public created() {
     this.loadReviews();
