@@ -24,9 +24,4 @@ class Template extends Model
     {
         return $this->belongsToMany(Question::class);
     }
-    
-    public function getQuestionIdsAttribute()
-    {
-        return $this->questions->pluck('question_ids');
-    }
 }

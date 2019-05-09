@@ -24,4 +24,9 @@ class QuestionType extends Model
             static::TYPE_SELECT,
         ])->where('_id', $questionTypeId)->count() > 0;
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }
