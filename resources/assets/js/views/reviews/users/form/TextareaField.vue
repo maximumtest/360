@@ -4,7 +4,7 @@
       <md-textarea
         v-model="selectedValue"
         @input="onChangeValue"
-      ></md-textarea>
+      />
     </md-field>
   </div>
 </template>

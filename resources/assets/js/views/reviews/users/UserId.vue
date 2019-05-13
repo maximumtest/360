@@ -11,7 +11,10 @@
         :key="question._id"
         class="review-form__question-row"
       >
-        <p class="review-form__question md-title">{{ question.text }}</p>
+        <p
+          class="review-form__question md-title"
+          v-text="question.text"
+        />
 
         <component
           :is="fields[question.question_type.name]"
@@ -54,7 +57,13 @@ const Templates = namespace(templatesStoreName);
 const ReviewResults = namespace(reviewResultsStoreName);
 
 @Component({
-  components: { Radio, Checkbox, SelectField, TextInput, TextareaField },
+  components: {
+    Radio,
+    Checkbox,
+    SelectField,
+    TextInput,
+    TextareaField,
+  },
 })
 export default class ReviewUserPage extends Vue {
   @Users.Action getUser!: (userId: string) => any;
