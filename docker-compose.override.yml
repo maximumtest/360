@@ -20,11 +20,11 @@ services:
     entrypoint: sh
     command: -c 'mkdir -p /data/360 && /usr/bin/minio server /data'
     ports:
-    - "9000:9000"
+      - "9000:9000"
     networks:
-    - default
+      - default
     volumes:
-    - .docker/minio/data:/data
+      - .docker/minio/data:/data
     environment:
-    - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
-    - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
