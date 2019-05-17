@@ -23,4 +23,9 @@ class Question extends Model
     {
         return $this->belongsToMany(Template::class);
     }
+
+    public function questionType()
+    {
+        return $this->belongsTo(QuestionType::class);
+    }
 }

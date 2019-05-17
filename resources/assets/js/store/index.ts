@@ -4,6 +4,8 @@ import * as auth from './auth';
 import * as users from './users';
 import * as kudos from './kudos';
 import * as reviews from './reviews';
+import * as templates from './templates';
+import * as reviewResults from './review-results';
 import createPersistedState from 'vuex-persistedstate';
 
 const presistedState = createPersistedState({
@@ -26,5 +28,7 @@ export default new Vuex.Store({
     [users.name]: users,
     [kudos.name]: kudos,
     [reviews.name]: reviews,
+    [templates.name]: templates,
+    [reviewResults.name]: reviewResults,
   },
 });

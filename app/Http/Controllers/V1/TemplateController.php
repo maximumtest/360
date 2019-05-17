@@ -33,7 +33,7 @@ class TemplateController extends Controller
 
     public function show(string $id): JsonResponse
     {
-        $template = Template::findOrFail($id);
+        $template = Template::with('questions.questionType')->findOrFail($id);
 
         return response()->json($template, 200);
     }
