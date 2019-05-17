@@ -9,6 +9,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/.docker/minio/data/*
 
 .DS_Store
 
