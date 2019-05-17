@@ -45,11 +45,11 @@ import { User } from '@/store/auth/types'
 import { ReviewItem } from '@/store/reviews/types';
 import { Template } from '@/store/templates/types';
 import { CreateReviewResultRequest } from '@/store/review-results/types';
-import Radio from './form/Radio';
-import Checkbox from './form/Checkbox';
-import SelectField from './form/SelectField';
-import TextInput from './form/TextInput';
-import TextareaField from './form/TextareaField';
+import Radio from './form/Radio.vue';
+import Checkbox from './form/Checkbox.vue';
+import SelectField from './form/SelectField.vue';
+import TextInput from './form/TextInput.vue';
+import TextareaField from './form/TextareaField.vue';
 
 const Users = namespace(usersStoreName);
 const Reviews = namespace(reviewsStoreName);
@@ -72,8 +72,8 @@ export default class ReviewUserPage extends Vue {
 
   @Reviews.Getter currentReview!: (reviewId: string) => ReviewItem | null | undefined;
 
-  user?: User = null;
-  template?: Template = null;
+  user?: User | null = null;
+  template?: Template | null = null;
 
   fields: Object = {
     radio: Radio,
@@ -83,13 +83,13 @@ export default class ReviewUserPage extends Vue {
     textarea: TextareaField,
   };
 
-  formData?: Object = {};
+  formData: any = {};
 
   respondentId: string = '';
   reviewId: string = '';
 
   async created() {
-    const { userId, id: reviewId }: string = this.$route.params;
+    const { userId, id: reviewId } = this.$route.params;
 
     this.respondentId = userId;
     this.reviewId = reviewId;
@@ -102,16 +102,16 @@ export default class ReviewUserPage extends Vue {
       this.user = userResponse.data;
     }
 
-    const review: ReviewItem = this.currentReview(reviewId);
+    const review: ReviewItem | null | undefined = this.currentReview(reviewId);
 
-    const templateResponse = await this.getTemplate(review.template_id);
+    const templateResponse = await this.getTemplate(review!.template_id);
 
     if (templateResponse.status >= 400) {
       console.error('Error while getting template data');
     } else {
       this.template = templateResponse.data;
 
-      this.template.questions.forEach(({_id: questionId}) => this.formData[questionId] = {
+      this.template!.questions!.forEach(({_id: questionId}) => this.formData[questionId] = {
         question_id: questionId,
         answer: null,
       });
