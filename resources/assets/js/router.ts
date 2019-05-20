@@ -11,6 +11,9 @@ export default new Router({
       path: '/',
       name: 'main',
       component: Main,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/auth',
@@ -60,6 +63,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "auth" */ './views/Users.vue'),
       meta: {
         title: 'Пользователи',
+        requiresAuth: true,
       },
     },
     {
@@ -68,6 +72,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "auth" */ './views/users/Profile.vue'),
       meta: {
         title: 'Профиль',
+        requiresAuth: true,
       },
     },
     {
@@ -76,11 +81,15 @@ export default new Router({
       component: () => import(/* webpackChunkName: "auth" */ './views/users/kudos/Add.vue'),
       meta: {
         title: 'Добавить kudos',
+        requiresAuth: true,
       },
     },
     {
       path: '/reviews',
       component: () => import(/* webpackChunkName: "reviews" */ './views/Reviews.vue'),
+      meta: {
+        requiresAuth: true,
+      },
       children: [
         {
           path: '',

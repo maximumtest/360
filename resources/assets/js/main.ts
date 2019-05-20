@@ -34,7 +34,7 @@ if (userToken) {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.state.auth.user) {
-      next({ path: '/auth' });
+      next({ name: 'signIn' });
     } else {
       next();
     }
