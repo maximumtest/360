@@ -12,10 +12,25 @@
       >
         360 MAXIMUM {{ pageTitle }}
       </router-link>
-      <span
-        v-if="user"
-        v-text="user.email"
-      />
+
+      <template v-if="user">
+        <router-link
+          tag="md-button"
+          class="md-primary"
+          title="Профиль"
+          to="/profile"
+        >
+          {{ user.email }}
+        </router-link>
+
+        <md-button
+          class="md-icon-button md-accent"
+          title="Выйти"
+          @click="signOut"
+        >
+          <md-icon>directions_run</md-icon>
+        </md-button>
+      </template>
     </md-app-toolbar>
 
     <!-- Сайдбар -->
@@ -61,6 +76,7 @@ const Auth = namespace(authStoreName);
 @Component
 export default class DefaultLayout extends Vue {
   @Auth.State user!: User;
+  @Auth.Action logout!: Function;
 
   navItems: any[] = [
     {
@@ -88,6 +104,14 @@ export default class DefaultLayout extends Vue {
 
   get pageTitle() {
     return this.$route.meta.title ? `- ${this.$route.meta.title}` : '';
+  }
+
+  async signOut() {
+    const response = await this.logout();
+
+    if (response.status === 200) {
+      this.$router.push({ path: '/', query: { logout: 'logout' } });
+    }
   }
 };
 </script>

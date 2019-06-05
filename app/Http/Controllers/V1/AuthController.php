@@ -62,7 +62,7 @@ class AuthController extends Controller
 
     public function me(): JsonResponse
     {
-        return response()->json(JWTAuth::parseToken()->authenticate()->only(['_id', 'name', 'email']), 200);
+        return response()->json(JWTAuth::parseToken()->authenticate()->only(['_id', 'name', 'email', 'avatar']), 200);
     }
 
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
@@ -76,14 +76,14 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Password successfully changed'], 200);
     }
-    
+
     public function generateResetLink(ResetLinkRequest $request)
     {
         $user = User::where('email', $request->get('email'))->firstOrFail();
         $userCode = UserCode::generate($user, UserCode::PASSWORD_RECOVERY);
-    
+
         Mail::to($user->email)->send(new PasswordReset($userCode));
-    
+
         return response()->json(['data' => 'Mail sent'], 200);
     }
 

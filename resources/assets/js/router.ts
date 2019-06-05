@@ -119,5 +119,14 @@ export default new Router({
         },
       ],
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import(/* webpackChunkName: "reviewsIndex" */ './views/Profile.vue'),
+      meta: {
+        title: 'Профиль',
+        requiresAuth: true,
+      },
+    },
   ],
 });

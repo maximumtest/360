@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Http\Requests\V1\User\UpdateProfileRequest;
 use App\Mail\Registration;
 use App\Role;
 use App\User;
@@ -10,9 +11,13 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\V1\User\UpdateUserRequest;
 use App\Http\Requests\V1\User\CreateUserRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Exception;
 
 class UserController extends Controller
 {
@@ -81,5 +86,37 @@ class UserController extends Controller
         }
 
         return response()->json($users, 200);
+    }
+
+    public function updateProfile(UpdateProfileRequest $request): JsonResponse
+    {
+        $user = Auth::user();
+
+        try {
+            if ($request->hasFile('avatar')) {
+                $user->dropAvatar();
+
+                $avatar = Storage::cloud()->putFile('users/avatars', $request->file('avatar'));
+
+                $user->avatar = $avatar;
+            }
+
+            if ($request->input('removeAvatar', false)) {
+                $user->dropAvatar();
+                $user->avatar = '';
+            }
+
+            if ($request->exists('password') && $request->input('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'avatar' => $user->avatar,
+        ], 200);
     }
 }

@@ -19,6 +19,11 @@ export const mutations: MutationTree<AuthState> = {
   setJwtToken: setItem('jwtToken'),
   setExpiresIn: setItem('expiresIn'),
   setUser: setItem('user'),
+  logout: (state) => {
+    state.jwtToken = undefined;
+    state.expiresIn = undefined;
+    state.user = undefined;
+  },
 };
 
 export const actions: ActionTree<AuthState, RootState> = {
@@ -84,6 +89,18 @@ export const actions: ActionTree<AuthState, RootState> = {
       return data;
     } catch (e) {
       throw e;
+    }
+  },
+
+  async logout({ commit }) {
+    try {
+      const response = await axios.get('/api/v1/auth/logout');
+
+      commit('logout');
+
+      return response;
+    } catch (error) {
+      return error.response;
     }
   },
 };
