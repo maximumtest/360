@@ -116,6 +116,7 @@ class User extends Authenticatable implements JWTSubject
     public function dropAvatar()
     {
         if ($this->avatarSrc) {
+            $this->avatar = '';
             return Storage::cloud()->delete($this->avatarSrc);
         }
 

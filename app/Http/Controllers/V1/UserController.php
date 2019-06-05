@@ -94,16 +94,15 @@ class UserController extends Controller
 
         try {
             if ($request->hasFile('avatar')) {
-                $user->dropAvatar();
-
                 $avatar = Storage::cloud()->putFile('users/avatars', $request->file('avatar'));
+
+                $user->dropAvatar();
 
                 $user->avatar = $avatar;
             }
 
             if ($request->input('removeAvatar', false)) {
                 $user->dropAvatar();
-                $user->avatar = '';
             }
 
             if ($request->exists('password') && $request->input('password')) {
