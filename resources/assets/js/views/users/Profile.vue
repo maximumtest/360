@@ -4,7 +4,11 @@
     class="user-profile-page"
   >
     <md-avatar class="md-avatar-icon md-large md-accent">
-      <md-icon>face</md-icon>
+      <img
+        v-if="user.avatar"
+        :src="user.avatar"
+      >
+      <md-icon v-else>face</md-icon>
     </md-avatar>
 
     <h2 class="user-profile-page__title">{{ user.name || user.email }}</h2>
@@ -30,31 +34,28 @@
       >
         <md-card-header>
           <md-avatar>
-            <md-icon>face</md-icon>
+            <img
+              v-if="userKudo.user_from.avatar"
+              :src="userKudo.user_from.avatar"
+            >
+            <md-icon v-else>face</md-icon>
           </md-avatar>
 
-          <div class="md-title">{{ userKudo.user_from_id }}</div>
-          <div class="md-subhead">{{ userKudo.created_at }}</div>
+          <div class="md-title">{{ userKudo.user_from.name || userKudo.user_from.email }}</div>
+          <div class="md-subhead">Date: {{ userKudo.created_at }}</div>
+          <hr>
           <div
             v-if="userKudo.kudos_tag_ids"
             class="md-subhead"
           >
-            Tags: {{ userKudo.kudos_tag_ids.join(', ') }}
+            <p>Category: {{ userKudo.kudos_category.name }}</p>
+            <p>Tags: {{ userKudo.kudos_tags.map(kt => kt.name).join(', ') }}</p>
           </div>
         </md-card-header>
 
         <md-card-content>
           {{ userKudo.text }}
         </md-card-content>
-
-        <md-card-actions>
-          <md-button class="md-primary">
-            <md-icon>thumb_up</md-icon>
-          </md-button>
-          <md-button class="md-accent">
-            <md-icon>thumb_down</md-icon>
-          </md-button>
-        </md-card-actions>
       </md-card>
     </div>
   </div>

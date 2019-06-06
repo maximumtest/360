@@ -18,6 +18,10 @@ class Kudos extends Model
         'kudos_category_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d.m.Y H:i',
+    ];
+
     public function userFrom()
     {
         return $this->belongsTo(User::class, 'user_from_id');
