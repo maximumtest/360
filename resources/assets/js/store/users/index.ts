@@ -36,7 +36,24 @@ export const actions: ActionTree<UsersState, RootState> = {
 
   async getUser({ commit }, userId: string) {
     try {
-      const response = await axios.get(`/api/v1/users/${userId}`);
+      return await axios.get(`/api/v1/users/${userId}`);
+    } catch (error) {
+      return error.response;
+    }
+  },
+
+  async updateProfile({ commit, rootState }, request: FormData) {
+    try {
+      const response = await axios.post('/api/v1/users/update-profile', request, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const { user } = rootState.auth;
+      user!.avatar = response.data.avatar;
+
+      commit('auth/setUser', user, { root: true });
 
       return response;
     } catch (error) {

@@ -36,6 +36,8 @@ Route::group([
         Route::get('kudos-tags/filter', 'KudosTagController@filter')->name('kudos-tags.filter');
         Route::get('users/filter', 'UserController@filter')->name('users.filter');
 
+        Route::post('users/update-profile', 'UserController@updateProfile');
+
         Route::group([
             'middleware' => 'role:admin',
         ], function () {
