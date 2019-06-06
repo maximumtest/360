@@ -37,7 +37,6 @@ Route::group([
         Route::get('users/filter', 'UserController@filter')->name('users.filter');
 
         Route::post('users/update-profile', 'UserController@updateProfile');
-        Route::post('users/drop-avatar', 'UserController@dropAvatar');
 
         Route::group([
             'middleware' => 'role:admin',

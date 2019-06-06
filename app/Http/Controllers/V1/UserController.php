@@ -108,11 +108,11 @@ class UserController extends Controller
             if ($request->exists('password') && $request->input('password')) {
                 $user->password = Hash::make($request->input('password'));
             }
+
+            $user->save();
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
-
-        $user->save();
 
         return response()->json([
             'avatar' => $user->avatar,

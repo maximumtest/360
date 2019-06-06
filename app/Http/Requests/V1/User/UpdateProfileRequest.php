@@ -24,9 +24,9 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'image|nullable|sometimes',
-            'password' => 'string|min:6|max:255|sometimes|nullable',
-            'removeAvatar' => 'boolean|sometimes',
+            'avatar' => 'image|nullable',
+            'password' => 'string|min:6|max:255|nullable',
+            'removeAvatar' => 'boolean',
         ];
     }
 }
