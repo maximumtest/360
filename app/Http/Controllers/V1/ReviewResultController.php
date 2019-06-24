@@ -34,10 +34,11 @@ class ReviewResultController extends Controller
 
     public function store(CreateReviewResultRequest $request): JsonResponse
     {
-        $doesReviewExist = ReviewResult::where('review_id', $request->input('review_id'))
-            ->where('respondent_id', $request->input('respondent_id'))
-            ->where('interviewer_id', Auth::user()->getAuthIdentifier())
-            ->exists();
+        $doesReviewExist = ReviewResult::where([
+            'review_id' => $request->input('review_id'),
+            'respondent_id' => $request->input('respondent_id'),
+            'interviewer_id' => Auth::user()->getAuthIdentifier(),
+        ])->exists();
 
         if ($doesReviewExist) {
             return response()->json('This respondent is already reviewed', 400);
@@ -81,9 +82,10 @@ class ReviewResultController extends Controller
     {
         $userId = Auth::id();
 
-        $reviewResults = ReviewResult::where('review_id', $reviewId)
-            ->where('interviewer_id', $userId)
-            ->get();
+        $reviewResults = ReviewResult::where([
+            'review_id' => $reviewId,
+            'interviewer_id' => $userId,
+        ])->get();
 
         return response()->json($reviewResults);
     }
