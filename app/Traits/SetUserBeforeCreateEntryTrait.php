@@ -11,7 +11,9 @@ trait SetUserBeforeCreateEntryTrait
         static::creating(function ($model) {
             $userIdField = $model->userIdField ?: 'author_id';
 
-            $model->{$userIdField} = $model->{$userIdField} ?? Auth::user()->getAuthIdentifier();
+            if (Auth::user()) {
+                $model->{$userIdField} = $model->{$userIdField} ?? Auth::id();
+            }
         });
     }
 }

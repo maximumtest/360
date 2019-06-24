@@ -16,4 +16,6 @@ export interface CreateReviewResultRequest {
   answers: Array<Answer>;
 }
 
-export interface ReviewResultsState {}
+export interface ReviewResultsState {
+  reviewResults: ReviewResult[];
+}

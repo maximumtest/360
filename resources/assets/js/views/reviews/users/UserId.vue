@@ -21,10 +21,13 @@
           :question="question"
           v-model="formData[question._id].answer"
           class="review-form__answer"
+          :disabled="reviewResult !== undefined"
+          :answer-value="getAnswer(question._id)"
         />
       </div>
 
       <md-button
+        v-if="reviewResult === undefined"
         class="md-raised md-accent"
         type="submit"
       >
@@ -44,7 +47,7 @@ import { name as reviewResultsStoreName } from '@/store/review-results';
 import { User } from '@/store/auth/types'
 import { ReviewItem } from '@/store/reviews/types';
 import { Template } from '@/store/templates/types';
-import { CreateReviewResultRequest } from '@/store/review-results/types';
+import { CreateReviewResultRequest, ReviewResult } from '@/store/review-results/types';
 import Radio from './form/Radio.vue';
 import Checkbox from './form/Checkbox.vue';
 import SelectField from './form/SelectField.vue';
@@ -69,6 +72,7 @@ export default class ReviewUserPage extends Vue {
   @Users.Action getUser!: (userId: string) => any;
   @Templates.Action getTemplate!: (templateId: string) => any;
   @ReviewResults.Action saveReviewResult!: (reviewResultRequest: CreateReviewResultRequest) => any;
+  @ReviewResults.Getter reviewResultByRespondentId!: (respondentId: string) => ReviewResult | undefined;
 
   @Reviews.Getter currentReview!: (reviewId: string) => ReviewItem | null | undefined;
 
@@ -87,6 +91,8 @@ export default class ReviewUserPage extends Vue {
 
   respondentId: string = '';
   reviewId: string = '';
+
+  reviewResult: ReviewResult | undefined | null = null;
 
   async created() {
     const { userId, id: reviewId } = this.$route.params;
@@ -116,9 +122,15 @@ export default class ReviewUserPage extends Vue {
         answer: null,
       });
     }
+
+    this.reviewResult = this.reviewResultByRespondentId(this.respondentId);
   }
 
   async onSaveReviewResult() {
+    if (this.reviewResult) {
+      alert('This respondent is already reviewed');
+    }
+
     const reviewResultRequest: CreateReviewResultRequest = {
       review_id: this.reviewId,
       respondent_id: this.respondentId,
@@ -139,6 +151,18 @@ export default class ReviewUserPage extends Vue {
         },
       });
     }
+  }
+
+  getAnswer(questionId: string): any {
+    if (this.reviewResult) {
+      const answerData = this.reviewResult.answers.find(answer => answer.question_id === questionId) || null;
+
+      if (answerData) {
+        return answerData.answer;
+      }
+    }
+
+    return null;
   }
 };
 </script>
