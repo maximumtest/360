@@ -87,6 +87,6 @@ class ReviewResultController extends Controller
             'interviewer_id' => $userId,
         ])->get();
 
-        return response()->json($reviewResults);
+        return response()->json($reviewResults, 200);
     }
 }
