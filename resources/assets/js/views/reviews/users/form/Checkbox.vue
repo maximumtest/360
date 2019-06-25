@@ -5,6 +5,7 @@
       v-for="(answer, index) in question.answers"
       :key="index"
       :value="answer"
+      :disabled="disabled"
       @change="onChangeValue"
     >
       {{ answer }}
@@ -21,11 +22,17 @@ export default class Checkbox extends Vue {
   @Model('change') readonly value!: string;
 
   @Prop(Object) readonly question!: Question;
+  @Prop({ default: false }) readonly disabled!: boolean;
+  @Prop({ default: null }) readonly answerValue!: Array<any>;
 
   selectedValue: Array<string> = [];
 
   onChangeValue() {
     this.$emit('change', this.selectedValue);
+  }
+
+  created() {
+    this.selectedValue = this.answerValue || [];
   }
 }
 </script>

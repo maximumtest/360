@@ -1,20 +1,52 @@
-import { ActionTree } from 'vuex';
-import { ReviewResultsState, CreateReviewResultRequest } from './types';
+import { ActionTree, MutationTree, GetterTree } from 'vuex';
+import { ReviewResultsState, CreateReviewResultRequest, ReviewResult } from './types';
 import { RootState } from '@/store/types';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export const name: string = 'review-results';
 
 export const namespaced: boolean = true;
 
-export const state: ReviewResultsState = {};
+const setItem = (key: string) => (currentState: any, value: any) => currentState[key] = value;
+
+export const mutations: MutationTree<ReviewResultsState> = {
+  setReviewResults: setItem('reviewResults'),
+};
+
+export const state: ReviewResultsState = {
+  reviewResults: [],
+};
 
 export const actions: ActionTree<ReviewResultsState, RootState> = {
-  async saveReviewResult(context: Object, reviewResultRequest: CreateReviewResultRequest) {
+  async saveReviewResult({ commit, state }, reviewResultRequest: CreateReviewResultRequest): Promise<any> {
     try {
-      return await axios.post('/api/v1/review-results', reviewResultRequest);
+      const response: AxiosResponse = await axios.post('/api/v1/review-results', reviewResultRequest);
+
+      commit('setReviewResults', [
+        ...state.reviewResults,
+        response.data,
+      ]);
+
+      return response;
     } catch (error) {
       return error.response;
     }
+  },
+
+  async getReviewResults({ commit }, reviewId: string): Promise<any> {
+    try {
+      const response: AxiosResponse = await axios.get(`/api/v1/reviews/${reviewId}/review-results`);
+      commit('setReviewResults', response.data);
+
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  },
+};
+
+export const getters: GetterTree<ReviewResultsState, RootState> = {
+  reviewResultByRespondentId: (state: ReviewResultsState) => (respondentId: string): ReviewResult | undefined => {
+    return state.reviewResults.find(reviewResult => reviewResult.respondent_id === respondentId);
   },
 };

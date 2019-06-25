@@ -12,17 +12,17 @@ class ReviewResult extends Model
         'respondent_id',
         'interviewer_id',
     ];
-    
+
     public function review()
     {
         return $this->belongsTo(Review::class);
     }
-    
+
     public function respondent()
     {
         return $this->belongsTo(User::class, 'respondent_id');
     }
-    
+
     public function interviewer()
     {
         return $this->belongsTo(User::class,'interviewer_id');

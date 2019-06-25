@@ -58,5 +58,8 @@ Route::group([
 
         Route::get('review-statuses', 'ReviewStatusController@getAll')->name('review-statuses.index');
         Route::get('question-types', 'QuestionTypeController@getAll')->name('question-types.index');
+
+        Route::get('reviews/{review_id}/review-results', 'ReviewResultController@getReviewResults')
+            ->name('review-results.get-interviewer-review-results');
     });
 });
