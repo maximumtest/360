@@ -128,5 +128,24 @@ export default new Router({
         requiresAuth: true,
       },
     },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import(/* webpackChunkName: "auth" */ './views/Admin.vue'),
+      meta: {
+        title: 'Админка',
+        requiresAuth: true,
+      },
+      children: [
+        {
+          path: 'users',
+          name: 'admin-users',
+          component: () => import(/* webpackChunkName: "auth" */ './views/admin/Users.vue'),
+          meta: {
+            title: 'Админка - пользователи',
+          },
+        },
+      ],
+    },
   ],
 });

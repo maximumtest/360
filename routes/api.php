@@ -44,6 +44,8 @@ Route::group([
             Route::apiResources([
                 'users' => 'UserController',
             ]);
+
+            Route::get('roles', 'RoleController@index');
         });
 
         Route::apiResources([

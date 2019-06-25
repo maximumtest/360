@@ -10,30 +10,31 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
+    "jsgrid": "^1.5.3",
     "material-design-icons-iconfont": "^4.0.5",
     "vue": "^2.6.10",
-    "vue-class-component": "^7.0.1",
-    "vue-material": "^1.0.0-beta-10.2",
-    "vue-property-decorator": "^8.1.0",
-    "vue-router": "^3.0.2",
-    "vuex": "^3.1.0",
+    "vue-class-component": "^7.1.0",
+    "vue-material": "^1.0.0-beta-11",
+    "vue-property-decorator": "^8.2.1",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.1",
     "vuex-class": "^0.3.2",
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
+    "@types/mocha": "^5.2.7",
     "@types/vue-material": "git+https://github.com/calebsander/vue-material-types.git",
-    "@vue/cli-plugin-typescript": "^3.5.1",
-    "@vue/cli-plugin-unit-mocha": "^3.5.1",
-    "@vue/cli-service": "^3.5.1",
+    "@vue/cli-plugin-typescript": "^3.8.1",
+    "@vue/cli-plugin-unit-mocha": "^3.8.0",
+    "@vue/cli-service": "^3.8.4",
     "@vue/test-utils": "^1.0.0-beta.29",
     "chai": "^4.2.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.3.4000",
+    "typescript": "^3.5.2",
     "vue-template-compiler": "^2.6.10"
   }
 }
