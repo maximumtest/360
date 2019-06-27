@@ -100,6 +100,13 @@ export default class DefaultLayout extends Vue {
         name: 'users',
       },
     },
+    {
+      icon: 'lock',
+      text: 'Админка',
+      path: {
+        name: 'admin',
+      },
+    },
   ];
 
   get pageTitle() {
