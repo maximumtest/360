@@ -26,6 +26,8 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    private $roles = [];
+    
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -68,7 +70,28 @@ class User extends Authenticatable implements JWTSubject
 
     public function hasRole($role)
     {
-        return $this->roles()->where('name', $role)->exists();
+        $allRoles = $this->roles()->pluck('name')->toArray();
+        
+        foreach ($allRoles as $oneRole)
+        {
+            $this->getRolesRecursively($oneRole);
+        }
+
+        return in_array($role, array_unique($this->roles));
+    }
+    
+    public function getRolesRecursively(string $role)
+    {
+        $config = config('roles.' . $role);
+        
+        if (is_null($config['prev'])) {
+            $this->roles[] = $role;
+            return;
+        } else {
+            $this->roles[] = $config['prev'];
+            $this->roles[] = $role;
+            $this->getRolesRecursively($config['prev']);
+        }
     }
 
     public function assignRole(Role $role)

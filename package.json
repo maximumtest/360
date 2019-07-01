@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/jquery": "^3.3.30",
     "@types/mocha": "^5.2.7",
     "@types/vue-material": "git+https://github.com/calebsander/vue-material-types.git",
     "@vue/cli-plugin-typescript": "^3.8.1",

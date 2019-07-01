@@ -48,7 +48,7 @@ export default class AdminUsersPage extends Vue {
   }
 
   enableJsGrid() {
-    $('#jsGrid').jsGrid({
+    (<any>$('#jsGrid')).jsGrid({
       width: '100%',
       filtering: true,
       editing: true,
