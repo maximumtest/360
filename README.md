@@ -10,15 +10,6 @@ make bootstrap
 
 Service should be running at http://localhost:8080/
 
-Install dependencies:
-
-```
-<sudo> docker exec -it <container_id> sh
-
-composer update
-
-```
-
 Migrations:
 
 ```

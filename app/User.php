@@ -70,27 +70,33 @@ class User extends Authenticatable implements JWTSubject
 
     public function hasRole($role)
     {
-        $allRoles = $this->roles()->pluck('name')->toArray();
-        
-        foreach ($allRoles as $oneRole)
-        {
-            $this->getRolesRecursively($oneRole);
-        }
-
-        return in_array($role, array_unique($this->roles));
+        return in_array($role, $this->getRoles());
     }
     
-    public function getRolesRecursively(string $role)
+    private function getRoles()
+    {
+        if (empty($this->roles)) {
+            $allRoles = $this->roles()->pluck('name')->toArray();
+    
+            foreach ($allRoles as $oneRole) {
+                $this->getRolesRecursively($oneRole);
+            }
+        }
+        
+        return array_unique($this->roles);
+    }
+    
+    private function getRolesRecursively(string $role)
     {
         $config = config('roles.' . $role);
         
-        if (is_null($config['prev'])) {
+        if (is_null($config['parent'])) {
             $this->roles[] = $role;
             return;
         } else {
-            $this->roles[] = $config['prev'];
+            $this->roles[] = $config['parent'];
             $this->roles[] = $role;
-            $this->getRolesRecursively($config['prev']);
+            $this->getRolesRecursively($config['parent']);
         }
     }
 

@@ -53,7 +53,6 @@ apply-migrations:
 
 apply-seeds:
 	$(info [+] Applying seeds...)
-	@${DOCKER_COMPOSE} run ${APP_CONTAINER} composer dump-autoload
 	@${DOCKER_COMPOSE} exec -T ${APP_CONTAINER} php artisan db:seed
 
 clear: set-permissions

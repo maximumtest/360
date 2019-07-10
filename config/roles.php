@@ -2,12 +2,12 @@
 
 return [
   'employee' => [
-      'prev' => null,
+      'parent' => null,
   ],
   'manager' => [
-      'prev' => 'employee',
+      'parent' => 'employee',
   ],
   'admin' => [
-      'prev' => 'manager',
+      'parent' => 'manager',
   ],
 ];
