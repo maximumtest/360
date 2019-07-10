@@ -26,7 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
-    private $roles = [];
+    private $parentRoles = [];
     
     public function getJWTIdentifier()
     {
@@ -48,9 +48,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserCode::class);
     }
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function hasAnyRole($roles)
@@ -75,15 +75,11 @@ class User extends Authenticatable implements JWTSubject
     
     private function getRoles()
     {
-        if (empty($this->roles)) {
-            $allRoles = $this->roles()->pluck('name')->toArray();
-    
-            foreach ($allRoles as $oneRole) {
-                $this->getRolesRecursively($oneRole);
-            }
+        if (empty($this->parentRoles)) {
+            $this->getRolesRecursively($this->role->name);
         }
         
-        return array_unique($this->roles);
+        return array_unique($this->parentRoles);
     }
     
     private function getRolesRecursively(string $role)
@@ -91,23 +87,24 @@ class User extends Authenticatable implements JWTSubject
         $config = config('roles.' . $role);
         
         if (is_null($config['parent'])) {
-            $this->roles[] = $role;
+            $this->parentRoles[] = $role;
             return;
         } else {
-            $this->roles[] = $config['parent'];
-            $this->roles[] = $role;
+            $this->parentRoles[] = $config['parent'];
+            $this->parentRoles[] = $role;
             $this->getRolesRecursively($config['parent']);
         }
     }
 
     public function assignRole(Role $role)
     {
-        $this->roles()->attach($role->id);
+        $this->role()->associate($role);
+        $this->save();
     }
 
-    public function attachUserToDepartment($departmentId)
+    public function attachUserToDepartment(Department $department)
     {
-        $this->departments()->attach($departmentId);
+        $this->department()->save($department);
     }
 
     public function getId()
