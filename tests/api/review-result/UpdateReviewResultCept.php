@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use Tests\ApiTester;
 use \Codeception\Util\HttpCode;
 use App\User;
@@ -12,12 +13,17 @@ $I = new ApiTester($scenario);
 
 // Check that we can update own review
 $interviewer = factory(User::class)->create();
+$employeeRole = factory(Role::class)->create([
+    'name' => Role::ROLE_EMPLOYEE
+]);
+$interviewer->assignRole($employeeRole);
 $token = $I->getToken($interviewer->email, 123);
 $I->amBearerAuthenticated($token);
 
 $review = factory(Review::class)->create();
 $respondent = factory(User::class)->create();
 $user1 = factory(User::class)->create();
+$user1->assignRole($employeeRole);
 $review->users()->sync([$user1->id, $interviewer->id, $respondent->id]);
 
 $question1 = factory(Question::class)->create();

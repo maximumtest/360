@@ -6,6 +6,7 @@ use App\User;
 use App\Review;
 use App\Template;
 use App\Question;
+use App\Role;
 
 $I = new ApiTester($scenario);
 
@@ -15,7 +16,7 @@ $I->seeResponseIsJson();
 $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
 
 $interviewer = factory(User::class)->create();
-$managerRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_MANAGER]);
+$managerRole = factory(Role::class)->create(['name' => Role::ROLE_MANAGER]);
 $interviewer->assignRole($managerRole);
 
 $token = $I->getToken($interviewer->email, 123);
@@ -44,6 +45,8 @@ $review = factory(Review::class)->create([
 
 $respondent = factory(User::class)->create();
 $review->users()->sync([$interviewer->id, $respondent->id]);
+$employeeRole = factory(Role::class)->create(['name' => Role::ROLE_EMPLOYEE]);
+$respondent->assignRole($employeeRole);
 
 $reviewResult = [
     'review_id' => $review->id,

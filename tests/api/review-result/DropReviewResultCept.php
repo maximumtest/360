@@ -7,12 +7,13 @@ use App\Review;
 use App\Template;
 use App\Question;
 use App\ReviewResult;
+use App\Role;
 
 $I = new ApiTester($scenario);
 
 // Check that we cannot drop review of other person
 $manager = factory(User::class)->create();
-$managerRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_MANAGER]);
+$managerRole = factory(Role::class)->create(['name' => Role::ROLE_MANAGER]);
 $manager->assignRole($managerRole);
 
 $token = $I->getToken($manager->email, 123);
@@ -20,8 +21,9 @@ $I->amBearerAuthenticated($token);
 
 $user1 = factory(User::class)->create();
 $user2 = factory(User::class)->create();
-$employeeRole = factory(\App\Role::class)->create(['name' => \App\Role::ROLE_EMPLOYEE]);
+$employeeRole = factory(Role::class)->create(['name' => Role::ROLE_EMPLOYEE]);
 $user1->assignRole($employeeRole);
+$user2->assignRole($employeeRole);
 
 $review = factory(Review::class)->create([
     'manager_id' => $manager->id,
