@@ -8,6 +8,7 @@ services:
       - ./.docker/nginx/config/development.conf:/etc/nginx/conf.d/default.conf
       - ./.docker/supervisord/development.conf:/etc/supervisord.conf
       - /node_modules/
+      - /vendor/
     ports:
       - 8080:80
 
