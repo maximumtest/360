@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Department;
 use App\Http\Requests\V1\User\UpdateProfileRequest;
 use App\Mail\Registration;
 use App\Role;
@@ -36,7 +37,7 @@ class UserController extends Controller
         $userCode = UserCode::generate($user, UserCode::EMAIL_VERIFICATION);
 
         if ($request->has('department_id')) {
-            $user->attachUserToDepartment($request->get('department_id'));
+            $user->attachUserToDepartment(Department::findOrFail($request->get('department_id')));
         }
 
         Mail::to($user->email)->send(new Registration($userCode));

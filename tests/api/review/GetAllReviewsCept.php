@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use Tests\ApiTester;
 use \Codeception\Util\HttpCode;
 use App\User;
@@ -10,6 +11,11 @@ $I = new ApiTester($scenario);
 $faker = Factory::create();
 
 $user = factory(User::class)->create();
+$managerRole = factory(Role::class)->create([
+    'name' => Role::ROLE_MANAGER
+]);
+$user->assignRole($managerRole);
+
 $token = $I->getToken($user->email, 123);
 $I->amBearerAuthenticated($token);
 

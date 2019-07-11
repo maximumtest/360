@@ -24,8 +24,8 @@ return [
     | since RSA and ECDSA use a private/public key combo (See below).
     |
     */
-
-    'secret' => env('JWT_SECRET'),
+    
+    'secret' => env('JWT_SECRET', 'tcaOecxvvKwXQ3RvnNWU0U7Oqtgx61QE'),
 
     /*
     |--------------------------------------------------------------------------

@@ -26,6 +26,8 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    private $parentRoles = [];
+    
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -46,9 +48,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserCode::class);
     }
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function hasAnyRole($roles)
@@ -68,17 +70,41 @@ class User extends Authenticatable implements JWTSubject
 
     public function hasRole($role)
     {
-        return $this->roles()->where('name', $role)->exists();
+        return in_array($role, $this->getRoles());
+    }
+    
+    private function getRoles()
+    {
+        if (empty($this->parentRoles)) {
+            $this->getRolesRecursively($this->role->name);
+        }
+        
+        return array_unique($this->parentRoles);
+    }
+    
+    private function getRolesRecursively(string $role)
+    {
+        $config = config('roles.' . $role);
+        
+        if (is_null($config['parent'])) {
+            $this->parentRoles[] = $role;
+            return;
+        } else {
+            $this->parentRoles[] = $config['parent'];
+            $this->parentRoles[] = $role;
+            $this->getRolesRecursively($config['parent']);
+        }
     }
 
     public function assignRole(Role $role)
     {
-        $this->roles()->attach($role->id);
+        $this->role()->associate($role);
+        $this->save();
     }
 
-    public function attachUserToDepartment($departmentId)
+    public function attachUserToDepartment(Department $department)
     {
-        $this->departments()->attach($departmentId);
+        $this->department()->save($department);
     }
 
     public function getId()

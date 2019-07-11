@@ -47,10 +47,17 @@ Route::group([
 
             Route::get('roles', 'RoleController@index');
         });
+        
+        Route::group([
+            'middleware' => 'role:manager',
+        ], function () {
+            Route::apiResources([
+                'reviews' => 'ReviewController',
+                'templates' => 'TemplateController',
+            ]);
+        });
 
         Route::apiResources([
-            'reviews' => 'ReviewController',
-            'templates' => 'TemplateController',
             'questions' => 'QuestionController',
             'review-results' => 'ReviewResultController',
             'kudos-categories' => 'KudosCategoryController',

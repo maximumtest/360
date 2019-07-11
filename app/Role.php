@@ -8,7 +8,6 @@ class Role extends Eloquent
 {
     public $fillable = [
         'name',
-        'user_ids',
     ];
     
     CONST ROLE_EMPLOYEE = 'employee';
@@ -17,7 +16,7 @@ class Role extends Eloquent
     
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
     
     public static function findByName(string $name)

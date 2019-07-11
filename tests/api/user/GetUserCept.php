@@ -55,7 +55,7 @@ $I->seeResponseContainsJson([
     'updated_at' => $notAdmin->updated_at->format('Y-m-d H:i:s'),
     'created_at' => $notAdmin->updated_at->format('Y-m-d H:i:s'),
     '_id' => $notAdmin->id,
-    'role_ids' => $notAdmin->role_ids
+    'role_id' => $notAdmin->role_id
 ]);
 
 $I->sendGET(route('v1.users.index'));

@@ -46,7 +46,7 @@ $I->seeResponseMatchesJsonType([
     'updated_at' => 'String',
     'created_at' => 'String',
     '_id' => 'String',
-    'role_ids' => 'Array'
+    'role_id' => 'String'
 ]);
 
 // Отправляем невалидный запрос пользователем с ролью админ
