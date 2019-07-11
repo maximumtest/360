@@ -76,6 +76,9 @@ class User extends Authenticatable implements JWTSubject
     private function getRoles()
     {
         if (empty($this->parentRoles)) {
+            if (is_null($this->role)) {
+                return [];
+            }
             $this->getRolesRecursively($this->role->name);
         }
         
