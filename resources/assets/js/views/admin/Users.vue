@@ -44,128 +44,128 @@ export default class AdminUsersPage extends Vue {
     this.roles = roles || [];
     this.users = users || [];
 
-    this.enableJsGrid();
+    // this.enableJsGrid();
   }
 
-  enableJsGrid() {
-    (<any>$('#jsGrid')).jsGrid({
-      width: '100%',
-      filtering: true,
-      editing: true,
-      sorting: true,
-      autoload: true,
-      inserting: true,
-      deleteConfirm: 'Are you really crazy and wanna delete this useful entry?!',
-      controller: {
-        loadData: async ({ name, email, role_ids: roleId }: Filter) => {
-          let result = [...this.users];
+  // enableJsGrid() {
+  //   (<any>$('#jsGrid')).jsGrid({
+  //     width: '100%',
+  //     filtering: true,
+  //     editing: true,
+  //     sorting: true,
+  //     autoload: true,
+  //     inserting: true,
+  //     deleteConfirm: 'Are you really crazy and wanna delete this useful entry?!',
+  //     controller: {
+  //       loadData: async ({ name, email, role_ids: roleId }: Filter) => {
+  //         let result = [...this.users];
 
-          if (name) {
-            result = result.filter((user: User) => user.name && user.name.includes(name));
-          }
+  //         if (name) {
+  //           result = result.filter((user: User) => user.name && user.name.includes(name));
+  //         }
 
-          if (email) {
-            result = result.filter((user: User) => user.email && user.email.includes(email));
-          }
+  //         if (email) {
+  //           result = result.filter((user: User) => user.email && user.email.includes(email));
+  //         }
 
-          if (roleId) {
-            result = result.filter((user: User) => user.role_ids && user.role_ids!.includes(roleId));
-          }
+  //         if (roleId) {
+  //           result = result.filter((user: User) => user.role_ids && user.role_ids!.includes(roleId));
+  //         }
 
-          return result;
-        },
-        insertItem: async (item: User) => {
-          const request: CreateUserRequest = {
-            email: item.email,
-            role_id: <string>item.role_ids,
-          };
+  //         return result;
+  //       },
+  //       insertItem: async (item: User) => {
+  //         const request: CreateUserRequest = {
+  //           email: item.email,
+  //           role_id: <string>item.role_ids,
+  //         };
 
-          const response: AxiosResponse = await this.createUser(request);
+  //         const response: AxiosResponse = await this.createUser(request);
 
-          if (response.status >= 300) {
-            console.error(response);
-            throw new Error('Error while creating user');
-          }
+  //         if (response.status >= 300) {
+  //           console.error(response);
+  //           throw new Error('Error while creating user');
+  //         }
 
-          return response.data;
-        },
-        updateItem: async (item: User) => {
-          const request: UpdateUserRequest = {
-            userId: item._id,
-            email: item.email,
-            role_id: <string>item.role_ids,
-          };
+  //         return response.data;
+  //       },
+  //       updateItem: async (item: User) => {
+  //         const request: UpdateUserRequest = {
+  //           userId: item._id,
+  //           email: item.email,
+  //           role_id: <string>item.role_ids,
+  //         };
 
-          const response: AxiosResponse = await this.updateUser(request);
+  //         const response: AxiosResponse = await this.updateUser(request);
 
-          if (response.status >= 300) {
-            console.error(response);
-            throw new Error('Error while updating user');
-          }
+  //         if (response.status >= 300) {
+  //           console.error(response);
+  //           throw new Error('Error while updating user');
+  //         }
 
-          return response.data;
-        },
-        deleteItem: async (item: User) => {
-          const response = await this.deleteUser(item._id);
+  //         return response.data;
+  //       },
+  //       deleteItem: async (item: User) => {
+  //         const response = await this.deleteUser(item._id);
 
-          if (response.status >= 300) {
-            console.error(response);
-            throw new Error('Error while deleting user');
-          }
-        },
-      },
+  //         if (response.status >= 300) {
+  //           console.error(response);
+  //           throw new Error('Error while deleting user');
+  //         }
+  //       },
+  //     },
 
-      fields: [
-        { name: 'name', title: 'Имя', type: 'text', validate: 'required', inserting: false, editing: false },
-        { name: 'email', title: 'email', type: 'text', validate: 'required' },
-        {
-          name: 'avatar',
-          title: 'Аватар',
-          type: 'text',
-          filtering: false,
-          inserting: false,
-          editing: false,
-          sorting: false,
-          align: 'center',
-          itemTemplate(value: string, item: User) {
-            if (!value) {
-              return value;
-            }
+  //     fields: [
+  //       { name: 'name', title: 'Имя', type: 'text', validate: 'required', inserting: false, editing: false },
+  //       { name: 'email', title: 'email', type: 'text', validate: 'required' },
+  //       {
+  //         name: 'avatar',
+  //         title: 'Аватар',
+  //         type: 'text',
+  //         filtering: false,
+  //         inserting: false,
+  //         editing: false,
+  //         sorting: false,
+  //         align: 'center',
+  //         itemTemplate(value: string, item: User) {
+  //           if (!value) {
+  //             return value;
+  //           }
 
-            const img = document.createElement('img');
-            img.src = value;
-            img.style.height = '50px';
+  //           const img = document.createElement('img');
+  //           img.src = value;
+  //           img.style.height = '50px';
 
-            return img;
-          },
-        },
-        {
-          name: 'role_ids',
-          title: 'Роль',
-          type: 'select',
-          items: [
-            {},
-            ...(this.roles || []),
-          ],
-          valueField: '_id',
-          textField: 'name',
-          validate: 'required',
-          itemTemplate: (value: string[], item: User) => {
-            if (!value || value.length === 0) {
-              return '';
-            }
+  //           return img;
+  //         },
+  //       },
+  //       {
+  //         name: 'role_ids',
+  //         title: 'Роль',
+  //         type: 'select',
+  //         items: [
+  //           {},
+  //           ...(this.roles || []),
+  //         ],
+  //         valueField: '_id',
+  //         textField: 'name',
+  //         validate: 'required',
+  //         itemTemplate: (value: string[], item: User) => {
+  //           if (!value || value.length === 0) {
+  //             return '';
+  //           }
 
-            if (this.roles) {
-              return this.roles.find(role => role._id === value[0])!.name;
-            }
+  //           if (this.roles) {
+  //             return this.roles.find(role => role._id === value[0])!.name;
+  //           }
 
-            return value[0];
-          },
-        },
-        { type: "control" }
-      ]
-    });
-  }
+  //           return value[0];
+  //         },
+  //       },
+  //       { type: "control" }
+  //     ]
+  //   });
+  // }
 }
 </script>
 

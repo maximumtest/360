@@ -8,15 +8,20 @@
         v-if="user.avatar"
         :src="user.avatar"
       >
-      <md-icon v-else>face</md-icon>
+      <md-icon v-else>
+        face
+      </md-icon>
     </md-avatar>
 
-    <h2 class="user-profile-page__title">{{ user.name || user.email }}</h2>
+    <h2 class="user-profile-page__title">
+      {{ user.name || user.email }}
+    </h2>
 
     <router-link
       :to="`/users/${user._id}/kudos/add`"
       tag="md-button"
-      class="md-raised md-accent user-profile-page__kudos-btn">
+      class="md-raised md-accent user-profile-page__kudos-btn"
+    >
       Похвалить
     </router-link>
 
@@ -38,11 +43,17 @@
               v-if="userKudo.user_from.avatar"
               :src="userKudo.user_from.avatar"
             >
-            <md-icon v-else>face</md-icon>
+            <md-icon v-else>
+              face
+            </md-icon>
           </md-avatar>
 
-          <div class="md-title">{{ userKudo.user_from.name || userKudo.user_from.email }}</div>
-          <div class="md-subhead">Date: {{ userKudo.created_at }}</div>
+          <div class="md-title">
+            {{ userKudo.user_from.name || userKudo.user_from.email }}
+          </div>
+          <div class="md-subhead">
+            Date: {{ userKudo.created_at }}
+          </div>
           <hr>
           <div
             v-if="userKudo.kudos_tag_ids"
@@ -75,9 +86,11 @@ const Kudos = namespace(kudosStoreName);
 @Component
 export default class UserProfilePage extends Vue {
   @Users.Action getUser!: Function;
+
   @Kudos.Action getUserKudos!: Function;
 
   user: User | null = null;
+
   userKudos: KudosItem[] | null = null;
 
   async created() {

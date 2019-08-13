@@ -1,5 +1,5 @@
 <template>
-  <component :is="currentLayout"/>
+  <component :is="currentLayout" />
 </template>
 
 <script lang="ts">
@@ -18,8 +18,5 @@ export default class App extends Vue {
   get currentLayout() {
     return this.$route.meta.layout || 'default';
   }
-};
+}
 </script>
-
-<style lang="scss" scoped>
-</style>

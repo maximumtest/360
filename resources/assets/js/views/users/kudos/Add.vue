@@ -23,7 +23,7 @@
 
     <md-field>
       <label>Текст</label>
-      <md-textarea v-model="kudosRequest.text"></md-textarea>
+      <md-textarea v-model="kudosRequest.text"/>
     </md-field>
 
     <md-button
@@ -46,7 +46,9 @@ const Kudos = namespace(kudosStoreName);
 @Component
 export default class AddKudosPage extends Vue {
   @Kudos.Action getKudosCategories!: Function;
+
   @Kudos.Action getKudosTags!: Function;
+
   @Kudos.Action createKudos!: Function;
 
   kudosRequest: CreateKudosRequest = {
@@ -57,7 +59,9 @@ export default class AddKudosPage extends Vue {
   };
 
   isLoading: boolean = true;
+
   kudosCategories!: KudosCategory[];
+
   kudosTags!: KudosTag[];
 
   async created() {

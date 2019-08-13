@@ -7,8 +7,8 @@
     </update-password>
     <p
       v-if="error"
-      v-text="error"
       class="error"
+      v-text="error"
     />
   </div>
 </template>
@@ -60,7 +60,7 @@ export default class VerifyEmailPage extends Vue {
 
     this.$router.push('/');
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

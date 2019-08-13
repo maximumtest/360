@@ -4,7 +4,7 @@
       name="router-anim"
       mode="out-in"
     >
-      <router-view/>
+      <router-view />
     </transition>
   </div>
 </template>
@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   &__form {
     width: 500px;
   }

@@ -20,7 +20,7 @@
       name="router-anim"
       mode="out-in"
     >
-      <router-view/>
+      <router-view />
     </transition>
   </div>
 </template>
@@ -36,6 +36,7 @@ const Reviews = namespace(reviewsStoreName);
 @Component
 export default class ReviewsPage extends Vue {
   @Reviews.Action loadReviews!: Function;
+
   @Reviews.State reviews!: ReviewItem[];
 
   public created() {
@@ -45,7 +46,7 @@ export default class ReviewsPage extends Vue {
   get navMode() {
     return this.$route.name === 'reviews' ? 'full' : 'short';
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

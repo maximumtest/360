@@ -8,7 +8,7 @@
         <div
           class="md-title"
         >
-          <slot/>
+          <slot />
         </div>
       </md-card-header>
       <md-card-content>
@@ -18,10 +18,10 @@
             v-text="'Password'"
           />
           <md-input
+            id="password"
             v-model="formData.password"
             type="password"
             name="password"
-            id="password"
             autocomplete="password"
           />
         </md-field>
@@ -32,10 +32,10 @@
             v-text="'Password Confirmation'"
           />
           <md-input
+            id="passwordConfirmation"
             v-model="formData.passwordConfirmation"
             type="password"
             name="passwordConfirmation"
-            id="passwordConfirmation"
             autocomplete="off"
           />
         </md-field>
@@ -65,7 +65,7 @@ export default class UpdatePassword extends Vue {
     password: '',
     passwordConfirmation: '',
   };
-};
+}
 </script>
 
 <style lang="scss" scoped>

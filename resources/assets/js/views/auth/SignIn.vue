@@ -1,64 +1,51 @@
 <template>
   <div class="signin-page">
-    <form
-      class="md-layout signin-page__form"
+    <v-form
+      ref="form"
+      v-model="valid"
+      class="signin-page__form"
+      lazy-validation
       @submit.prevent="submitForm"
     >
-      <md-card class="md-layout-item md-size-100 md-small-size-100">
-        <md-card-header>
-          <div
-            class="md-title"
-            v-text="'Вход'"
-          />
-          <p
-            v-if="error"
-            v-text="error"
-            class="error"
-          />
-        </md-card-header>
-        <md-card-content>
-          <md-field class="signin-page__form-field">
-            <label
-              for="email"
-              v-text="'Email'"
-            />
-            <md-input
-              v-model="formData.email"
-              type="email"
-              name="email"
-              id="email"
-              autocomplete="email"
-            />
-          </md-field>
-          <md-field class="signin-page__form-field">
-            <label
-              for="password"
-              v-text="'Password'"
-            />
-            <md-input
-              v-model="formData.password"
-              type="password"
-              name="password"
-              id="password"
-              autocomplete="password"
-            />
-          </md-field>
-        </md-card-content>
-        <md-card-actions>
-          <router-link
-            :to="{ name: 'forgotPassword' }"
-            class="signin-page__link"
-            v-text="'Забыли пароль?'"
-          />
-          <md-checkbox v-model="formData.remember" class="md-primary">Запомнить меня</md-checkbox>
-          <md-button
-            type="submit"
-            class="md-raised md-primary"
-            v-text="'Войти'"
-          />
-        </md-card-actions>
-      </md-card>
-    </form>
+      <h2 class="signin-page__title">
+        Вход
+      </h2>
+
+      <p
+        v-if="error"
+        class="error"
+        v-text="error"
+      />
+
+      <v-text-field
+        id="email"
+        v-model="formData.email"
+        label="E-mail"
+        required
+      />
+
+      <v-text-field
+        id="password"
+        v-model="formData.password"
+        label="Password"
+        required
+      />
+
+      <router-link
+        :to="{ name: 'forgotPassword' }"
+        class="signin-page__link"
+        v-text="'Забыли пароль?'"
+      />
+
+      <v-checkbox
+        v-model="formData.remember"
+        label="Запомнить меня"
+      />
+
+      <v-btn type="submit">
+        Войти
+      </v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -104,7 +91,7 @@ export default class SignInPage extends Vue {
 
     this.$router.push('/');
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -113,6 +100,10 @@ export default class SignInPage extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &__title {
+    font-size: 24px;
+  }
 
   &__form {
     width: 500px;
