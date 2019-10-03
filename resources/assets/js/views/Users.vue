@@ -2,7 +2,7 @@
   <div class="users-page">
     <md-field>
       <label>ФИО / email</label>
-      <md-input @input="getUsers"></md-input>
+      <md-input @input="getUsers" />
     </md-field>
 
     <ul class="users-list">
@@ -11,7 +11,9 @@
         :key="user._id"
         class="users-list__item"
       >
-        <router-link :to="`/users/${user._id}`">{{ user.name || user.email }}</router-link>
+        <router-link :to="`/users/${user._id}`">
+          {{ user.name || user.email }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -28,6 +30,7 @@ const Users = namespace(usersStoreName);
 @Component
 export default class UsersPage extends Vue {
   @Users.Action getUsers!: Function;
+
   @Users.State users!: User[];
 }
 </script>

@@ -1,6 +1,8 @@
 <template>
   <div class="main-page">
-    <h2 class="md-title main-page__title">Главная страница</h2>
+    <h2 class="main-page__title">
+      Главная страница
+    </h2>
   </div>
 </template>
 
@@ -8,7 +10,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class Main extends Vue {};
+export default class Main extends Vue {}
 </script>
 
 <style lang="scss" scoped>

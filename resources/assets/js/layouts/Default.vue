@@ -1,68 +1,77 @@
 <template>
-  <md-app
-    md-mode="fixed"
-    md-waterfall
-    class="app"
-  >
-    <!-- Шапка -->
-    <md-app-toolbar class="md-primary app__header">
-      <router-link
-        to="/"
-        class="md-title app__logo"
-      >
-        360 MAXIMUM {{ pageTitle }}
-      </router-link>
-
-      <template v-if="user">
-        <router-link
-          tag="md-button"
-          class="md-primary"
-          title="Профиль"
-          to="/profile"
-        >
-          {{ user.email }}
-        </router-link>
-
-        <md-button
-          class="md-icon-button md-accent"
-          title="Выйти"
-          @click="signOut"
-        >
-          <md-icon>directions_run</md-icon>
-        </md-button>
-      </template>
-    </md-app-toolbar>
-
-    <!-- Сайдбар -->
-    <md-app-drawer
-      md-permanent="full"
-      class="sidebar"
+  <div id="app">
+    <v-app
+      md-mode="fixed"
+      md-waterfall
+      class="app"
     >
-      <md-list class="sidebar__nav">
-        <md-list-item
-          v-for="(navItem, index) in navItems"
-          :key="`nav-item-${index}`"
-        >
+      <!-- Шапка -->
+      <v-toolbar class="app__header">
+        <v-toolbar-title>
           <router-link
-            :to="navItem.path"
-            class="sidebar__link"
+            to="/"
+            class="app__logo"
           >
-            <md-icon class="sidebar__link-icon">{{ navItem.icon }}</md-icon>
-            <span class="md-list-item-text">{{ navItem.text }}</span>
+            360 MAXIMUM {{ pageTitle }}
           </router-link>
-        </md-list-item>
-      </md-list>
-    </md-app-drawer>
+        </v-toolbar-title>
 
-    <md-app-content class="app__content">
-      <transition
-        name="router-anim"
-        mode="out-in"
+        <template v-if="user">
+          <v-btn
+            title="Профиль"
+            to="/profile"
+          >
+            {{ user.email }}
+          </v-btn>
+
+          <v-btn
+            title="Выйти"
+            @click="signOut"
+          >
+            <v-icon>mdi-exit-run</v-icon>
+          </v-btn>
+        </template>
+      </v-toolbar>
+
+      <!-- Сайдбар -->
+      <v-navigation-drawer
+        class="sidebar"
+        permanent
       >
-        <router-view/>
-      </transition>
-    </md-app-content>
-  </md-app>
+        <v-list class="sidebar__nav">
+          <v-subheader>Меню</v-subheader>
+          <v-list-item-group
+            v-model="item"
+            color="primary"
+          >
+            <v-list-item
+              v-for="(navItem, index) in navItems"
+              :key="`nav-item-${index}`"
+              :to="navItem.path"
+              class="sidebar__link"
+            >
+              <v-icon class="sidebar__link-icon">
+                mdi-{{ navItem.icon }}
+              </v-icon>
+              <span
+                class="md-list-item-text"
+                v-text="navItem.text"
+              />
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-navigation-drawer>
+
+      <div class="app__content">
+        <transition
+          name="router-anim"
+          mode="out-in"
+        >
+          <router-view />
+        </transition>
+      </div>
+    </v-app>
+  </div>
 </template>
 
 <script lang="ts">
@@ -76,6 +85,7 @@ const Auth = namespace(authStoreName);
 @Component
 export default class DefaultLayout extends Vue {
   @Auth.State user!: User;
+
   @Auth.Action logout!: Function;
 
   navItems: any[] = [
@@ -87,21 +97,21 @@ export default class DefaultLayout extends Vue {
       },
     },
     {
-      icon: 'list',
+      icon: 'clipboard-list-outline',
       text: 'Ревью',
       path: {
         name: 'reviews',
       },
     },
     {
-      icon: 'person',
+      icon: 'account-group-outline',
       text: 'Пользователи',
       path: {
         name: 'users',
       },
     },
     {
-      icon: 'lock',
+      icon: 'lock-open-outline',
       text: 'Админка',
       path: {
         name: 'admin',
@@ -120,7 +130,7 @@ export default class DefaultLayout extends Vue {
       this.$router.push({ path: '/', query: { logout: 'logout' } });
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -159,4 +169,3 @@ export default class DefaultLayout extends Vue {
   padding-right: 10px;
 }
 </style>
-

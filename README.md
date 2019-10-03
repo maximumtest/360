@@ -25,7 +25,7 @@ make apply-seeds
 Login credentials:
 
 ```
-email: admin@360.ru
+email: admin
 password: admin
 ```
 
@@ -34,3 +34,7 @@ file_put_contents(/var/www/storage/framework/cache/...): failed to open stream: 
 ```
 make set-permissions
 ```
+
+### Пособие по разработке
+Иконки смотреть тут: https://materialdesignicons.com/
+Берём нужную и делаем приставку `mdi-`. Например, `mdi-exit-run`.

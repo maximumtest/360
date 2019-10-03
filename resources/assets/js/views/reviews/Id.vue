@@ -50,11 +50,16 @@ const ReviewResults = namespace(reviewResultsStoreName);
 @Component
 export default class ReviewPage extends Vue {
   @Reviews.Getter currentReview!: (reviewId: string) => ReviewItem | null | undefined;
+
   @ReviewResults.Action getReviewResults!: (reviewId: string) => Response;
+
   @ReviewResults.State reviewResults!: ReviewResult[];
+
   @ReviewResults.Getter reviewResultByRespondentId!: ReviewResult | undefined;
 
+
   review: ReviewItem | null | undefined = null;
+
   isLoading: boolean = true;
 
   get navMode() {
@@ -73,7 +78,7 @@ export default class ReviewPage extends Vue {
   updated() {
     this.review = this.currentReview(this.$route.params.id);
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

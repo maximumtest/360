@@ -8,8 +8,8 @@
     </update-password>
     <p
       v-if="message"
-      v-text="message.text"
       :class="message.status"
+      v-text="message.text"
     />
   </div>
 </template>
@@ -65,7 +65,7 @@ export default class PasswordResetPage extends Vue {
       };
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,17 +1,13 @@
-import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default-dark.css';
-
 import './assets/styles/base.scss';
 
 import axios from 'axios';
 
 import Vue from 'vue';
+import vuetify from '@/plugins/vuetify';
+
 import App from './App.vue';
 import router from './router';
 import store from './store/';
-
-Vue.use(VueMaterial);
 
 Vue.config.productionTip = false;
 
@@ -44,6 +40,7 @@ router.beforeEach((to, from, next) => {
 });
 
 new Vue({
+  vuetify,
   router,
   store,
   render: h => h(App),

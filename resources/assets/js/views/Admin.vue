@@ -6,20 +6,20 @@
         :key="tab.label"
         :md-label="tab.label"
         :to="tab.to"
-      ></md-tab>
+      />
     </md-tabs>
 
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import 'jsgrid/dist/jsgrid.min.css';
-import 'jsgrid/dist/jsgrid-theme.min.css';
-import 'jsgrid/external/jquery/jquery-1.8.3';
-import 'jsgrid/dist/jsgrid.min';
+// import 'jsgrid/dist/jsgrid.min.css';
+// import 'jsgrid/dist/jsgrid-theme.min.css';
+// import 'jsgrid/external/jquery/jquery-1.8.3';
+// import 'jsgrid/dist/jsgrid.min';
 
 @Component
 export default class AdminPage extends Vue {
@@ -37,13 +37,13 @@ export default class AdminPage extends Vue {
 </script>
 
 <style lang="scss">
-  .js-grid {
-    color: #333;
-    overflow-y: hidden;
-  }
+  // .js-grid {
+  //   color: #333;
+  //   overflow-y: hidden;
+  // }
 
-  .jsgrid-grid-header,
-  .jsgrid-grid-body {
-    overflow-y: hidden;
-  }
+  // .jsgrid-grid-header,
+  // .jsgrid-grid-body {
+  //   overflow-y: hidden;
+  // }
 </style>

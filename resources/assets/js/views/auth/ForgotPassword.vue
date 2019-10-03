@@ -12,8 +12,8 @@
           />
           <p
             v-if="message"
-            v-text="message.text"
             :class="message.status"
+            v-text="message.text"
           />
         </md-card-header>
         <md-card-content>
@@ -23,10 +23,10 @@
               v-text="'Email'"
             />
             <md-input
+              id="email"
               v-model="email"
               type="email"
               name="email"
-              id="email"
               autocomplete="email"
             />
           </md-field>
@@ -85,7 +85,7 @@ export default class ForgotPasswordPage extends Vue {
       };
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
